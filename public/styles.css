@@ -335,3 +335,265 @@ button:focus-visible,
   margin-top: 28px;
   color: var(--border);
 }
+
+/* ---------- Schedule builder ---------- */
+
+.topbar a {
+  display: flex;
+}
+
+.card-wide {
+  width: min(720px, 100%);
+}
+
+.section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 26px 0 14px;
+}
+
+.section-head h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  color: var(--navy);
+}
+
+.btn-secondary {
+  padding: 8px 14px;
+  font: inherit;
+  font-weight: 700;
+  color: var(--navy);
+  background: var(--white);
+  border: 1.5px solid var(--navy);
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  color: var(--white);
+  background: var(--navy);
+}
+
+.btn-secondary:disabled {
+  color: var(--muted);
+  border-color: var(--border);
+  cursor: default;
+}
+
+.btn-link {
+  padding: 4px 6px;
+  font: inherit;
+  font-weight: 600;
+  color: var(--navy);
+  background: none;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-link:hover {
+  text-decoration: underline;
+}
+
+.course-list {
+  margin: 0 0 22px;
+  padding: 0;
+  list-style: none;
+}
+
+.course {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px 0;
+  border-top: 1px solid var(--border);
+}
+
+.course:last-child {
+  border-bottom: 1px solid var(--border);
+}
+
+.course-info {
+  min-width: 0;
+}
+
+.course-info p {
+  margin: 0;
+}
+
+.course-title {
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.course-meta {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.course-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-top: 6px;
+}
+
+.tag {
+  padding: 1px 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--navy);
+  background: #e8eef5;
+  border-radius: 999px;
+}
+
+.course-warning {
+  padding-top: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--error);
+}
+
+.field input:disabled {
+  color: var(--muted);
+  background: #f3f5f8;
+}
+
+#saved .form-success {
+  margin-top: 4px;
+}
+
+/* ---------- Add course dialog ---------- */
+
+.dialog {
+  width: min(560px, calc(100% - 32px));
+  max-height: calc(100% - 32px);
+  padding: 24px;
+  color: var(--ink);
+  background: var(--white);
+  border: none;
+  border-top: 5px solid var(--orange);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+}
+
+.dialog::backdrop {
+  background: rgba(1, 30, 54, 0.6);
+}
+
+.dialog-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.dialog-head h2 {
+  flex: 1;
+  margin: 0;
+  font-size: 1.3rem;
+  color: var(--navy);
+}
+
+#dialog-close {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.option-list {
+  display: grid;
+  gap: 12px;
+}
+
+.option {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 16px;
+  font: inherit;
+  text-align: left;
+  color: var(--ink);
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.option:hover {
+  border-color: var(--navy);
+  background: #f3f6fa;
+}
+
+.option-title {
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.option-text {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+#view-search .field {
+  margin-bottom: 0;
+}
+
+#view-search .field-hint {
+  margin-bottom: 14px;
+}
+
+#view-search .course-list {
+  margin-bottom: 0;
+}
+
+.optional {
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.days {
+  min-width: 0;
+  padding: 0;
+  border: none;
+}
+
+.days legend {
+  margin-bottom: 6px;
+  padding: 0;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.day-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+}
+
+.day-row label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.day-row input {
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  accent-color: var(--navy);
+}
+
+.field-pair {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0 16px;
+}

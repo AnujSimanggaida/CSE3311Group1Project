@@ -8,7 +8,7 @@
 </head>
 <body>
   <header class="topbar">
-    <img class="topbar-logo" src="assets/logo.png" alt="CourseSweep" width="662" height="181">
+    <a href="home.html"><img class="topbar-logo" src="assets/logo.png" alt="CourseSweep home" width="662" height="181"></a>
     <div class="topbar-user">
       <span id="user-email"></span>
       <button type="button" id="sign-out" class="btn-ghost">Sign out</button>
@@ -22,7 +22,7 @@
       <button type="button" class="choice" data-choice="new">
         <span class="choice-icon" aria-hidden="true">+</span>
         <span class="choice-title">Create a new schedule</span>
-        <span class="choice-text">Pick your classes and time blocks and let CourseSweep find the best fit.</span>
+        <span class="choice-text">Add courses from the catalog or create your own.</span>
       </button>
 
       <button type="button" class="choice" data-choice="existing">
@@ -36,6 +36,7 @@
   </main>
 
   <script src="js/auth.js"></script>
+  <script src="js/topbar.js"></script>
   <script src="js/home.js"></script>
 </body>
 </html>

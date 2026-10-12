@@ -34,7 +34,7 @@ public final class Main {
         AuthService auth = new AuthService(db, crypto, new Mailer.Console(), baseUrl);
 
         HttpServer server = HttpServer.create(new InetSocketAddress(host, port), 0);
-        server.createContext("/api/", new ApiHandler(auth, secureCookies));
+        server.createContext("/api/", new ApiHandler(auth, new ScheduleService(db), secureCookies));
         server.createContext("/", new StaticHandler(Path.of("public")));
         server.setExecutor(Executors.newFixedThreadPool(16));
         server.start();

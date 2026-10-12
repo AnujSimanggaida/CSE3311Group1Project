@@ -57,5 +57,6 @@ const Auth = (() => {
     return request('POST', '/api/reset-password', { token, password });
   }
 
-  return { signIn, signUp, signOut, currentUser, requestPasswordReset, resetPassword };
+  // request() is exposed for the other signed-in API calls (courses, schedules).
+  return { request, signIn, signUp, signOut, currentUser, requestPasswordReset, resetPassword };
 })();

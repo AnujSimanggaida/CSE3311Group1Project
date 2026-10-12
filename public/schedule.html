@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New schedule | CourseSweep</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a href="home.html"><img class="topbar-logo" src="assets/logo.png" alt="CourseSweep home" width="662" height="181"></a>
+    <div class="topbar-user">
+      <span id="user-email"></span>
+      <button type="button" id="sign-out" class="btn-ghost">Sign out</button>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="card card-wide" aria-labelledby="builder-heading">
+      <h1 id="builder-heading">New schedule</h1>
+
+      <div class="field">
+        <label for="schedule-name">Schedule name</label>
+        <input type="text" id="schedule-name" maxlength="100" placeholder="Spring 2027" aria-describedby="schedule-name-error">
+        <p id="schedule-name-error" class="field-error" hidden></p>
+      </div>
+
+      <div class="section-head">
+        <h2>Courses</h2>
+        <button type="button" id="add-course" class="btn-secondary">+ Add course</button>
+      </div>
+
+      <p id="empty-note" class="card-text">No courses yet. Use “Add course” to search the catalog or create your own.</p>
+      <ul id="course-list" class="course-list"></ul>
+
+      <p id="save-error" class="form-error" role="alert" hidden></p>
+      <button type="button" id="save-schedule" class="btn-primary">Save schedule</button>
+
+      <div id="saved" hidden>
+        <p class="form-success" role="status">Schedule saved.</p>
+        <p class="card-links"><a href="home.html">Back to home</a> · <a href="schedule.html">Start another schedule</a></p>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="add-dialog" class="dialog" aria-labelledby="dialog-title">
+    <div class="dialog-head">
+      <button type="button" id="dialog-back" class="btn-link" hidden>&larr; Back</button>
+      <h2 id="dialog-title">Add a course</h2>
+      <button type="button" id="dialog-close" class="btn-link" aria-label="Close">&times;</button>
+    </div>
+
+    <!-- Step 1: choose how to add -->
+    <div id="view-choose" class="option-list">
+      <button type="button" class="option" data-view="search">
+        <span class="option-title">Search for an existing course</span>
+        <span class="option-text">Find a course in the CourseSweep catalog.</span>
+      </button>
+      <button type="button" class="option" data-view="custom">
+        <span class="option-title">Create a custom course</span>
+        <span class="option-text">Enter the details yourself.</span>
+      </button>
+    </div>
+
+    <!-- Step 2a: search the catalog -->
+    <div id="view-search" hidden>
+      <div class="field">
+        <label for="search-input">Course code, name or professor</label>
+        <input type="search" id="search-input" placeholder="e.g. CSE 3311 or Algorithms" autocomplete="off">
+      </div>
+      <p class="field-hint">Catalog professors, times and ratings are sample data for now.</p>
+      <p id="search-status" class="card-text" role="status" hidden></p>
+      <ul id="search-results" class="course-list"></ul>
+    </div>
+
+    <!-- Step 2b: create a custom course -->
+    <form id="view-custom" novalidate hidden>
+      <p id="custom-error" class="form-error" role="alert" hidden></p>
+
+      <div class="field">
+        <label for="c-name">Course name</label>
+        <input type="text" id="c-name" maxlength="100" aria-describedby="c-name-error" required>
+        <p id="c-name-error" class="field-error" hidden></p>
+      </div>
+
+      <div class="field">
+        <label for="c-professor">Professor <span class="optional">(optional)</span></label>
+        <input type="text" id="c-professor" maxlength="100">
+      </div>
+
+      <fieldset class="field days">
+        <legend>Days</legend>
+        <div class="day-row">
+          <label><input type="checkbox" name="day" value="Mo"> Mon</label>
+          <label><input type="checkbox" name="day" value="Tu"> Tue</label>
+          <label><input type="checkbox" name="day" value="We"> Wed</label>
+          <label><input type="checkbox" name="day" value="Th"> Thu</label>
+          <label><input type="checkbox" name="day" value="Fr"> Fri</label>
+          <label><input type="checkbox" name="day" value="Sa"> Sat</label>
+          <label><input type="checkbox" name="day" value="Su"> Sun</label>
+        </div>
+        <p id="c-days-error" class="field-error" hidden></p>
+      </fieldset>
+
+      <div class="field-pair">
+        <div class="field">
+          <label for="c-start">Start time</label>
+          <input type="time" id="c-start" aria-describedby="c-start-error" required>
+          <p id="c-start-error" class="field-error" hidden></p>
+        </div>
+        <div class="field">
+          <label for="c-end">End time</label>
+          <input type="time" id="c-end" aria-describedby="c-end-error" required>
+          <p id="c-end-error" class="field-error" hidden></p>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="c-rating">Rating, 1 to 5 <span class="optional">(optional)</span></label>
+        <input type="number" id="c-rating" min="1" max="5" step="0.1" inputmode="decimal"
+               placeholder="4.5" aria-describedby="c-rating-error">
+        <p id="c-rating-error" class="field-error" hidden></p>
+      </div>
+
+      <button type="submit" id="custom-submit" class="btn-primary">Add to schedule</button>
+    </form>
+  </dialog>
+
+  <script src="js/auth.js"></script>
+  <script src="js/form.js"></script>
+  <script src="js/topbar.js"></script>
+  <script src="js/schedule.js"></script>
+</body>
+</html>

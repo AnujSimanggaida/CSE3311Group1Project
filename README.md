@@ -2,15 +2,38 @@
 
 CourseSweep helps college students build the best possible class schedule from the classes and time blocks available to them.
 
-This first version covers accounts: creating an account, signing in, and resetting a forgotten password. The schedule builder itself is not built yet.
+So far it covers accounts (creating an account, signing in, resetting a forgotten password) and a schedule builder where students add courses and save the result. Automatically picking the best schedule is not built yet.
 
 ## What is in this version
 
 - **Sign in page** with email and password validation, a show/hide password toggle, and a "Keep me signed in" option.
 - **Create account page.**
 - **Forgot password and reset password pages.** A reset link works once and expires after 30 minutes.
-- **Home page** shown after signing in. It asks whether to create a new schedule or view an existing one. Both buttons are placeholders for now.
+- **Home page** shown after signing in. It asks whether to create a new schedule or view an existing one. Viewing existing schedules is a placeholder for now.
+- **Schedule builder.** Name a schedule, add courses, and save it. "Add course" offers two choices:
+  - **Search for an existing course** by code, name or professor.
+  - **Create a custom course** with a name, professor, time slot (days, start and end time) and a rating from 1 to 5. Professor and rating are optional. Custom courses are visible only to the student who made them.
+- **Time conflict warnings** when two courses in a schedule overlap.
+- **Sample course catalog** of eight UTA Computer Science courses. See the note below.
 - **Java backend** that serves the pages and a JSON API, storing accounts in a SQLite database.
+
+### The course catalog is sample data
+
+The eight catalog courses use real UTA course codes and titles (CSE 1310, 1320, 1325, 2312, 2315, 3311, 3318 and 3320). **The professor names, time slots and ratings are made up** and need to be replaced with real data. They live in `SAMPLE_CATALOG` in `Database.java`.
+
+The catalog is only inserted when the database has no catalog courses. After editing `SAMPLE_CATALOG`, delete `data/coursesweep.db` to load the new list. This also deletes local accounts and schedules.
+
+### Planned: sharing custom courses through search
+
+Today a custom course appears in search only for the student who created it. Nobody else can see it.
+
+In a future update, a custom course will be added to the shared search results for everyone, but only once **at least 3 different users** have each created a custom course with the same:
+
+- professor name,
+- course name, and
+- time slot.
+
+Until that threshold is reached, the course and its professor stay private to the students who entered them. This keeps typos, jokes and one-off entries out of the shared catalog. **This is not implemented yet.**
 
 ## Requirements
 
@@ -61,14 +84,18 @@ public/                      Front end (HTML, CSS, JavaScript, logo)
   forgot.html                Request a password reset
   reset.html                 Choose a new password
   home.html                  Page shown after signing in
+  schedule.html              Schedule builder and the Add course dialog
   js/auth.js                 Calls the account API
   js/form.js                 Validation shared by the forms
+  js/topbar.js               Sign-in check and Sign out button for signed-in pages
+  js/schedule.js             Schedule builder logic
 src/main/java/coursesweep/   Back end
   Main.java                  Starts the server
   ApiHandler.java            The /api/ endpoints
   AuthService.java           Accounts, sessions and password resets
+  ScheduleService.java       Course search, custom courses and saved schedules
   Crypto.java                Hashing and encryption
-  Database.java              SQLite connection and tables
+  Database.java              SQLite connection, tables and the sample catalog
   Mailer.java                Sends reset emails (prints to the console for now)
   StaticHandler.java         Serves the files in public/
 pom.xml                      Build file and library list
@@ -87,6 +114,11 @@ All requests and responses are JSON.
 | GET | `/api/me` | | The signed-in user's email, or 401 |
 | POST | `/api/forgot-password` | `email` | Sends a reset link if the account exists |
 | POST | `/api/reset-password` | `token`, `password` | Sets a new password |
+| GET | `/api/courses?q=` | | Catalog courses and your custom courses matching the search |
+| POST | `/api/courses` | `name`, `professor`, `days`, `start`, `end`, `rating` | Creates a custom course |
+| POST | `/api/schedules` | `name`, `courseIds` | Saves a schedule |
+
+The course and schedule endpoints require being signed in. `days` is a list of day codes (`Mo`, `Tu`, `We`, `Th`, `Fr`, `Sa`, `Su`), and `start` and `end` are 24-hour times such as `09:30`.
 
 Errors come back as `{"error": "message"}` with a matching HTTP status.
 
@@ -118,6 +150,9 @@ The first run creates `data/secret.key`. This key protects the stored email addr
 
 ## Known limitations
 
+- Saved schedules cannot be viewed, edited or deleted yet.
+- The catalog's professors, time slots and ratings are sample data.
+- Custom courses are never shared with other students yet (see the planned feature above).
 - Reset emails are printed to the console instead of being sent.
 - There is no limit on repeated sign-in attempts.
 - On localhost the connection is plain HTTP. Any real deployment needs HTTPS and `COURSESWEEP_SECURE_COOKIES=true`.

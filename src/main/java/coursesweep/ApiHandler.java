@@ -1,5 +1,6 @@
 package coursesweep;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
@@ -8,7 +9,9 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 /** The JSON API under /api/. */
@@ -18,10 +21,12 @@ final class ApiHandler implements HttpHandler {
     private static final int MAX_BODY_BYTES = 10_000;
 
     private final AuthService auth;
+    private final ScheduleService schedules;
     private final boolean secureCookies;
 
-    ApiHandler(AuthService auth, boolean secureCookies) {
+    ApiHandler(AuthService auth, ScheduleService schedules, boolean secureCookies) {
         this.auth = auth;
+        this.schedules = schedules;
         this.secureCookies = secureCookies;
     }
 
@@ -91,6 +96,39 @@ final class ApiHandler implements HttpHandler {
                 auth.resetPassword(string(body, "token"), string(body, "password"));
                 send(exchange, 200, new JsonObject());
             }
+            case "/api/courses" -> {
+                long userId = requireUser(exchange);
+                if (method.equals("GET")) {
+                    JsonObject result = new JsonObject();
+                    result.add("courses", schedules.searchCourses(userId, queryParam(exchange, "q")));
+                    send(exchange, 200, result);
+                } else {
+                    requireMethod(method, "POST");
+                    JsonObject body = readJson(exchange);
+                    send(exchange, 201, schedules.createCustomCourse(userId,
+                            string(body, "name"),
+                            optionalString(body, "professor"),
+                            stringList(body, "days"),
+                            string(body, "start"),
+                            string(body, "end"),
+                            optionalNumber(body, "rating")));
+                }
+            }
+            case "/api/schedules" -> {
+                requireMethod(method, "POST");
+                long userId = requireUser(exchange);
+                JsonObject body = readJson(exchange);
+                List<Long> courseIds = new ArrayList<>();
+                for (JsonElement id : array(body, "courseIds")) {
+                    if (!id.isJsonPrimitive() || !id.getAsJsonPrimitive().isNumber()) {
+                        throw new ApiException(400, "Invalid field: courseIds.");
+                    }
+                    courseIds.add(id.getAsLong());
+                }
+                JsonObject result = new JsonObject();
+                result.addProperty("id", schedules.createSchedule(userId, string(body, "name"), courseIds));
+                send(exchange, 201, result);
+            }
             default -> throw new ApiException(404, "Not found.");
         }
     }
@@ -130,6 +168,70 @@ final class ApiHandler implements HttpHandler {
             throw new ApiException(400, "Missing field: " + field + ".");
         }
         return value.getAsString();
+    }
+
+    private static boolean isAbsent(JsonElement value) {
+        return value == null || value.isJsonNull();
+    }
+
+    private static String optionalString(JsonObject body, String field) {
+        return isAbsent(body.get(field)) ? null : string(body, field);
+    }
+
+    private static Double optionalNumber(JsonObject body, String field) {
+        JsonElement value = body.get(field);
+        if (isAbsent(value)) {
+            return null;
+        }
+        if (!value.isJsonPrimitive() || !value.getAsJsonPrimitive().isNumber()) {
+            throw new ApiException(400, "Invalid field: " + field + ".");
+        }
+        return value.getAsDouble();
+    }
+
+    private static JsonArray array(JsonObject body, String field) {
+        JsonElement value = body.get(field);
+        if (value == null || !value.isJsonArray()) {
+            throw new ApiException(400, "Missing field: " + field + ".");
+        }
+        return value.getAsJsonArray();
+    }
+
+    private static List<String> stringList(JsonObject body, String field) {
+        List<String> values = new ArrayList<>();
+        for (JsonElement item : array(body, field)) {
+            if (!item.isJsonPrimitive() || !item.getAsJsonPrimitive().isString()) {
+                throw new ApiException(400, "Invalid field: " + field + ".");
+            }
+            values.add(item.getAsString());
+        }
+        return values;
+    }
+
+    private static String queryParam(HttpExchange exchange, String name) {
+        String query = exchange.getRequestURI().getRawQuery();
+        if (query == null) {
+            return null;
+        }
+        for (String pair : query.split("&")) {
+            String[] parts = pair.split("=", 2);
+            if (parts[0].equals(name)) {
+                try {
+                    return parts.length == 2 ? URLDecoder.decode(parts[1], StandardCharsets.UTF_8) : "";
+                } catch (IllegalArgumentException e) {
+                    throw new ApiException(400, "Invalid query.");
+                }
+            }
+        }
+        return null;
+    }
+
+    private long requireUser(HttpExchange exchange) throws Exception {
+        Long userId = auth.currentUserId(sessionToken(exchange));
+        if (userId == null) {
+            throw new ApiException(401, "Not signed in.");
+        }
+        return userId;
     }
 
     private static String sessionToken(HttpExchange exchange) {

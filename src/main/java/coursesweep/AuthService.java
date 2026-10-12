@@ -122,6 +122,22 @@ final class AuthService {
         }
     }
 
+    /** Returns the signed-in user's id, or null if the token is missing, unknown or expired. */
+    Long currentUserId(String token) throws SQLException {
+        if (token == null) {
+            return null;
+        }
+        try (Connection conn = db.open();
+             PreparedStatement st = conn.prepareStatement(
+                     "SELECT user_id FROM sessions WHERE token_hash = ? AND expires_at > ?")) {
+            st.setString(1, Crypto.hashToken(token));
+            st.setLong(2, now());
+            try (ResultSet rs = st.executeQuery()) {
+                return rs.next() ? rs.getLong(1) : null;
+            }
+        }
+    }
+
     /** Emails a single-use reset link if the address has an account; silently does nothing otherwise. */
     void requestPasswordReset(String rawEmail) throws SQLException {
         String email = normalizeEmail(rawEmail);
