@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create account | CourseSweep</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="page">
+    <img class="logo" src="assets/logo.png" alt="CourseSweep" width="662" height="181">
+    <p class="tagline">Build your best semester, one sweep at a time.</p>
+
+    <section class="card" aria-labelledby="signup-heading">
+      <h1 id="signup-heading">Create account</h1>
+
+      <form id="signup-form" novalidate>
+        <p id="form-error" class="form-error" role="alert" hidden></p>
+
+        <div class="field">
+          <label for="email">School email</label>
+          <input type="email" id="email" name="email" autocomplete="username"
+                 placeholder="you@university.edu" aria-describedby="email-error" required>
+          <p id="email-error" class="field-error" hidden></p>
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <div class="password-wrap">
+            <input type="password" id="password" name="password" autocomplete="new-password"
+                   aria-describedby="password-hint password-error" required>
+            <button type="button" id="toggle-password" class="toggle-password" aria-pressed="false">Show</button>
+          </div>
+          <p id="password-hint" class="field-hint">At least 8 characters.</p>
+          <p id="password-error" class="field-error" hidden></p>
+        </div>
+
+        <div class="field">
+          <label for="confirm">Confirm password</label>
+          <input type="password" id="confirm" name="confirm" autocomplete="new-password"
+                 aria-describedby="confirm-error" required>
+          <p id="confirm-error" class="field-error" hidden></p>
+        </div>
+
+        <button type="submit" id="submit-btn" class="btn-primary">Create account</button>
+      </form>
+
+      <p class="card-links">Already have an account? <a href="index.html">Sign in</a></p>
+    </section>
+  </main>
+
+  <script src="js/auth.js"></script>
+  <script src="js/form.js"></script>
+  <script src="js/signup.js"></script>
+</body>
+</html>

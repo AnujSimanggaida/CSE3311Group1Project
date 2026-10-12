@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home | CourseSweep</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <img class="topbar-logo" src="assets/logo.png" alt="CourseSweep" width="662" height="181">
+    <div class="topbar-user">
+      <span id="user-email"></span>
+      <button type="button" id="sign-out" class="btn-ghost">Sign out</button>
+    </div>
+  </header>
+
+  <main class="page">
+    <h1 class="home-heading">What would you like to do?</h1>
+
+    <div class="choices">
+      <button type="button" class="choice" data-choice="new">
+        <span class="choice-icon" aria-hidden="true">+</span>
+        <span class="choice-title">Create a new schedule</span>
+        <span class="choice-text">Pick your classes and time blocks and let CourseSweep find the best fit.</span>
+      </button>
+
+      <button type="button" class="choice" data-choice="existing">
+        <span class="choice-icon" aria-hidden="true">&#9776;</span>
+        <span class="choice-title">View an existing schedule</span>
+        <span class="choice-text">Open a schedule you have already built.</span>
+      </button>
+    </div>
+
+    <p id="choice-note" class="choice-note" role="status" hidden></p>
+  </main>
+
+  <script src="js/auth.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>

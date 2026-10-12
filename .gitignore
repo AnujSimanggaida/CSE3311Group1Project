@@ -1,0 +1,5 @@
+# Build output
+target/
+
+# Local database and the secret key that protects it. Never commit these.
+data/
