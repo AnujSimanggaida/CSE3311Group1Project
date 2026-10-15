@@ -4,6 +4,7 @@ import com.sun.net.httpserver.HttpServer;
 
 import java.net.InetSocketAddress;
 import java.nio.file.Path;
+import java.util.Set;
 import java.util.concurrent.Executors;
 
 /**
@@ -17,6 +18,9 @@ import java.util.concurrent.Executors;
  *   COURSESWEEP_DATA_DIR        where the database and key file live (default data)
  *   COURSESWEEP_SECRET_KEY      base64 32-byte key; replaces the key file
  *   COURSESWEEP_SECURE_COOKIES  "true" when served over HTTPS
+ *   GOOGLE_CLIENT_ID            OAuth client for "Continue with Google"
+ *   GOOGLE_CLIENT_SECRET        (Google sign-in is off unless both are set)
+ *   COURSESWEEP_ADMIN_EMAILS    comma-separated emails of accounts that are always admins
  */
 public final class Main {
 
@@ -32,14 +36,21 @@ public final class Main {
         db.init();
 
         AuthService auth = new AuthService(db, crypto, new Mailer.Console(), baseUrl);
+        GoogleAuth google = GoogleAuth.fromEnv(baseUrl);
+        Set<String> adminEmails = AdminService.parseEmails(env("COURSESWEEP_ADMIN_EMAILS", ""));
+        AdminService admin = new AdminService(db, crypto, adminEmails);
 
         HttpServer server = HttpServer.create(new InetSocketAddress(host, port), 0);
-        server.createContext("/api/", new ApiHandler(auth, new ScheduleService(db), secureCookies));
+        server.createContext("/api/", new ApiHandler(auth, new ScheduleService(db), admin, google, secureCookies));
         server.createContext("/", new StaticHandler(Path.of("public")));
         server.setExecutor(Executors.newFixedThreadPool(16));
         server.start();
 
         System.out.println("CourseSweep running at " + baseUrl);
+        System.out.println(google == null
+                ? "Google sign-in is off (set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET to turn it on)"
+                : "Google sign-in is on; redirect URI: " + google.redirectUri());
+        System.out.println(adminEmails.size() + " admin email(s) set in COURSESWEEP_ADMIN_EMAILS");
     }
 
     private static String env(String name, String fallback) {

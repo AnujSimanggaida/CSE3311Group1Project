@@ -36,6 +36,11 @@ final class Database {
                         password_hash TEXT NOT NULL,
                         created_at    INTEGER NOT NULL
                     )""");
+            // Columns added after the first release, for databases created before them.
+            // google_index: keyed hash of the linked Google account id, or NULL.
+            addColumnIfMissing(conn, "users", "google_index", "TEXT");
+            addColumnIfMissing(conn, "users", "is_admin", "INTEGER NOT NULL DEFAULT 0");
+            st.executeUpdate("CREATE UNIQUE INDEX IF NOT EXISTS users_google_index ON users(google_index)");
             st.executeUpdate("""
                     CREATE TABLE IF NOT EXISTS sessions (
                         token_hash TEXT PRIMARY KEY,
@@ -80,6 +85,21 @@ final class Database {
             long now = System.currentTimeMillis() / 1000;
             st.executeUpdate("DELETE FROM sessions WHERE expires_at <= " + now);
             st.executeUpdate("DELETE FROM password_resets WHERE expires_at <= " + now);
+        }
+    }
+
+    /** table, column and definition are always constants from this class, never user input. */
+    private static void addColumnIfMissing(Connection conn, String table, String column, String definition)
+            throws SQLException {
+        try (Statement st = conn.createStatement()) {
+            try (ResultSet rs = st.executeQuery("PRAGMA table_info(" + table + ")")) {
+                while (rs.next()) {
+                    if (rs.getString("name").equals(column)) {
+                        return;
+                    }
+                }
+            }
+            st.executeUpdate("ALTER TABLE " + table + " ADD COLUMN " + column + " " + definition);
         }
     }
 

@@ -24,6 +24,7 @@ import java.util.Base64;
  *   passwords       salted PBKDF2-HMAC-SHA256 (one-way; cannot be decrypted)
  *   session/reset   random tokens, stored only as SHA-256 hashes
  *   email addresses AES-256-GCM encrypted, plus a keyed HMAC used for lookup
+ *   Google ids      keyed HMAC only, used for lookup
  */
 final class Crypto {
 
@@ -130,6 +131,11 @@ final class Crypto {
     /** Deterministic keyed hash of an email, used to find a user without storing the address. */
     String emailIndex(String email) {
         return B64.encodeToString(hmac(emailIndexKey.getEncoded(), email));
+    }
+
+    /** Keyed hash of a Google account id. The prefix keeps it from ever matching an email index. */
+    String googleIndex(String googleSubject) {
+        return B64.encodeToString(hmac(emailIndexKey.getEncoded(), "google:" + googleSubject));
     }
 
     String encrypt(String plainText) {

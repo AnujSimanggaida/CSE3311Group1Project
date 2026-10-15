@@ -94,6 +94,73 @@ final class AuthService {
         return createSession(userId, remember);
     }
 
+    /**
+     * Signs in with an account Google has verified. Uses the account already
+     * linked to this Google id, otherwise links the account with the same
+     * email, otherwise creates a new account.
+     */
+    Session signInWithGoogle(GoogleAuth.Identity identity, boolean remember) throws SQLException {
+        String email = normalizeEmail(identity.email());
+        String googleIndex = crypto.googleIndex(identity.subject());
+        long userId;
+        try (Connection conn = db.open()) {
+            conn.setAutoCommit(false);
+            try {
+                Long linkedId = findUserId(conn, "google_index", googleIndex);
+                Long emailId = linkedId == null ? findUserId(conn, "email_index", crypto.emailIndex(email)) : null;
+                if (linkedId != null) {
+                    userId = linkedId;
+                } else if (emailId != null) {
+                    userId = emailId;
+                    // Sign up never checked that this person owned the email, but Google just did.
+                    // Replacing the password and ending all sessions locks out anyone who signed up
+                    // with someone else's address. The owner can set a password again via Forgot password.
+                    try (PreparedStatement st = conn.prepareStatement(
+                            "UPDATE users SET google_index = ?, password_hash = ? WHERE id = ?")) {
+                        st.setString(1, googleIndex);
+                        st.setString(2, Crypto.hashPassword(Crypto.newToken()));
+                        st.setLong(3, userId);
+                        st.executeUpdate();
+                    }
+                    try (PreparedStatement st = conn.prepareStatement("DELETE FROM sessions WHERE user_id = ?")) {
+                        st.setLong(1, userId);
+                        st.executeUpdate();
+                    }
+                } else {
+                    // Google accounts get an unguessable password; Forgot password can set a real one.
+                    try (PreparedStatement st = conn.prepareStatement(
+                            "INSERT INTO users (email_index, email_enc, password_hash, created_at, google_index)"
+                                    + " VALUES (?, ?, ?, ?, ?) RETURNING id")) {
+                        st.setString(1, crypto.emailIndex(email));
+                        st.setString(2, crypto.encrypt(email));
+                        st.setString(3, Crypto.hashPassword(Crypto.newToken()));
+                        st.setLong(4, now());
+                        st.setString(5, googleIndex);
+                        try (ResultSet rs = st.executeQuery()) {
+                            rs.next();
+                            userId = rs.getLong(1);
+                        }
+                    }
+                }
+                conn.commit();
+            } catch (SQLException | RuntimeException e) {
+                conn.rollback();
+                throw e;
+            }
+        }
+        return createSession(userId, remember);
+    }
+
+    /** column is always a constant from this class, never user input. */
+    private static Long findUserId(Connection conn, String column, String value) throws SQLException {
+        try (PreparedStatement st = conn.prepareStatement("SELECT id FROM users WHERE " + column + " = ?")) {
+            st.setString(1, value);
+            try (ResultSet rs = st.executeQuery()) {
+                return rs.next() ? rs.getLong(1) : null;
+            }
+        }
+    }
+
     void signOut(String token) throws SQLException {
         if (token == null) {
             return;

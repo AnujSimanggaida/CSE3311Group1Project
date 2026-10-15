@@ -227,6 +227,43 @@ body {
   cursor: progress;
 }
 
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  border-top: 1px solid var(--border);
+}
+
+.card .btn-google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 11px;
+  font-weight: 600;
+  color: #1f1f1f;
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.card .btn-google:hover {
+  background: #f6f8fb;
+  border-color: var(--navy);
+}
+
 button:focus-visible,
 .remember input:focus-visible {
   outline: 3px solid var(--orange);
@@ -451,6 +488,32 @@ button:focus-visible,
   color: var(--navy);
   background: #e8eef5;
   border-radius: 999px;
+}
+
+/* ---------- Admin ---------- */
+
+.topbar .btn-ghost {
+  text-decoration: none;
+}
+
+.user-row {
+  flex-wrap: wrap;
+}
+
+.user-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.tag-admin {
+  color: var(--white);
+  background: var(--navy);
+}
+
+.btn-danger {
+  color: var(--error);
 }
 
 .course-warning {

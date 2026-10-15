@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin | CourseSweep</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a href="home.html"><img class="topbar-logo" src="assets/logo.png" alt="CourseSweep home" width="662" height="181"></a>
+    <div class="topbar-user">
+      <a id="admin-link" class="btn-ghost" href="admin.html" hidden>Admin</a>
+      <span id="user-email"></span>
+      <button type="button" id="sign-out" class="btn-ghost">Sign out</button>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="card card-wide" aria-labelledby="admin-heading">
+      <h1 id="admin-heading">Manage users</h1>
+
+      <p id="admin-error" class="form-error" role="alert" hidden></p>
+      <p id="admin-status" class="form-success" role="status" hidden></p>
+
+      <div id="admin-panel" hidden>
+        <div class="field">
+          <label for="user-filter">Find a user</label>
+          <input type="search" id="user-filter" placeholder="Search by email" autocomplete="off">
+        </div>
+
+        <div class="section-head">
+          <h2 id="user-count">Users</h2>
+          <button type="button" id="refresh" class="btn-secondary">Refresh</button>
+        </div>
+
+        <p id="no-users" class="card-text" hidden>No users match that search.</p>
+        <ul id="user-list" class="course-list"></ul>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/auth.js"></script>
+  <script src="js/topbar.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

@@ -11,6 +11,7 @@ import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,15 +19,24 @@ import java.util.List;
 final class ApiHandler implements HttpHandler {
 
     private static final String SESSION_COOKIE = "cs_session";
+    // Holds the state and PKCE verifier while the browser is away at Google.
+    private static final String GOOGLE_COOKIE = "cs_google";
+    private static final int GOOGLE_COOKIE_SECONDS = 10 * 60;
     private static final int MAX_BODY_BYTES = 10_000;
 
     private final AuthService auth;
     private final ScheduleService schedules;
+    private final AdminService admin;
+    private final GoogleAuth google;
     private final boolean secureCookies;
 
-    ApiHandler(AuthService auth, ScheduleService schedules, boolean secureCookies) {
+    /** google is null when Google sign-in is not configured. */
+    ApiHandler(AuthService auth, ScheduleService schedules, AdminService admin, GoogleAuth google,
+               boolean secureCookies) {
         this.auth = auth;
         this.schedules = schedules;
+        this.admin = admin;
+        this.google = google;
         this.secureCookies = secureCookies;
     }
 
@@ -50,15 +60,34 @@ final class ApiHandler implements HttpHandler {
 
         if (path.equals("/api/me")) {
             requireMethod(method, "GET");
-            String email = auth.currentUserEmail(sessionToken(exchange));
-            if (email == null) {
+            String token = sessionToken(exchange);
+            String email = auth.currentUserEmail(token);
+            Long userId = auth.currentUserId(token);
+            if (email == null || userId == null) {
                 throw new ApiException(401, "Not signed in.");
             }
-            sendUser(exchange, 200, email);
+            JsonObject result = new JsonObject();
+            result.addProperty("email", email);
+            result.addProperty("admin", admin.isAdmin(userId));
+            send(exchange, 200, result);
             return;
         }
 
         switch (path) {
+            case "/api/auth-options" -> {
+                requireMethod(method, "GET");
+                JsonObject result = new JsonObject();
+                result.addProperty("google", google != null);
+                send(exchange, 200, result);
+            }
+            case "/api/google/start" -> {
+                requireMethod(method, "GET");
+                startGoogleSignIn(exchange);
+            }
+            case "/api/google/callback" -> {
+                requireMethod(method, "GET");
+                finishGoogleSignIn(exchange);
+            }
             case "/api/signup" -> {
                 requireMethod(method, "POST");
                 JsonObject body = readJson(exchange);
@@ -129,8 +158,95 @@ final class ApiHandler implements HttpHandler {
                 result.addProperty("id", schedules.createSchedule(userId, string(body, "name"), courseIds));
                 send(exchange, 201, result);
             }
+            case "/api/admin/users" -> {
+                requireMethod(method, "GET");
+                JsonObject result = new JsonObject();
+                result.add("users", admin.listUsers(requireAdmin(exchange)));
+                send(exchange, 200, result);
+            }
+            case "/api/admin/users/set-admin" -> {
+                requireMethod(method, "POST");
+                long adminId = requireAdmin(exchange);
+                JsonObject body = readJson(exchange);
+                admin.setAdmin(adminId, id(body, "id"), bool(body, "admin"));
+                send(exchange, 200, new JsonObject());
+            }
+            case "/api/admin/users/sign-out" -> {
+                requireMethod(method, "POST");
+                long adminId = requireAdmin(exchange);
+                admin.signOutEverywhere(adminId, id(readJson(exchange), "id"));
+                send(exchange, 200, new JsonObject());
+            }
+            case "/api/admin/users/delete" -> {
+                requireMethod(method, "POST");
+                long adminId = requireAdmin(exchange);
+                admin.deleteUser(adminId, id(readJson(exchange), "id"));
+                send(exchange, 200, new JsonObject());
+            }
             default -> throw new ApiException(404, "Not found.");
         }
+    }
+
+    // ---------- Google sign-in ----------
+    //
+    // These two endpoints are opened by the browser itself, not by fetch(), so
+    // they answer with redirects instead of JSON. Failures go back to the sign
+    // in page as ?google=<reason>, which public/js/google.js turns into a message.
+
+    private void startGoogleSignIn(HttpExchange exchange) throws IOException {
+        if (google == null) {
+            redirect(exchange, "/index.html?google=unavailable");
+            return;
+        }
+        String state = Crypto.newToken();
+        String codeVerifier = Crypto.newToken();
+        String remember = "true".equals(queryParam(exchange, "remember")) ? "1" : "0";
+        // SameSite=Lax, not Strict: the callback is a navigation coming from Google's site,
+        // and a Strict cookie would not be sent with it. Path limits it to /api/google.
+        exchange.getResponseHeaders().add("Set-Cookie", GOOGLE_COOKIE + "=" + state + "." + codeVerifier + "." + remember
+                + "; Path=/api/google; HttpOnly; SameSite=Lax; Max-Age=" + GOOGLE_COOKIE_SECONDS
+                + (secureCookies ? "; Secure" : ""));
+        redirect(exchange, google.authorizationUrl(state, codeVerifier));
+    }
+
+    private void finishGoogleSignIn(HttpExchange exchange) throws IOException {
+        // The cookie is single use, whatever happens next.
+        exchange.getResponseHeaders().add("Set-Cookie", GOOGLE_COOKIE
+                + "=; Path=/api/google; HttpOnly; SameSite=Lax; Max-Age=0" + (secureCookies ? "; Secure" : ""));
+        if (google == null) {
+            redirect(exchange, "/index.html?google=unavailable");
+            return;
+        }
+        String reason;
+        try {
+            if (queryParam(exchange, "error") != null) {
+                // Most often "access_denied": the user pressed Cancel on Google's page.
+                redirect(exchange, "/index.html?google=cancelled");
+                return;
+            }
+            // Cookie value is state.codeVerifier.remember; tokens are base64url, so never contain ".".
+            String savedCookie = cookie(exchange, GOOGLE_COOKIE);
+            String[] saved = savedCookie == null ? new String[0] : savedCookie.split("\\.");
+            String state = queryParam(exchange, "state");
+            String code = queryParam(exchange, "code");
+            // Checking state proves this callback belongs to a sign-in started in this browser.
+            if (saved.length != 3 || state == null || code == null
+                    || !MessageDigest.isEqual(saved[0].getBytes(StandardCharsets.UTF_8),
+                    state.getBytes(StandardCharsets.UTF_8))) {
+                throw new GoogleAuth.Failure("expired", "Missing or mismatched state.");
+            }
+            GoogleAuth.Identity identity = google.exchange(code, saved[1]);
+            setSessionCookie(exchange, auth.signInWithGoogle(identity, saved[2].equals("1")));
+            redirect(exchange, "/home.html");
+            return;
+        } catch (GoogleAuth.Failure e) {
+            System.err.println("Google sign-in failed: " + e.getMessage());
+            reason = e.reason;
+        } catch (Exception e) {
+            e.printStackTrace();
+            reason = "failed";
+        }
+        redirect(exchange, "/index.html?google=" + reason);
     }
 
     // ---------- Request helpers ----------
@@ -168,6 +284,22 @@ final class ApiHandler implements HttpHandler {
             throw new ApiException(400, "Missing field: " + field + ".");
         }
         return value.getAsString();
+    }
+
+    private static long id(JsonObject body, String field) {
+        JsonElement value = body.get(field);
+        if (value == null || !value.isJsonPrimitive() || !value.getAsJsonPrimitive().isNumber()) {
+            throw new ApiException(400, "Missing field: " + field + ".");
+        }
+        return value.getAsLong();
+    }
+
+    private static boolean bool(JsonObject body, String field) {
+        JsonElement value = body.get(field);
+        if (value == null || !value.isJsonPrimitive() || !value.getAsJsonPrimitive().isBoolean()) {
+            throw new ApiException(400, "Missing field: " + field + ".");
+        }
+        return value.getAsBoolean();
     }
 
     private static boolean isAbsent(JsonElement value) {
@@ -234,7 +366,19 @@ final class ApiHandler implements HttpHandler {
         return userId;
     }
 
+    private long requireAdmin(HttpExchange exchange) throws Exception {
+        long userId = requireUser(exchange);
+        if (!admin.isAdmin(userId)) {
+            throw new ApiException(403, "Only admins can do that.");
+        }
+        return userId;
+    }
+
     private static String sessionToken(HttpExchange exchange) {
+        return cookie(exchange, SESSION_COOKIE);
+    }
+
+    private static String cookie(HttpExchange exchange, String name) {
         List<String> headers = exchange.getRequestHeaders().get("Cookie");
         if (headers == null) {
             return null;
@@ -242,7 +386,7 @@ final class ApiHandler implements HttpHandler {
         for (String header : headers) {
             for (String pair : header.split(";")) {
                 String[] parts = pair.trim().split("=", 2);
-                if (parts.length == 2 && parts[0].equals(SESSION_COOKIE) && !parts[1].isEmpty()) {
+                if (parts.length == 2 && parts[0].equals(name) && !parts[1].isEmpty()) {
                     return parts[1];
                 }
             }
@@ -268,6 +412,12 @@ final class ApiHandler implements HttpHandler {
     private void clearSessionCookie(HttpExchange exchange) {
         exchange.getResponseHeaders().add("Set-Cookie",
                 SESSION_COOKIE + "=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0" + (secureCookies ? "; Secure" : ""));
+    }
+
+    private static void redirect(HttpExchange exchange, String location) throws IOException {
+        exchange.getResponseHeaders().set("Location", location);
+        exchange.getResponseHeaders().set("Cache-Control", "no-store");
+        exchange.sendResponseHeaders(302, -1);
     }
 
     private static void sendUser(HttpExchange exchange, int status, String email) throws IOException {

@@ -7,6 +7,11 @@ services:
     environment:
       COURSESWEEP_BASE_URL: http://localhost:8080
       COURSESWEEP_DATA_DIR: /data
+      # Read from the .env file next to this one (see .env.example).
+      # Empty Google values leave Google sign-in off.
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+      COURSESWEEP_ADMIN_EMAILS: ${COURSESWEEP_ADMIN_EMAILS:-}
     volumes:
       # Source code from the host. ":z" lets this work on SELinux systems
       # such as Fedora and is ignored elsewhere.

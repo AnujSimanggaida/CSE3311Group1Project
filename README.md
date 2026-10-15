@@ -8,11 +8,13 @@ So far it covers accounts (creating an account, signing in, resetting a forgotte
 
 - **Sign in page** with email and password validation, a show/hide password toggle, and a "Keep me signed in" option.
 - **Create account page.**
+- **Sign in with Google** on the sign in and create account pages, once a Google OAuth client is set up. See [Sign in with Google](#sign-in-with-google).
 - **Forgot password and reset password pages.** A reset link works once and expires after 30 minutes.
 - **Home page** shown after signing in. It asks whether to create a new schedule or view an existing one. Viewing existing schedules is a placeholder for now.
 - **Schedule builder.** Name a schedule, add courses, and save it. "Add course" offers two choices:
   - **Search for an existing course** by code, name or professor.
   - **Create a custom course** with a name, professor, time slot (days, start and end time) and a rating from 1 to 5. Professor and rating are optional. Custom courses are visible only to the student who made them.
+- **Admin page** for moderating the app: list every account, make or remove admins, sign a user out on every device, and delete accounts. See [Admins](#admins).
 - **Time conflict warnings** when two courses in a schedule overlap.
 - **Sample course catalog** of eight UTA Computer Science courses. See the note below.
 - **Java backend** that serves the pages and a JSON API, storing accounts in a SQLite database.
@@ -128,7 +130,7 @@ The setup uses three files in the project folder.
 |---|---|
 | `Dockerfile` | The recipe for the image: a ready-made Linux system with Java and Maven installed and the project's libraries already downloaded |
 | `docker-compose.yml` | Describes how to run that image: which port to open, which folders to share and which settings to use |
-| `.dockerignore` | Files that are never copied into the image: `.git`, `target/`, `data/` and the Markdown files. This keeps the secret key out of the image |
+| `.dockerignore` | Files that are never copied into the image: `.git`, `target/`, `data/`, `.env` and the Markdown files. This keeps the secret key and the Google client secret out of the image |
 
 **Building the image (`Dockerfile`)**
 
@@ -185,6 +187,115 @@ The pages must be opened through the server. Opening the HTML files directly wil
 
 No email service is connected yet. When you request a reset, the link is printed in the terminal where the server is running. Copy it into your browser to continue.
 
+## Sign in with Google
+
+The sign in and create account pages show a **Continue with Google** button when the server has a Google OAuth client ID and secret. Without them, the button stays hidden and everything else works as before.
+
+### 1. Create the OAuth client (once, for the whole team)
+
+One person does this, and the team shares the result.
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com/) and sign in with a personal Google account. School accounts are often blocked from creating projects.
+2. Create a project, for example `CourseSweep`, from the project picker at the top of the page.
+3. Open **APIs & Services > OAuth consent screen** (shown as **Google Auth Platform** in newer versions of the console) and click **Get started**.
+   - App name: `CourseSweep`. Support email: your email.
+   - Audience: **External**.
+   - Contact email: your email. Accept the policy and click **Create**.
+4. Under **Audience > Test users**, add the Google account of every teammate and tester. While the app is in "Testing" mode, only these accounts can sign in. Anyone else gets an "access blocked" error from Google.
+5. Open **Clients** (or **APIs & Services > Credentials**), click **Create client** (or **Create credentials > OAuth client ID**), and choose:
+   - Application type: **Web application**.
+   - Name: `CourseSweep local`.
+   - Authorized redirect URIs: `http://localhost:8080/api/google/callback`
+6. Click **Create**, then copy the **Client ID** and the **Client secret**.
+
+The redirect URI must match the server's address exactly. If you run on another port or address, add that callback URL too. The server prints the URI it uses when it starts.
+
+You do not need to enable any extra APIs. The `openid` and `email` scopes the app asks for are available by default.
+
+### 2. Give the server the client ID and secret
+
+**The client secret must never be committed.** Share it with teammates privately, for example in a direct message.
+
+**With Docker:** copy `.env.example` to a new file named `.env` in the project folder and fill it in:
+
+```
+GOOGLE_CLIENT_ID=1234567890-abc123.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=GOCSPX-...
+```
+
+Then restart with `docker compose up`. Docker Compose reads `.env` automatically, and git and Docker both ignore it.
+
+**Without Docker:** set the two environment variables before starting the server.
+
+```
+# macOS and Linux
+export GOOGLE_CLIENT_ID=1234567890-abc123.apps.googleusercontent.com
+export GOOGLE_CLIENT_SECRET=GOCSPX-...
+./mvnw compile exec:java
+
+# Windows PowerShell
+$env:GOOGLE_CLIENT_ID="1234567890-abc123.apps.googleusercontent.com"
+$env:GOOGLE_CLIENT_SECRET="GOCSPX-..."
+mvnw.cmd compile exec:java
+```
+
+When it works, the server prints `Google sign-in is on` and the sign in page shows the **Continue with Google** button.
+
+### How Google sign-in works
+
+The app uses Google's OAuth 2.0 authorization code flow with PKCE. It needs no extra libraries and loads no Google scripts in the page.
+
+1. **The user clicks Continue with Google.** The browser opens `/api/google/start`.
+2. **The server sends the browser to Google.** It creates two random values: a `state` and a PKCE `code_verifier`. It stores them in a short-lived `cs_google` cookie (HttpOnly, 10 minutes) and redirects to Google's sign-in page.
+3. **The user chooses an account on Google's page.** Google sends the browser back to `/api/google/callback` with a one-time `code`.
+4. **The server checks the request.** The `state` in the URL must match the one in the cookie, which proves that this browser started the sign-in. The cookie is deleted either way.
+5. **The server exchanges the code with Google.** It sends the code, the client secret and the `code_verifier` directly to Google, and gets back an ID token containing the user's Google account ID and email address. The server checks that the token was issued by Google, for this app's client ID, has not expired, and that Google has verified the email.
+6. **The server signs the user in.** It creates a normal CourseSweep session, the same kind a password sign in creates, and redirects to `home.html`.
+
+If anything fails, the browser returns to the sign in page with a message such as "Google sign-in was cancelled".
+
+**How Google accounts map to CourseSweep accounts**
+
+- **The first time a Google account signs in,** a new CourseSweep account is created with that email. It gets a random password that nobody knows. Use **Forgot password** to set one if you also want to sign in with a password.
+- **If a password account with the same email already exists,** the Google account is linked to it, and the account keeps its schedules and custom courses. Linking replaces the old password and signs the account out on every device. This matters because creating an account never checked that the person owned the email, but Google has. Without the reset, someone could create an account with another person's email before that person ever signs in with Google, and keep access to it afterwards. To use a password again after linking, use **Forgot password**.
+- **After linking,** that Google account always signs in to the same CourseSweep account, even if its Gmail address changes later.
+
+The Google account ID is stored only as a keyed hash, like the email lookup value.
+
+## Admins
+
+Admins see an **Admin** link in the top bar. It opens the **Manage users** page (`admin.html`), which lists every account with its join date, number of schedules and custom courses, whether it uses Google sign-in, and how many devices it is signed in on.
+
+On that page an admin can:
+
+- **Make admin / Remove admin:** give another account admin access, or take it away.
+- **Sign out everywhere:** end all of a user's sessions, for example if their account may be compromised.
+- **Delete:** permanently remove an account along with its schedules and custom courses. The page asks for confirmation first.
+
+### Making the first admins
+
+Admins are set in two ways:
+
+1. **In the settings (recommended for the team).** List emails, separated by commas, in `COURSESWEEP_ADMIN_EMAILS`. With Docker, put it in `.env`:
+
+   ```
+   COURSESWEEP_ADMIN_EMAILS=you@gmail.com,teammate1@gmail.com,teammate2@gmail.com
+   ```
+
+   Without Docker, set it as an environment variable before starting the server. Restart the server after changing it. An account with a listed email is an admin as soon as it exists, whether it signs up before or after the restart.
+
+2. **On the admin page.** An existing admin clicks **Make admin** next to another account.
+
+Remember that each computer has its own database. On your own machine, list your own email. On a shared server, list everyone who should moderate it.
+
+### Rules that prevent lockouts
+
+- You cannot remove your own admin access or delete your own account from the admin page.
+- Admins listed in `COURSESWEEP_ADMIN_EMAILS` are shown as "Admin (set in config)". They cannot be demoted or deleted from the page. Remove them from the setting first.
+- Every admin action is printed in the server terminal, for example `Admin: user 3 deleted user 5`. Users are identified by number, not email.
+
+The server checks admin access on every admin request. Hiding the Admin link from other users is only for convenience, not for security.
+
 ## Settings
 
 All settings are optional environment variables.
@@ -197,6 +308,9 @@ All settings are optional environment variables.
 | `COURSESWEEP_DATA_DIR` | `data` | Folder for the database and the secret key |
 | `COURSESWEEP_SECRET_KEY` | none | Base64 32-byte key, used instead of the key file |
 | `COURSESWEEP_SECURE_COOKIES` | `false` | Set to `true` when serving over HTTPS |
+| `GOOGLE_CLIENT_ID` | none | OAuth client ID for Sign in with Google |
+| `GOOGLE_CLIENT_SECRET` | none | OAuth client secret. Google sign-in is off unless both are set |
+| `COURSESWEEP_ADMIN_EMAILS` | none | Comma-separated emails of accounts that are always admins |
 
 Example: `PORT=9000 ./mvnw compile exec:java`
 
@@ -210,23 +324,30 @@ public/                      Front end (HTML, CSS, JavaScript, logo)
   reset.html                 Choose a new password
   home.html                  Page shown after signing in
   schedule.html              Schedule builder and the Add course dialog
+  admin.html                 Manage users (admins only)
   js/auth.js                 Calls the account API
   js/form.js                 Validation shared by the forms
   js/topbar.js               Sign-in check and Sign out button for signed-in pages
+  js/google.js               Continue with Google button and its error messages
+  js/admin.js                Manage users page logic
   js/schedule.js             Schedule builder logic
 src/main/java/coursesweep/   Back end
   Main.java                  Starts the server
   ApiHandler.java            The /api/ endpoints
   AuthService.java           Accounts, sessions and password resets
+  AdminService.java          Admin access and user management
   ScheduleService.java       Course search, custom courses and saved schedules
   Crypto.java                Hashing and encryption
   Database.java              SQLite connection, tables and the sample catalog
+  GoogleAuth.java            Sign in with Google (OAuth code flow with PKCE)
   Mailer.java                Sends reset emails (prints to the console for now)
   StaticHandler.java         Serves the files in public/
 pom.xml                      Build file and library list
 Dockerfile                   Development image with Java and Maven
 docker-compose.yml           Runs the app in Docker with the source folder shared
 .dockerignore                Files kept out of the Docker image
+.env.example                 Template for .env, which holds the Google client secret
+CHANGELOG.md                 What changed in each update, and what to do after pulling
 data/                        Created on first run; not committed
 ```
 
@@ -239,14 +360,21 @@ All requests and responses are JSON.
 | POST | `/api/signup` | `email`, `password` | Creates the account and signs in |
 | POST | `/api/login` | `email`, `password`, `remember` | Signs in |
 | POST | `/api/logout` | `{}` | Signs out |
-| GET | `/api/me` | | The signed-in user's email, or 401 |
+| GET | `/api/me` | | The signed-in user's `email` and `admin` (true or false), or 401 |
 | POST | `/api/forgot-password` | `email` | Sends a reset link if the account exists |
 | POST | `/api/reset-password` | `token`, `password` | Sets a new password |
+| GET | `/api/auth-options` | | `{"google": true}` when Google sign-in is configured |
+| GET | `/api/google/start?remember=true` | | Redirects to Google's sign-in page. Opened by the browser, not `fetch` |
+| GET | `/api/google/callback` | | Google redirects here; signs in and redirects to `home.html` |
+| GET | `/api/admin/users` | | Every account, newest first (admins only) |
+| POST | `/api/admin/users/set-admin` | `id`, `admin` | Gives or removes admin access (admins only) |
+| POST | `/api/admin/users/sign-out` | `id` | Ends all of a user's sessions (admins only) |
+| POST | `/api/admin/users/delete` | `id` | Deletes the account, its schedules and custom courses (admins only) |
 | GET | `/api/courses?q=` | | Catalog courses and your custom courses matching the search |
 | POST | `/api/courses` | `name`, `professor`, `days`, `start`, `end`, `rating` | Creates a custom course |
 | POST | `/api/schedules` | `name`, `courseIds` | Saves a schedule |
 
-The course and schedule endpoints require being signed in. `days` is a list of day codes (`Mo`, `Tu`, `We`, `Th`, `Fr`, `Sa`, `Su`), and `start` and `end` are 24-hour times such as `09:30`.
+The course and schedule endpoints require being signed in. The admin endpoints also require admin access, and answer 403 otherwise. `days` is a list of day codes (`Mo`, `Tu`, `We`, `Th`, `Fr`, `Sa`, `Su`), and `start` and `end` are 24-hour times such as `09:30`.
 
 Errors come back as `{"error": "message"}` with a matching HTTP status.
 
@@ -259,6 +387,7 @@ Nothing sensitive is stored in readable form.
 | Passwords | Salted PBKDF2-HMAC-SHA256 hash, 600,000 iterations, with a new random salt for each user |
 | Email addresses | Encrypted with AES-256-GCM, plus a keyed hash used to look a user up |
 | Session and reset tokens | SHA-256 hash only |
+| Google account IDs | Keyed hash only, used to look a user up |
 
 Passwords are hashed, not encrypted, so they cannot be recovered even by someone who has both the database and the key.
 
@@ -267,6 +396,7 @@ Other protections:
 - The session token is kept in an `HttpOnly`, `SameSite=Strict` cookie, so page scripts cannot read it.
 - Sign in gives the same error for a wrong password and an unknown email, and forgot password gives the same response either way, so neither reveals who has an account.
 - Resetting a password signs the account out everywhere.
+- Google sign-in checks a random `state` value against a cookie and uses PKCE, so a sign-in cannot be started or finished from another site. The Google client secret stays on the server.
 
 ### The secret key
 
@@ -282,6 +412,8 @@ The first run creates `data/secret.key`. This key protects the stored email addr
 - The catalog's professors, time slots and ratings are sample data.
 - Custom courses are never shared with other students yet (see the planned feature above).
 - Reset emails are printed to the console instead of being sent.
+- While the Google OAuth app is in "Testing" mode, only the test users added in Google Cloud Console can use Google sign-in.
+- Admins can manage accounts but not the course catalog or other users' custom courses yet.
 - There is no limit on repeated sign-in attempts.
 - On localhost the connection is plain HTTP. Any real deployment needs HTTPS and `COURSESWEEP_SECURE_COOKIES=true`.
 - There are no automated tests yet.
