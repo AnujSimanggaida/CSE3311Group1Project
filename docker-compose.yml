@@ -1,0 +1,21 @@
+services:
+  app:
+    build: .
+    image: coursesweep-dev
+    ports:
+      - "8080:8080"
+    environment:
+      COURSESWEEP_BASE_URL: http://localhost:8080
+      COURSESWEEP_DATA_DIR: /data
+    volumes:
+      # Source code from the host. ":z" lets this work on SELinux systems
+      # such as Fedora and is ignored elsewhere.
+      - .:/app:z
+      # Build output and the database live in Docker volumes, not in the
+      # project folder, so they never clash with files on the host.
+      - target:/app/target
+      - data:/data
+
+volumes:
+  target:
+  data:

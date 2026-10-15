@@ -21,7 +21,7 @@ So far it covers accounts (creating an account, signing in, resetting a forgotte
 
 The eight catalog courses use real UTA course codes and titles (CSE 1310, 1320, 1325, 2312, 2315, 3311, 3318 and 3320). **The professor names, time slots and ratings are made up** and need to be replaced with real data. They live in `SAMPLE_CATALOG` in `Database.java`.
 
-The catalog is only inserted when the database has no catalog courses. After editing `SAMPLE_CATALOG`, delete `data/coursesweep.db` to load the new list. This also deletes local accounts and schedules.
+The catalog is only inserted when the database has no catalog courses. After editing `SAMPLE_CATALOG`, delete `data/coursesweep.db` (or run `docker compose down -v` when using Docker) to load the new list. This also deletes local accounts and schedules.
 
 ### Planned: sharing custom courses through search
 
@@ -37,12 +37,137 @@ Until that threshold is reached, the course and its professor stay private to th
 
 ## Requirements
 
-- Java 17 or newer (`java -version` to check).
-- An internet connection the first time you run it, to download Maven and the libraries.
+There are two ways to run CourseSweep. Pick one.
 
-You do not need to install Maven. The `mvnw` script included in the project downloads it for you.
+- **With Docker (recommended for the team).** You only need Docker. Java, Maven and the libraries come inside the container, so it works the same on Windows, macOS and Linux. See [How to run with Docker](#how-to-run-with-docker).
+- **Without Docker.** You need Java 17 or newer (`java -version` to check). You do not need to install Maven, because the `mvnw` script included in the project downloads it for you. See [How to run without Docker](#how-to-run-without-docker).
 
-## How to run
+Both need an internet connection the first time, to download Maven and the libraries.
+
+## How to run with Docker
+
+### 1. Install Docker
+
+**Windows**
+
+1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop/). Keep the default "Use WSL 2" option, and restart if the installer asks.
+2. Open Docker Desktop and wait until it says "Engine running". Docker Desktop must be open whenever you use the app.
+
+**macOS**
+
+1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop/). Pick the Apple Silicon or the Intel download to match your Mac.
+2. Open Docker Desktop and wait until it says "Engine running".
+
+**Linux**
+
+1. Install Docker Engine and the Compose plugin:
+   - Ubuntu or Debian: follow the [Docker Engine install guide](https://docs.docker.com/engine/install/), which includes `docker-compose-plugin`.
+   - Fedora: `sudo dnf install moby-engine docker-compose`
+2. Start Docker: `sudo systemctl enable --now docker`
+3. Let your user run Docker without `sudo`: `sudo usermod -aG docker $USER`, then log out and back in.
+
+**Check that it works** (on any system):
+
+```
+docker compose version
+```
+
+This should print a version number. If it says `unknown command`, the Compose plugin is missing. On Linux, some packages install it as a separate `docker-compose` command instead. In that case, type `docker-compose` (with a hyphen) wherever this guide says `docker compose`.
+
+### 2. Start the app
+
+From the project folder, run:
+
+```
+docker compose up --build
+```
+
+The first run takes a few minutes while it downloads Java, Maven and the libraries. Later runs start in a few seconds.
+
+When you see `CourseSweep running at http://localhost:8080`, open that address in a browser. Press `Ctrl+C` to stop the server.
+
+### 3. Working on the code
+
+Edit the code on your own machine with your usual editor. The project folder is shared with the container, so you do not need to copy anything into it.
+
+| What you changed | What to do |
+|---|---|
+| HTML, CSS or JavaScript in `public/` | Refresh the browser |
+| Java files in `src/` | Press `Ctrl+C`, then run `docker compose up` |
+| `pom.xml`, `Dockerfile` or `.mvn/jvm.config` | Press `Ctrl+C`, then run `docker compose up --build` |
+
+Password reset links are printed in the same terminal as the server output.
+
+### Useful commands
+
+| Command | What it does |
+|---|---|
+| `docker compose up --build` | Builds the image if needed and starts the app |
+| `docker compose up` | Starts the app without rebuilding the image |
+| `docker compose up -d` | Starts the app in the background |
+| `docker compose logs -f` | Shows the server output (useful with `-d`). `Ctrl+C` stops following the output, not the server |
+| `docker compose down` | Stops and removes the container. Your accounts and schedules are kept |
+| `docker compose down -v` | Same as above, and also deletes the database and secret key so you start fresh |
+| `docker compose exec app bash` | Opens a shell inside the running container |
+| `docker compose build --no-cache` | Rebuilds the image from scratch |
+
+### Troubleshooting
+
+- **`port is already allocated` or `address already in use`.** Something else is using port 8080. Often it is the app running without Docker through `./mvnw`. Stop it, or change the `ports` line in `docker-compose.yml` to `"9000:8080"`, set `COURSESWEEP_BASE_URL` in the same file to `http://localhost:9000`, and open http://localhost:9000.
+- **`Cannot connect to the Docker daemon`.** Docker is not running. Open Docker Desktop, or on Linux run `sudo systemctl start docker`.
+- **`permission denied` when running `docker` on Linux.** Your user is not in the `docker` group yet. See step 3 of the Linux install, and remember to log out and back in.
+- **Very slow on Windows.** Docker is slow at reading files under `C:\`. Clone the project inside your WSL Linux home folder (for example `\\wsl$\Ubuntu\home\<you>\`) and run the commands from a WSL terminal.
+- **The app seems to run old code, or the build behaves strangely.** Run `docker compose build --no-cache`, then `docker compose up`.
+- **Sign in stopped working after `docker compose down -v`.** That command deletes the database, so all accounts were removed. Create a new account.
+
+### How the Docker setup works
+
+The setup uses three files in the project folder.
+
+| File | Purpose |
+|---|---|
+| `Dockerfile` | The recipe for the image: a ready-made Linux system with Java and Maven installed and the project's libraries already downloaded |
+| `docker-compose.yml` | Describes how to run that image: which port to open, which folders to share and which settings to use |
+| `.dockerignore` | Files that are never copied into the image: `.git`, `target/`, `data/` and the Markdown files. This keeps the secret key out of the image |
+
+**Building the image (`Dockerfile`)**
+
+`docker compose up --build` builds the image in these steps:
+
+1. It starts from the official `maven:3.9.11-eclipse-temurin-21` image, which already has Java 21 and Maven.
+2. It copies `pom.xml` and `.mvn/jvm.config`, then runs `mvn dependency:go-offline` to download every library and Maven plugin the project needs.
+3. It copies `src/` and `public/` and compiles them once, to check that the code builds and to download the last few plugins.
+4. It sets `COURSESWEEP_HOST=0.0.0.0` and `PORT=8080`.
+5. It sets the start command to `mvn compile exec:java`, the same command the `mvnw` script runs without Docker.
+
+Docker saves the result of each step and reuses it on the next build. Step 2 only runs again when `pom.xml` changes, so libraries are not downloaded again after a small code change.
+
+`COURSESWEEP_HOST=0.0.0.0` is needed because a container has its own network. When the server only listens on `localhost`, it accepts connections from inside the container and refuses the ones that Docker forwards from your browser.
+
+**Running the container (`docker-compose.yml`)**
+
+When the container starts, Compose sets up the following:
+
+- **Port 8080.** `"8080:8080"` forwards port 8080 on your computer to port 8080 in the container, so http://localhost:8080 reaches the server.
+- **Shared project folder.** Your project folder is mounted at `/app` inside the container. This hides the copy of the code that was put into the image during the build, so the server always uses the files on your computer. That is why you never need to rebuild after editing code.
+- **`target` volume.** Compiled classes go to a Docker volume mounted at `/app/target`, not to the `target/` folder on your computer. This keeps Docker and non-Docker builds from overwriting each other. It also stops the container, which runs as root, from creating root-owned files in your project folder on Linux.
+- **`data` volume.** `COURSESWEEP_DATA_DIR=/data` points the database and secret key to a Docker volume. This volume is kept when the container stops or is removed, and is only deleted by `docker compose down -v`. It is separate from the `data/` folder used without Docker, so the two never mix.
+- **`COURSESWEEP_BASE_URL`** is set to `http://localhost:8080` so that password reset links point to the address you open in your browser.
+- **`:z` on the shared folder** lets the container read your files on Linux systems that use SELinux, such as Fedora. Other systems ignore it.
+
+**Why some changes need a restart**
+
+- The server reads files from `public/` from disk on every request. Because the project folder is shared, front end changes show up after a browser refresh.
+- Java code is compiled when the container starts (`mvn compile`) and then loaded into memory. Java changes therefore need a restart, which recompiles only the files that changed.
+- Libraries are downloaded while the image is built, so a change to `pom.xml` needs `--build`.
+
+**Things to keep in mind**
+
+- **Java version.** The container uses Java 21, but `pom.xml` targets Java 17, so code written in Docker still compiles for teammates who use Java 17 without Docker. Avoid Java library methods that only exist in Java 18 or later. The Docker build would accept them, but a Java 17 build would fail.
+- **Each computer has its own database.** Each computer has its own `data` volume, with its own secret key and database. Accounts and schedules are not shared between teammates.
+- **Your Docker resources.** The image is shared by every run on your computer. To see what is taking space, run `docker system df`. To remove everything for this project, including the database, run `docker compose down -v --rmi local`.
+
+## How to run without Docker
 
 From the project folder:
 
@@ -99,6 +224,9 @@ src/main/java/coursesweep/   Back end
   Mailer.java                Sends reset emails (prints to the console for now)
   StaticHandler.java         Serves the files in public/
 pom.xml                      Build file and library list
+Dockerfile                   Development image with Java and Maven
+docker-compose.yml           Runs the app in Docker with the source folder shared
+.dockerignore                Files kept out of the Docker image
 data/                        Created on first run; not committed
 ```
 
