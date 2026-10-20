@@ -10,6 +10,7 @@
   <header class="topbar">
     <a href="home.html"><img class="topbar-logo" src="assets/logo.png" alt="CourseSweep home" width="662" height="181"></a>
     <div class="topbar-user">
+      <a class="btn-ghost" href="profile.html">My degree</a>
       <a id="admin-link" class="btn-ghost" href="admin.html" hidden>Admin</a>
       <span id="user-email"></span>
       <button type="button" id="sign-out" class="btn-ghost">Sign out</button>
@@ -80,7 +81,15 @@
         <label for="search-input">Course code, name or professor</label>
         <input type="search" id="search-input" placeholder="e.g. CSE 3311 or Algorithms" autocomplete="off">
       </div>
-      <p class="field-hint">Instructors and ratings come from UTA’s Student Feedback Survey; hover a rating to see which terms. Meeting times are sample data.</p>
+      <label class="remember search-filter">
+        <input type="checkbox" id="hide-taken" checked>
+        Hide courses I have already taken
+      </label>
+      <label class="remember search-filter">
+        <input type="checkbox" id="can-take">
+        Only show courses I can take now (prerequisites taken)
+      </label>
+      <p class="field-hint">Instructors and ratings come from UTA’s Student Feedback Survey; hover a rating to see which terms. Meeting times are sample data. Prerequisites come from the courses marked on <a href="profile.html">My degree</a>; ones CourseSweep cannot check, such as an ALEKS score, count as met.</p>
       <p id="search-status" class="card-text" role="status" hidden></p>
       <ul id="search-results" class="course-list"></ul>
     </div>

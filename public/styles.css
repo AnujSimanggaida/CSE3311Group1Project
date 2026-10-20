@@ -319,9 +319,9 @@ button:focus-visible,
 
 .choices {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 24px;
-  width: min(760px, 100%);
+  width: min(960px, 100%);
 }
 
 .choice {
@@ -524,6 +524,167 @@ button:focus-visible,
 #missing-list {
   margin: 6px 0 8px;
   padding-left: 20px;
+}
+
+/* ---------- My degree ---------- */
+
+.field select {
+  width: 100%;
+  padding: 11px 12px;
+  font: inherit;
+  color: var(--ink);
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+}
+
+a.choice {
+  text-decoration: none;
+}
+
+.taken-count {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.check-group {
+  /* Fieldsets default to min-width: min-content, which lets long titles overflow on phones. */
+  min-width: 0;
+  margin: 0 0 18px;
+  padding: 0;
+  border: none;
+}
+
+.check-title {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.check-group legend {
+  margin-bottom: 6px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.check-row {
+  display: grid;
+  grid-template-columns: auto 6.5em 1fr auto;
+  align-items: baseline;
+  gap: 10px;
+  padding: 7px 4px;
+  border-top: 1px solid var(--border);
+  cursor: pointer;
+}
+
+.check-row input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--navy);
+}
+
+.check-code {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.check-hours {
+  font-size: 0.85rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.check-block-title {
+  margin: 22px 0 10px;
+  padding-bottom: 6px;
+  font-size: 1rem;
+  color: var(--ink);
+  border-bottom: 2px solid var(--orange);
+}
+
+.auto-note {
+  margin: 0 0 12px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  color: var(--navy);
+  background: #e8eef5;
+  border-radius: 8px;
+}
+
+.progress-panel {
+  margin: 18px 0 8px;
+  padding: 16px 18px;
+  background: #f4f7fb;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+}
+
+.progress-heading {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+  color: var(--navy);
+}
+
+.progress-panel .card-text {
+  margin: 0;
+}
+
+.progress-count {
+  margin: 0 0 10px;
+  color: var(--muted);
+}
+
+.progress-count strong {
+  margin-right: 4px;
+  font-size: 1.7rem;
+  color: var(--navy);
+}
+
+.progress-bar {
+  height: 10px;
+  overflow: hidden;
+  background: var(--border);
+  border-radius: 999px;
+}
+
+.progress-bar span {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: var(--orange);
+  transition: width 0.3s;
+}
+
+.progress-panel details {
+  margin: 4px 0 8px;
+}
+
+.progress-panel summary {
+  font-weight: 600;
+  color: var(--navy);
+  cursor: pointer;
+}
+
+.progress-list {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  font-size: 0.9rem;
+}
+
+.progress-list li {
+  margin-bottom: 4px;
+}
+
+.progress-section {
+  font-weight: 700;
+}
+
+.progress-classes {
+  color: var(--muted);
+}
+
+.search-filter {
+  margin: 10px 0 10px;
+  font-size: 0.9rem;
 }
 
 /* ---------- Admin ---------- */

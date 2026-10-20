@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My degree | CourseSweep</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a href="home.html"><img class="topbar-logo" src="assets/logo.png" alt="CourseSweep home" width="662" height="181"></a>
+    <div class="topbar-user">
+      <a class="btn-ghost" href="profile.html">My degree</a>
+      <a id="admin-link" class="btn-ghost" href="admin.html" hidden>Admin</a>
+      <span id="user-email"></span>
+      <button type="button" id="sign-out" class="btn-ghost">Sign out</button>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="card card-wide" aria-labelledby="profile-heading">
+      <h1 id="profile-heading">My degree</h1>
+      <p class="card-text">Choose your major and mark the courses you have already taken. Course search can then hide them.</p>
+
+      <p id="profile-error" class="form-error" role="alert" hidden></p>
+      <p id="profile-loading" class="card-text">Loading…</p>
+
+      <div id="profile-form" hidden>
+        <div class="field-pair">
+          <div class="field">
+            <label for="college">College</label>
+            <select id="college"></select>
+          </div>
+          <div class="field">
+            <label for="degree">Major</label>
+            <select id="degree"></select>
+          </div>
+        </div>
+        <p id="degree-info" class="field-hint" hidden></p>
+
+        <section id="progress" class="progress-panel" aria-labelledby="progress-heading" aria-live="polite">
+          <h2 id="progress-heading" class="progress-heading">Classes left to graduate</h2>
+          <p id="progress-empty" class="card-text">Choose your major to see how many classes you have left.</p>
+          <div id="progress-body" hidden>
+            <p class="progress-count"><strong id="progress-classes"></strong> <span id="progress-classes-label"></span></p>
+            <div class="progress-bar" role="progressbar" aria-labelledby="progress-hours" aria-valuemin="0" id="progress-bar">
+              <span id="progress-fill"></span>
+            </div>
+            <p id="progress-hours" class="field-hint"></p>
+            <details id="progress-details">
+              <summary id="progress-summary"></summary>
+              <ul id="progress-list" class="progress-list"></ul>
+            </details>
+            <p id="progress-not-listed" class="field-hint"></p>
+          </div>
+        </section>
+
+        <div class="section-head">
+          <h2>Courses you have taken</h2>
+          <span id="taken-count" class="taken-count"></span>
+        </div>
+        <p class="field-hint">Checking a course also checks the courses it requires. Unchecking one also unchecks the courses that need it.</p>
+        <p id="auto-note" class="auto-note" role="status" hidden></p>
+
+        <div class="field">
+          <label for="course-filter">Find a course</label>
+          <input type="search" id="course-filter" placeholder="e.g. CSE 1310 or Calculus" autocomplete="off">
+        </div>
+
+        <div id="course-groups"></div>
+        <p id="no-matches" class="card-text" hidden>No courses match that search.</p>
+
+        <p id="save-status" class="form-success" role="status" hidden>Saved.</p>
+        <button type="button" id="save-profile" class="btn-primary">Save</button>
+      </div>
+
+      <p class="card-links"><a href="home.html">Back to home</a></p>
+    </section>
+  </main>
+
+  <script src="js/auth.js"></script>
+  <script src="js/form.js"></script>
+  <script src="js/topbar.js"></script>
+  <script src="js/profile.js"></script>
+</body>
+</html>

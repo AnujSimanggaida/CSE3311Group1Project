@@ -15,9 +15,11 @@ import java.util.Map;
 final class DegreeService {
 
     private final Database db;
+    private final CourseIndex index;
 
-    DegreeService(Database db) {
+    DegreeService(Database db, CourseIndex index) {
         this.db = db;
+        this.index = index;
     }
 
     /** Every college with its degrees. The lowest id is the default choice, which is UTA. */
@@ -51,6 +53,35 @@ final class DegreeService {
         JsonArray list = new JsonArray();
         colleges.values().forEach(list::add);
         return list;
+    }
+
+    /**
+     * Every catalog course of a college, ordered by code. "requires" lists every course it
+     * certainly requires, directly or through a chain, so the page can check them off with it.
+     */
+    JsonArray listCourses(long collegeId) throws SQLException {
+        JsonArray courses = new JsonArray();
+        try (Connection conn = db.open();
+             PreparedStatement st = conn.prepareStatement(
+                     "SELECT subject, number, title, hours FROM college_courses WHERE college_id = ? ORDER BY subject, number")) {
+            st.setLong(1, collegeId);
+            try (ResultSet rs = st.executeQuery()) {
+                while (rs.next()) {
+                    JsonObject course = new JsonObject();
+                    course.addProperty("code", rs.getString("subject") + " " + rs.getString("number"));
+                    course.addProperty("title", rs.getString("title"));
+                    course.addProperty("hours", rs.getString("hours"));
+                    JsonArray requires = new JsonArray();
+                    index.requiredCodes(course.get("code").getAsString()).forEach(requires::add);
+                    course.add("requires", requires);
+                    courses.add(course);
+                }
+            }
+        }
+        if (courses.isEmpty()) {
+            throw new ApiException(404, "College not found.");
+        }
+        return courses;
     }
 
     /**

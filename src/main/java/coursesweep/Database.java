@@ -74,6 +74,8 @@ final class Database {
                         prerequisites TEXT,
                         UNIQUE (college_id, subject, number)
                     )""");
+            // prerequisite_groups: the prerequisites as JSON, all of the groups, any one course per group.
+            addColumnIfMissing(conn, "college_courses", "prerequisite_groups", "TEXT");
             st.executeUpdate("""
                     CREATE TABLE IF NOT EXISTS degrees (
                         id           INTEGER PRIMARY KEY,
@@ -85,6 +87,9 @@ final class Database {
                         total_hours  INTEGER,
                         UNIQUE (college_id, name)
                     )""");
+            // not_listed_hours: JSON list of {name, hours} the plan requires without naming
+            // courses, such as core curriculum areas and free electives.
+            addColumnIfMissing(conn, "degrees", "not_listed_hours", "TEXT");
             // One slot in a degree plan. It is met by any one of its options; choose_hours is set
             // when the student picks that many hours from the options (for example technical electives).
             st.executeUpdate("""
@@ -122,6 +127,16 @@ final class Database {
                         PRIMARY KEY (term, subject, number, section, instructor)
                     )""");
             st.executeUpdate("CREATE INDEX IF NOT EXISTS feedback_course ON feedback_results(subject, number)");
+
+            // A student's chosen major and the catalog courses they have already taken. completed_courses
+            // is a java.util.BitSet (BitSet.toByteArray) whose set bits are college_courses ids; see CourseIndex.
+            st.executeUpdate("""
+                    CREATE TABLE IF NOT EXISTS student_profiles (
+                        user_id           INTEGER PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+                        degree_id         INTEGER REFERENCES degrees(id) ON DELETE SET NULL,
+                        completed_courses BLOB NOT NULL,
+                        updated_at        INTEGER NOT NULL
+                    )""");
 
             // owner_id is NULL for catalog courses and set for a student's custom course.
             st.executeUpdate("""

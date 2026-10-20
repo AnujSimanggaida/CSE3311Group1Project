@@ -2,6 +2,51 @@
 
 What changed in CourseSweep, newest first. Full instructions for every feature are in [README.md](README.md).
 
+## Courses I can take now
+
+### Added
+
+- **"Only show courses I can take now"** in course search. It hides courses whose prerequisites are not among the courses ticked on My degree, and the search says how many sections it hid. It is off by default and works alongside "Hide courses I have already taken".
+- **Same-term prerequisites.** Where the catalog allows "concurrent enrollment", a prerequisite you could sign up for now counts, so a new student still sees CSE 1310. Prerequisites CourseSweep cannot check, such as ALEKS scores, count as met.
+- **New data.** `uta-catalog.json` gains `concurrentOk` for each course. The seed script produces it.
+- **New API option:** `canTake=true` on `GET /api/courses`, with the count in `hiddenNotReady`.
+
+### What you need to do after pulling
+
+Restart the server. Nothing in the database changes.
+
+## Prerequisite auto-check and classes left to graduate
+
+### Added
+
+- **Professional courses first.** On My degree, all 3000- and 4000-level courses come first, then the 1000- and 2000-level ones.
+- **Automatic prerequisites.** Ticking a course ticks every course it certainly requires, through the whole chain, and unticking a course unticks the courses that need it. Prerequisites with alternatives ("or", ALEKS scores, plan-specific rules) are never guessed. Saving applies the same rule on the server.
+- **Classes left to graduate.** A panel on My degree shows how many classes are left in your degree plan, a progress bar, and each open requirement, and it updates as you tick courses. Core curriculum and elective hours the catalog does not list by course are shown separately.
+- **New data.** `uta-catalog.json` gains `prerequisiteGroups` for each course and `notListedHours` for each degree. The seed script produces both.
+- **New API:** `POST /api/progress`. `/api/profile` now includes `progress`, and `/api/colleges/{id}/courses` includes `requires`.
+
+### What you need to do after pulling
+
+Restart the server. The new columns are added automatically. Profiles saved before this update gain their prerequisites the next time they are saved.
+
+## My degree and courses taken
+
+### Added
+
+- **My degree page** (`profile.html`), linked from the top bar and the home page. Choose your college (UTA by default) and your major, then tick the courses you have already taken. The list is grouped by your degree plan, with a search box.
+- **"Hide courses I have already taken"** in course search. It is on by default, and the search says how many sections it hid.
+- **`CourseIndex`.** At startup, every course code in `uta-catalog.json` goes into a `HashMap` from code to bit number.
+- **Courses taken as a `BitSet`.** They are saved in the new `student_profiles` table along with the chosen major.
+- **New API endpoints:** `GET`/`PUT /api/profile`, `GET /api/colleges/{id}/courses`, and the `hideTaken=true` option on `/api/courses`.
+
+### Changed
+
+- **`GET /api/courses` returns more.** It also returns `hiddenTaken`. The 50-result limit now applies after filtering.
+
+### What you need to do after pulling
+
+Restart the server. The new table is created automatically, and no new settings are needed.
+
 ## Real UTA catalog data, colleges and degrees
 
 ### Added

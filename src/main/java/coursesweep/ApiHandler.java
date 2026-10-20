@@ -13,6 +13,7 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.List;
 
 /** The JSON API under /api/. */
@@ -21,6 +22,8 @@ final class ApiHandler implements HttpHandler {
     private static final String SESSION_COOKIE = "cs_session";
     private static final String SCHEDULE_PREFIX = "/api/schedules/";
     private static final String DEGREE_PREFIX = "/api/degrees/";
+    private static final String COLLEGE_PREFIX = "/api/colleges/";
+    private static final String COURSES_SUFFIX = "/courses";
     // Holds the state and PKCE verifier while the browser is away at Google.
     private static final String GOOGLE_COOKIE = "cs_google";
     private static final int GOOGLE_COOKIE_SECONDS = 10 * 60;
@@ -30,16 +33,18 @@ final class ApiHandler implements HttpHandler {
     private final ScheduleService schedules;
     private final AdminService admin;
     private final DegreeService degrees;
+    private final ProfileService profiles;
     private final GoogleAuth google;
     private final boolean secureCookies;
 
     /** google is null when Google sign-in is not configured. */
     ApiHandler(AuthService auth, ScheduleService schedules, AdminService admin, DegreeService degrees,
-               GoogleAuth google, boolean secureCookies) {
+               ProfileService profiles, GoogleAuth google, boolean secureCookies) {
         this.auth = auth;
         this.schedules = schedules;
         this.admin = admin;
         this.degrees = degrees;
+        this.profiles = profiles;
         this.google = google;
         this.secureCookies = secureCookies;
     }
@@ -77,6 +82,16 @@ final class ApiHandler implements HttpHandler {
             return;
         }
 
+        // /api/colleges/{id}/courses: every catalog course of one college, for the "courses taken" list.
+        if (path.startsWith(COLLEGE_PREFIX) && path.endsWith(COURSES_SUFFIX)) {
+            requireMethod(method, "GET");
+            requireUser(exchange);
+            String rawId = path.substring(COLLEGE_PREFIX.length(), path.length() - COURSES_SUFFIX.length());
+            JsonObject result = new JsonObject();
+            result.add("courses", degrees.listCourses(pathId(rawId)));
+            send(exchange, 200, result);
+            return;
+        }
         if (path.startsWith(DEGREE_PREFIX)) {
             requireMethod(method, "GET");
             requireUser(exchange);
@@ -143,8 +158,18 @@ final class ApiHandler implements HttpHandler {
             case "/api/courses" -> {
                 long userId = requireUser(exchange);
                 if (method.equals("GET")) {
+                    // hideTaken=true leaves out catalog courses the student marked as taken in their profile.
+                    // canTake=true leaves out courses whose prerequisites the student has not taken.
+                    boolean hideTaken = "true".equals(queryParam(exchange, "hideTaken"));
+                    boolean canTake = "true".equals(queryParam(exchange, "canTake"));
+                    BitSet completed = hideTaken || canTake ? profiles.completedCourses(userId) : new BitSet();
+                    ScheduleService.SearchResult found = schedules.searchCourses(userId, queryParam(exchange, "q"),
+                            hideTaken ? completed : new BitSet(),
+                            canTake ? profiles.notReady(completed) : new BitSet());
                     JsonObject result = new JsonObject();
-                    result.add("courses", schedules.searchCourses(userId, queryParam(exchange, "q")));
+                    result.add("courses", found.courses());
+                    result.addProperty("hiddenTaken", found.hiddenTaken());
+                    result.addProperty("hiddenNotReady", found.hiddenNotReady());
                     send(exchange, 200, result);
                 } else {
                     requireMethod(method, "POST");
@@ -157,6 +182,25 @@ final class ApiHandler implements HttpHandler {
                             string(body, "end"),
                             optionalNumber(body, "rating")));
                 }
+            }
+            case "/api/profile" -> {
+                long userId = requireUser(exchange);
+                if (method.equals("GET")) {
+                    send(exchange, 200, profiles.getProfile(userId));
+                } else {
+                    requireMethod(method, "PUT");
+                    JsonObject body = readJson(exchange);
+                    Long degreeId = isAbsent(body.get("degreeId")) ? null : id(body, "degreeId");
+                    profiles.saveProfile(userId, degreeId, stringList(body, "completed"));
+                    send(exchange, 200, profiles.getProfile(userId));
+                }
+            }
+            case "/api/progress" -> {
+                // Progress for courses the student is ticking on the My degree page, before saving.
+                requireMethod(method, "POST");
+                requireUser(exchange);
+                JsonObject body = readJson(exchange);
+                send(exchange, 200, profiles.previewProgress(id(body, "degreeId"), stringList(body, "completed")));
             }
             case "/api/colleges" -> {
                 requireMethod(method, "GET");

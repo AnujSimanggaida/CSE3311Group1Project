@@ -51,13 +51,15 @@ final class CatalogSeed {
 
     private CatalogSeed() {}
 
-    static void run(Database db) throws SQLException, IOException {
+    /** Updates the database from the seed files and returns the index of every catalog course code. */
+    static CourseIndex run(Database db) throws SQLException, IOException {
         JsonObject seed = JsonParser.parseString(readResource(CATALOG_RESOURCE)).getAsJsonObject();
         try (Connection conn = db.open()) {
             conn.setAutoCommit(false);
             try {
                 long collegeId = seedCollege(conn, seed);
                 Map<String, Long> courseIds = seedCourses(conn, collegeId, seed);
+                Map<String, List<String>> certain = certainPrerequisites(seed);
                 seedDegrees(conn, collegeId, seed, courseIds);
                 int loaded = loadFeedback(conn);
                 int sections = syncSections(conn, collegeId, seed.getAsJsonObject("college").get("shortName").getAsString());
@@ -65,6 +67,7 @@ final class CatalogSeed {
                 System.out.println("Catalog: " + courseIds.size() + " courses, "
                         + seed.getAsJsonArray("degrees").size() + " degrees, " + sections + " sections"
                         + (loaded > 0 ? " (" + loaded + " feedback term(s) loaded)" : ""));
+                return new CourseIndex(courseIds, certain, prerequisites(seed));
             } catch (SQLException | RuntimeException | IOException e) {
                 conn.rollback();
                 throw e;
@@ -92,11 +95,12 @@ final class CatalogSeed {
     private static Map<String, Long> seedCourses(Connection conn, long collegeId, JsonObject seed) throws SQLException {
         Map<String, Long> ids = new LinkedHashMap<>();
         try (PreparedStatement st = conn.prepareStatement("""
-                INSERT INTO college_courses (college_id, subject, number, title, hours, tccn, prerequisites)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO college_courses (college_id, subject, number, title, hours, tccn, prerequisites,
+                                             prerequisite_groups)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 ON CONFLICT (college_id, subject, number) DO UPDATE SET
-                    title = excluded.title, hours = excluded.hours,
-                    tccn = excluded.tccn, prerequisites = excluded.prerequisites
+                    title = excluded.title, hours = excluded.hours, tccn = excluded.tccn,
+                    prerequisites = excluded.prerequisites, prerequisite_groups = excluded.prerequisite_groups
                 RETURNING id""")) {
             for (JsonElement element : seed.getAsJsonArray("courses")) {
                 JsonObject course = element.getAsJsonObject();
@@ -107,6 +111,7 @@ final class CatalogSeed {
                 st.setString(5, course.get("hours").getAsString());
                 setNullable(st, 6, course.get("tccn"));
                 setNullable(st, 7, course.get("prerequisites"));
+                st.setString(8, course.has("prerequisiteGroups") ? course.get("prerequisiteGroups").toString() : "[]");
                 try (ResultSet rs = st.executeQuery()) {
                     rs.next();
                     ids.put(course.get("code").getAsString(), rs.getLong(1));
@@ -114,6 +119,51 @@ final class CatalogSeed {
             }
         }
         return ids;
+    }
+
+    /**
+     * Each course's certain prerequisites: the groups in prerequisiteGroups that name exactly
+     * one course and nothing else. Groups with alternatives ("CSE 3380 or MATH 3330", or an
+     * ALEKS score shown as "OTHER") cannot tell which course a student took, so they are left out.
+     */
+    private static Map<String, List<String>> certainPrerequisites(JsonObject seed) {
+        Map<String, List<String>> certain = new LinkedHashMap<>();
+        for (JsonElement element : seed.getAsJsonArray("courses")) {
+            JsonObject course = element.getAsJsonObject();
+            List<String> codes = new ArrayList<>();
+            if (course.has("prerequisiteGroups")) {
+                for (JsonElement group : course.getAsJsonArray("prerequisiteGroups")) {
+                    if (group.getAsJsonArray().size() == 1 && !group.getAsJsonArray().get(0).getAsString().equals("OTHER")) {
+                        codes.add(group.getAsJsonArray().get(0).getAsString());
+                    }
+                }
+            }
+            certain.put(course.get("code").getAsString(), codes);
+        }
+        return certain;
+    }
+
+    /** Each course's prerequisiteGroups and concurrentOk from the JSON file. */
+    private static Map<String, CourseIndex.Prerequisites> prerequisites(JsonObject seed) {
+        Map<String, CourseIndex.Prerequisites> all = new LinkedHashMap<>();
+        for (JsonElement element : seed.getAsJsonArray("courses")) {
+            JsonObject course = element.getAsJsonObject();
+            List<List<String>> groups = new ArrayList<>();
+            if (course.has("prerequisiteGroups")) {
+                for (JsonElement group : course.getAsJsonArray("prerequisiteGroups")) {
+                    groups.add(strings(group));
+                }
+            }
+            List<String> concurrent = course.has("concurrentOk") ? strings(course.get("concurrentOk")) : List.of();
+            all.put(course.get("code").getAsString(), new CourseIndex.Prerequisites(groups, concurrent));
+        }
+        return all;
+    }
+
+    private static List<String> strings(JsonElement array) {
+        List<String> out = new ArrayList<>();
+        array.getAsJsonArray().forEach(code -> out.add(code.getAsString()));
+        return out;
     }
 
     /** Inserts or updates each degree and replaces its requirement list. */
@@ -124,11 +174,12 @@ final class CatalogSeed {
             JsonObject degree = element.getAsJsonObject();
             long degreeId;
             try (PreparedStatement st = conn.prepareStatement("""
-                    INSERT INTO degrees (college_id, name, award, catalog_year, catalog_url, total_hours)
-                    VALUES (?, ?, ?, ?, ?, ?)
+                    INSERT INTO degrees (college_id, name, award, catalog_year, catalog_url, total_hours, not_listed_hours)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
                     ON CONFLICT (college_id, name) DO UPDATE SET
                         award = excluded.award, catalog_year = excluded.catalog_year,
-                        catalog_url = excluded.catalog_url, total_hours = excluded.total_hours
+                        catalog_url = excluded.catalog_url, total_hours = excluded.total_hours,
+                        not_listed_hours = excluded.not_listed_hours
                     RETURNING id""")) {
                 st.setLong(1, collegeId);
                 st.setString(2, degree.get("name").getAsString());
@@ -136,6 +187,7 @@ final class CatalogSeed {
                 st.setString(4, catalogYear);
                 st.setString(5, degree.get("catalogUrl").getAsString());
                 st.setInt(6, degree.get("totalHours").getAsInt());
+                st.setString(7, degree.has("notListedHours") ? degree.get("notListedHours").toString() : "[]");
                 try (ResultSet rs = st.executeQuery()) {
                     rs.next();
                     degreeId = rs.getLong(1);

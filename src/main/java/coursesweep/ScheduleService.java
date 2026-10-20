@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.BitSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -28,7 +29,7 @@ final class ScheduleService {
     // Catalog sections link to their catalog course (cc) for its prerequisites.
     private static final String COURSE_SELECT =
             "SELECT c.id, c.owner_id, c.code, c.name, c.professor, c.days, c.start_time, c.end_time, c.rating,"
-                    + " c.time_is_sample, c.rating_responses, c.rating_terms, cc.prerequisites"
+                    + " c.time_is_sample, c.rating_responses, c.rating_terms, cc.prerequisites, c.college_course_id"
                     + " FROM courses c LEFT JOIN college_courses cc ON cc.id = c.college_course_id";
 
     private final Database db;
@@ -38,10 +39,18 @@ final class ScheduleService {
     }
 
     /**
+     * Search results, how many matches were left out because the student has taken them,
+     * and how many because the student is not ready for them yet.
+     */
+    record SearchResult(JsonArray courses, int hiddenTaken, int hiddenNotReady) {}
+
+    /**
      * Finds catalog courses, plus the user's own custom courses, whose code,
      * name or professor contains the query. A blank query lists everything.
+     * Catalog sections whose course is set in {@code taken} or {@code notReady} are left out;
+     * pass empty BitSets to keep them all. Custom courses are never left out.
      */
-    JsonArray searchCourses(long userId, String query) throws SQLException {
+    SearchResult searchCourses(long userId, String query, BitSet taken, BitSet notReady) throws SQLException {
         String term = query == null ? "" : query.trim();
         // Escape LIKE wildcards so the search text is matched literally.
         String like = "%" + term.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_") + "%";
@@ -53,19 +62,30 @@ final class ScheduleService {
                              + " WHERE (c.owner_id IS NULL OR c.owner_id = ?)"
                              + " AND (c.code LIKE ? ESCAPE '\\' OR replace(c.code, ' ', '') LIKE ? ESCAPE '\\'"
                              + "      OR c.name LIKE ? ESCAPE '\\' OR c.professor LIKE ? ESCAPE '\\')"
-                             + " ORDER BY c.owner_id IS NOT NULL, c.code, c.name, c.professor"
-                             + " LIMIT " + MAX_SEARCH_RESULTS)) {
+                             + " ORDER BY c.owner_id IS NOT NULL, c.code, c.name, c.professor")) {
             st.setLong(1, userId);
             for (int i = 2; i <= 5; i++) {
                 st.setString(i, like);
             }
+            // The limit is applied here rather than in SQL, so hiding taken courses
+            // never leaves fewer results than there are to show.
+            int hiddenTaken = 0;
+            int hiddenNotReady = 0;
             try (ResultSet rs = st.executeQuery()) {
                 while (rs.next()) {
-                    courses.add(toJson(rs));
+                    long catalogCourse = rs.getLong("college_course_id");
+                    int bit = rs.wasNull() ? -1 : Math.toIntExact(catalogCourse);
+                    if (bit >= 0 && taken.get(bit)) {
+                        hiddenTaken++;
+                    } else if (bit >= 0 && notReady.get(bit)) {
+                        hiddenNotReady++;
+                    } else if (courses.size() < MAX_SEARCH_RESULTS) {
+                        courses.add(toJson(rs));
+                    }
                 }
             }
+            return new SearchResult(courses, hiddenTaken, hiddenNotReady);
         }
-        return courses;
     }
 
     /** Creates a course visible only to this user. Professor and rating may be null. */

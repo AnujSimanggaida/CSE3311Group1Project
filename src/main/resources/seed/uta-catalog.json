@@ -430,6 +430,28 @@
             ]
           ]
         }
+      ],
+      "notListedHours": [
+        {
+          "name": "Core curriculum: U.S. History",
+          "hours": 6
+        },
+        {
+          "name": "Core curriculum: Political Science",
+          "hours": 6
+        },
+        {
+          "name": "Core curriculum: Language, Philosophy, Culture",
+          "hours": 3
+        },
+        {
+          "name": "Core curriculum: Creative Arts",
+          "hours": 3
+        },
+        {
+          "name": "Free electives",
+          "hours": 3
+        }
       ]
     },
     {
@@ -859,6 +881,24 @@
             ]
           ]
         }
+      ],
+      "notListedHours": [
+        {
+          "name": "Core curriculum: U.S. History",
+          "hours": 6
+        },
+        {
+          "name": "Core curriculum: Political Science",
+          "hours": 6
+        },
+        {
+          "name": "Core curriculum: Language, Philosophy, Culture",
+          "hours": 3
+        },
+        {
+          "name": "Core curriculum: Creative Arts",
+          "hours": 3
+        }
       ]
     },
     {
@@ -1239,6 +1279,24 @@
             ]
           ]
         }
+      ],
+      "notListedHours": [
+        {
+          "name": "Core curriculum: U.S. History",
+          "hours": 6
+        },
+        {
+          "name": "Core curriculum: Political Science",
+          "hours": 6
+        },
+        {
+          "name": "Core curriculum: Language, Philosophy, Culture",
+          "hours": 3
+        },
+        {
+          "name": "Core curriculum: Creative Arts",
+          "hours": 3
+        }
       ]
     }
   ],
@@ -1250,7 +1308,9 @@
       "title": "Biology I for Science Majors: Cell and Molecular Biology",
       "hours": "4",
       "tccn": "BIOL 1406",
-      "prerequisites": null
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
     },
     {
       "code": "CHEM 1441",
@@ -1259,7 +1319,21 @@
       "title": "General Chemistry I",
       "hours": "4",
       "tccn": "CHEM 1411",
-      "prerequisites": "Prerequisite: MATH 1302 or MATH 1303 or MATH 1322 or MATH 1323 or MATH 1324 or MATH 1402 or MATH 1421 or MATH 1426 or ALEKS =/> 61 or Student Group CHEM 1441."
+      "prerequisites": "Prerequisite: MATH 1302 or MATH 1303 or MATH 1322 or MATH 1323 or MATH 1324 or MATH 1402 or MATH 1421 or MATH 1426 or ALEKS =/> 61 or Student Group CHEM 1441.",
+      "prerequisiteGroups": [
+        [
+          "MATH 1302",
+          "MATH 1303",
+          "MATH 1322",
+          "MATH 1323",
+          "MATH 1324",
+          "MATH 1402",
+          "MATH 1421",
+          "MATH 1426",
+          "OTHER"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CHEM 1465",
@@ -1268,7 +1342,23 @@
       "title": "Chemistry for Engineers",
       "hours": "4",
       "tccn": "CHEM 1409",
-      "prerequisites": "Prerequisite: C or better in MATH 1322 or C or better in MATH 1323 or C or better in MATH 1324 or C or better in MATH 1421 (or concurrent enrollment) or MATH 1426 (or concurrent enrollment) or HONR-SC 1426 (or concurrent enrollment) or MATH 2425 (or concurrent enrollment) or HONR-SC 2425 (or concurrent enrollment) or ALEKS =/> 61 or Student Group CHEM 1465."
+      "prerequisites": "Prerequisite: C or better in MATH 1322 or C or better in MATH 1323 or C or better in MATH 1324 or C or better in MATH 1421 (or concurrent enrollment) or MATH 1426 (or concurrent enrollment) or HONR-SC 1426 (or concurrent enrollment) or MATH 2425 (or concurrent enrollment) or HONR-SC 2425 (or concurrent enrollment) or ALEKS =/> 61 or Student Group CHEM 1465.",
+      "prerequisiteGroups": [
+        [
+          "MATH 1322",
+          "MATH 1323",
+          "MATH 1324",
+          "MATH 1421",
+          "MATH 1426",
+          "MATH 2425",
+          "OTHER"
+        ]
+      ],
+      "concurrentOk": [
+        "MATH 1421",
+        "MATH 1426",
+        "MATH 2425"
+      ]
     },
     {
       "code": "COMS 2302",
@@ -1277,7 +1367,13 @@
       "title": "Professional and Technical Communication for Science and Engineering",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisites: 30 or more hours earned and ENGL 1301 or Student Group."
+      "prerequisites": "Prerequisites: 30 or more hours earned and ENGL 1301 or Student Group.",
+      "prerequisiteGroups": [
+        [
+          "ENGL 1301"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 1106",
@@ -1286,7 +1382,13 @@
       "title": "Introduction to Computer Science and Engineering",
       "hours": "1",
       "tccn": null,
-      "prerequisites": "Prerequisite: C or better in CSE 1310."
+      "prerequisites": "Prerequisite: C or better in CSE 1310.",
+      "prerequisiteGroups": [
+        [
+          "CSE 1310"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 1310",
@@ -1295,7 +1397,32 @@
       "title": "Introduction to Computers & Programming",
       "hours": "3",
       "tccn": "COSC 1320",
-      "prerequisites": "Prerequisite: C or better in MATH 1302 or MATH 1402 or C or better in (or concurrent enrollment in) a subsequent mathematics course (MATH 1421, MATH 1426, MATH 2425, MATH 2326, MATH 3330, HONR-SC 1426 or HONR-SC 2425) or a qualifying score on the ALEKS PPL and C or better in UNIV 1131 (or concurrent enrollment) or ENGR 1101 (or concurrent enrollment)."
+      "prerequisites": "Prerequisite: C or better in MATH 1302 or MATH 1402 or C or better in (or concurrent enrollment in) a subsequent mathematics course (MATH 1421, MATH 1426, MATH 2425, MATH 2326, MATH 3330, HONR-SC 1426 or HONR-SC 2425) or a qualifying score on the ALEKS PPL and C or better in UNIV 1131 (or concurrent enrollment) or ENGR 1101 (or concurrent enrollment).",
+      "prerequisiteGroups": [
+        [
+          "MATH 1302",
+          "MATH 1402",
+          "MATH 1421",
+          "MATH 1426",
+          "MATH 2425",
+          "MATH 2326",
+          "MATH 3330",
+          "OTHER"
+        ],
+        [
+          "UNIV 1131",
+          "ENGR 1101"
+        ]
+      ],
+      "concurrentOk": [
+        "ENGR 1101",
+        "MATH 1421",
+        "MATH 1426",
+        "MATH 2326",
+        "MATH 2425",
+        "MATH 3330",
+        "UNIV 1131"
+      ]
     },
     {
       "code": "CSE 1320",
@@ -1304,7 +1431,33 @@
       "title": "Intermediate Programming",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: C or better in CSE 1310 and C or better in (or concurrent enrollment in) (MATH 1421, MATH 1426, MATH 2425, MATH 2326, MATH 3330, HONR-SC 1426, or HONR-SC 2425) or a qualifying score on the ALEKS PPL and C or better in UNIV 1131 (or concurrent enrollment) or ENGR 1101 (or concurrent enrollment.)."
+      "prerequisites": "Prerequisite: C or better in CSE 1310 and C or better in (or concurrent enrollment in) (MATH 1421, MATH 1426, MATH 2425, MATH 2326, MATH 3330, HONR-SC 1426, or HONR-SC 2425) or a qualifying score on the ALEKS PPL and C or better in UNIV 1131 (or concurrent enrollment) or ENGR 1101 (or concurrent enrollment.).",
+      "prerequisiteGroups": [
+        [
+          "CSE 1310"
+        ],
+        [
+          "MATH 1421",
+          "MATH 1426",
+          "MATH 2425",
+          "MATH 2326",
+          "MATH 3330",
+          "OTHER"
+        ],
+        [
+          "UNIV 1131",
+          "ENGR 1101"
+        ]
+      ],
+      "concurrentOk": [
+        "ENGR 1101",
+        "MATH 1421",
+        "MATH 1426",
+        "MATH 2326",
+        "MATH 2425",
+        "MATH 3330",
+        "UNIV 1131"
+      ]
     },
     {
       "code": "CSE 1325",
@@ -1313,7 +1466,13 @@
       "title": "Object-Oriented Programming",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: CSE 1320."
+      "prerequisites": "Prerequisite: CSE 1320.",
+      "prerequisiteGroups": [
+        [
+          "CSE 1320"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 1326",
@@ -1322,7 +1481,13 @@
       "title": "Object-Oriented Programming in C++",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: CSE 1320."
+      "prerequisites": "Prerequisite: CSE 1320.",
+      "prerequisiteGroups": [
+        [
+          "CSE 1320"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 2312",
@@ -1331,7 +1496,17 @@
       "title": "Computer Organization & Assembly Language Programming",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: a C or better in CSE 1320 and a C or better in CSE 1205 or CSE 1106."
+      "prerequisites": "Prerequisite: a C or better in CSE 1320 and a C or better in CSE 1205 or CSE 1106.",
+      "prerequisiteGroups": [
+        [
+          "CSE 1320"
+        ],
+        [
+          "CSE 1205",
+          "CSE 1106"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 2315",
@@ -1340,7 +1515,19 @@
       "title": "Discrete Structures",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: C or better in CSE 1310 and C or better in MATH 1426 (or C or better in or concurrent enrollment in MATH 2425)."
+      "prerequisites": "Prerequisite: C or better in CSE 1310 and C or better in MATH 1426 (or C or better in or concurrent enrollment in MATH 2425).",
+      "prerequisiteGroups": [
+        [
+          "CSE 1310"
+        ],
+        [
+          "MATH 1426",
+          "MATH 2425"
+        ]
+      ],
+      "concurrentOk": [
+        "MATH 2425"
+      ]
     },
     {
       "code": "CSE 2440",
@@ -1349,7 +1536,16 @@
       "title": "Circuit Analysis",
       "hours": "4",
       "tccn": null,
-      "prerequisites": "Prerequisite: Grade C or better in MATH 2425 and PHYS 1444."
+      "prerequisites": "Prerequisite: Grade C or better in MATH 2425 and PHYS 1444.",
+      "prerequisiteGroups": [
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 2441",
@@ -1358,7 +1554,16 @@
       "title": "Digital Logic Design I",
       "hours": "4",
       "tccn": null,
-      "prerequisites": "Prerequisite: CSE 1320 and CSE 2315."
+      "prerequisites": "Prerequisite: CSE 1320 and CSE 2315.",
+      "prerequisiteGroups": [
+        [
+          "CSE 1320"
+        ],
+        [
+          "CSE 2315"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 3302",
@@ -1367,7 +1572,19 @@
       "title": "Programming Languages",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: C or better in each of the following: CSE 1325, CSE 2312 and CSE 3318."
+      "prerequisites": "Prerequisite: C or better in each of the following: CSE 1325, CSE 2312 and CSE 3318.",
+      "prerequisiteGroups": [
+        [
+          "CSE 1325"
+        ],
+        [
+          "CSE 2312"
+        ],
+        [
+          "CSE 3318"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 3310",
@@ -1376,7 +1593,19 @@
       "title": "Fundamentals of Software Engineering",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: C or better in each of the following: CSE 1320, CSE 1325 and CSE 2315."
+      "prerequisites": "Prerequisite: C or better in each of the following: CSE 1320, CSE 1325 and CSE 2315.",
+      "prerequisiteGroups": [
+        [
+          "CSE 1320"
+        ],
+        [
+          "CSE 1325"
+        ],
+        [
+          "CSE 2315"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 3311",
@@ -1385,7 +1614,16 @@
       "title": "Object-Oriented Software Engineering",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: C or better in each of the following: CSE 3310 and CSE 3318."
+      "prerequisites": "Prerequisite: C or better in each of the following: CSE 3310 and CSE 3318.",
+      "prerequisiteGroups": [
+        [
+          "CSE 3310"
+        ],
+        [
+          "CSE 3318"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 3313",
@@ -1394,7 +1632,21 @@
       "title": "Introduction to Signal Processing",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisites: C or better in each of the following: CSE 3318, CSE 3380 or MATH 3330, and IE 3301 or MATH 3313."
+      "prerequisites": "Prerequisites: C or better in each of the following: CSE 3318, CSE 3380 or MATH 3330, and IE 3301 or MATH 3313.",
+      "prerequisiteGroups": [
+        [
+          "CSE 3318"
+        ],
+        [
+          "CSE 3380",
+          "MATH 3330"
+        ],
+        [
+          "IE 3301",
+          "MATH 3313"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 3314",
@@ -1403,7 +1655,16 @@
       "title": "Professional Practices",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: C or better in CSE 3318 and COMS 2302."
+      "prerequisites": "Prerequisite: C or better in CSE 3318 and COMS 2302.",
+      "prerequisiteGroups": [
+        [
+          "CSE 3318"
+        ],
+        [
+          "COMS 2302"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 3315",
@@ -1412,7 +1673,13 @@
       "title": "Theoretical Concepts in Computer Science and Engineering",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: C or better in CSE 2315."
+      "prerequisites": "Prerequisite: C or better in CSE 2315.",
+      "prerequisiteGroups": [
+        [
+          "CSE 2315"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 3318",
@@ -1421,7 +1688,16 @@
       "title": "Algorithms & Data Structures",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: CSE 1320 and CSE 2315."
+      "prerequisites": "Prerequisite: CSE 1320 and CSE 2315.",
+      "prerequisiteGroups": [
+        [
+          "CSE 1320"
+        ],
+        [
+          "CSE 2315"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 3320",
@@ -1430,7 +1706,13 @@
       "title": "Operating Systems",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: C or better in CSE 2312."
+      "prerequisites": "Prerequisite: C or better in CSE 2312.",
+      "prerequisiteGroups": [
+        [
+          "CSE 2312"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 3323",
@@ -1439,7 +1721,13 @@
       "title": "Electronics",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: C or better in CSE 2440."
+      "prerequisites": "Prerequisite: C or better in CSE 2440.",
+      "prerequisiteGroups": [
+        [
+          "CSE 2440"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 3330",
@@ -1448,7 +1736,16 @@
       "title": "Database Systems and File Structures",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: C or better in each of the following: CSE 1325 and CSE 3318."
+      "prerequisites": "Prerequisite: C or better in each of the following: CSE 1325 and CSE 3318.",
+      "prerequisiteGroups": [
+        [
+          "CSE 1325"
+        ],
+        [
+          "CSE 3318"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 3340",
@@ -1457,7 +1754,16 @@
       "title": "Introduction to Human Computer Interaction",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: C or better in CSE 3318, and C or better in CSE 3310."
+      "prerequisites": "Prerequisite: C or better in CSE 3318, and C or better in CSE 3310.",
+      "prerequisiteGroups": [
+        [
+          "CSE 3318"
+        ],
+        [
+          "CSE 3310"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 3341",
@@ -1466,7 +1772,13 @@
       "title": "Digital Logic Design II",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: C or better in CSE 2441."
+      "prerequisites": "Prerequisite: C or better in CSE 2441.",
+      "prerequisiteGroups": [
+        [
+          "CSE 2441"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 3380",
@@ -1475,7 +1787,13 @@
       "title": "Linear Algebra for CSE",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: C or better in CSE 2315."
+      "prerequisites": "Prerequisite: C or better in CSE 2315.",
+      "prerequisiteGroups": [
+        [
+          "CSE 2315"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 3442",
@@ -1484,7 +1802,19 @@
       "title": "Embedded Systems I",
       "hours": "4",
       "tccn": null,
-      "prerequisites": "Prerequisite: C or better in each of the following: CSE 2312, CSE 2440 and CSE 2441."
+      "prerequisites": "Prerequisite: C or better in each of the following: CSE 2312, CSE 2440 and CSE 2441.",
+      "prerequisiteGroups": [
+        [
+          "CSE 2312"
+        ],
+        [
+          "CSE 2440"
+        ],
+        [
+          "CSE 2441"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 4303",
@@ -1493,7 +1823,17 @@
       "title": "Computer Graphics",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following: CSE 3318, and either CSE 3380 or MATH 3330."
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following: CSE 3318, and either CSE 3380 or MATH 3330.",
+      "prerequisiteGroups": [
+        [
+          "CSE 3318"
+        ],
+        [
+          "CSE 3380",
+          "MATH 3330"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 4304",
@@ -1502,7 +1842,14 @@
       "title": "Game Design and Development",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3380 or MATH 3330."
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3380 or MATH 3330.",
+      "prerequisiteGroups": [
+        [
+          "CSE 3380",
+          "MATH 3330"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 4305",
@@ -1511,7 +1858,16 @@
       "title": "Compilers for Algorithmic Languages",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in the following: CSE 3302 and CSE 3315."
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in the following: CSE 3302 and CSE 3315.",
+      "prerequisiteGroups": [
+        [
+          "CSE 3302"
+        ],
+        [
+          "CSE 3315"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 4308",
@@ -1520,7 +1876,17 @@
       "title": "Artificial Intelligence",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following: CSE 3318 and (IE 3301 or MATH 3313)."
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following: CSE 3318 and (IE 3301 or MATH 3313).",
+      "prerequisiteGroups": [
+        [
+          "CSE 3318"
+        ],
+        [
+          "IE 3301",
+          "MATH 3313"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 4309",
@@ -1529,7 +1895,21 @@
       "title": "Fundamentals of Machine Learning",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisites: Admitted into an Engineering Professional Program. C or better in each of the following: CSE 3318, IE 3301 or MATH 3313, and CSE 3380 or MATH 3330."
+      "prerequisites": "Prerequisites: Admitted into an Engineering Professional Program. C or better in each of the following: CSE 3318, IE 3301 or MATH 3313, and CSE 3380 or MATH 3330.",
+      "prerequisiteGroups": [
+        [
+          "CSE 3318"
+        ],
+        [
+          "IE 3301",
+          "MATH 3313"
+        ],
+        [
+          "CSE 3380",
+          "MATH 3330"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 4310",
@@ -1538,7 +1918,21 @@
       "title": "Fundamentals of Computer Vision",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following: CSE 3318, IE 3301 or MATH 3313, and CSE 3380 or MATH 3330."
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following: CSE 3318, IE 3301 or MATH 3313, and CSE 3380 or MATH 3330.",
+      "prerequisiteGroups": [
+        [
+          "CSE 3318"
+        ],
+        [
+          "IE 3301",
+          "MATH 3313"
+        ],
+        [
+          "CSE 3380",
+          "MATH 3330"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 4311",
@@ -1547,7 +1941,18 @@
       "title": "Neural Networks and Deep Learning",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3380 or MATH 3330, and C or better in IE 3301 or MATH 3313."
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3380 or MATH 3330, and C or better in IE 3301 or MATH 3313.",
+      "prerequisiteGroups": [
+        [
+          "CSE 3380",
+          "MATH 3330"
+        ],
+        [
+          "IE 3301",
+          "MATH 3313"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 4316",
@@ -1556,7 +1961,18 @@
       "title": "Computer System Design Project I",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisites: Admitted into a CSE Professional Program. For academic plan CS__CS or SE__SE, C or better in CSE 3310 and CSE 3320, and C or better in CSE 3314 (or concurrently). For academic plan CSE_CP, C or better in CSE 3320 and CSE 3442, and C or better in CSE 3314 (or concurrently)."
+      "prerequisites": "Prerequisites: Admitted into a CSE Professional Program. For academic plan CS__CS or SE__SE, C or better in CSE 3310 and CSE 3320, and C or better in CSE 3314 (or concurrently). For academic plan CSE_CP, C or better in CSE 3320 and CSE 3442, and C or better in CSE 3314 (or concurrently).",
+      "prerequisiteGroups": [
+        [
+          "CSE 3320"
+        ],
+        [
+          "CSE 3314"
+        ]
+      ],
+      "concurrentOk": [
+        "CSE 3314"
+      ]
     },
     {
       "code": "CSE 4317",
@@ -1565,7 +1981,13 @@
       "title": "Computer System Design Project II",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 4316 and continuation with the same team."
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 4316 and continuation with the same team.",
+      "prerequisiteGroups": [
+        [
+          "CSE 4316"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 4321",
@@ -1574,7 +1996,13 @@
       "title": "Software Testing & Maintenance",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3310."
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3310.",
+      "prerequisiteGroups": [
+        [
+          "CSE 3310"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 4322",
@@ -1583,7 +2011,13 @@
       "title": "Software Project Management",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3310."
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3310.",
+      "prerequisiteGroups": [
+        [
+          "CSE 3310"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 4323",
@@ -1592,7 +2026,13 @@
       "title": "Quantitative Computer Architecture",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3320."
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3320.",
+      "prerequisiteGroups": [
+        [
+          "CSE 3320"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 4331",
@@ -1601,7 +2041,13 @@
       "title": "Database Implementation and Theory",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3330."
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3330.",
+      "prerequisiteGroups": [
+        [
+          "CSE 3330"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 4333",
@@ -1610,7 +2056,16 @@
       "title": "Cloud Computing Fundamentals and Applications",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3330, and C or better in CSE 3320."
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3330, and C or better in CSE 3320.",
+      "prerequisiteGroups": [
+        [
+          "CSE 3330"
+        ],
+        [
+          "CSE 3320"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 4334",
@@ -1619,7 +2074,17 @@
       "title": "Data Mining",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following: IE 3301 (or MATH 3313). Co-requisite: CSE 3330."
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following: IE 3301 (or MATH 3313). Co-requisite: CSE 3330.",
+      "prerequisiteGroups": [
+        [
+          "IE 3301",
+          "MATH 3313"
+        ],
+        [
+          "CSE 3330"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 4342",
@@ -1628,7 +2093,19 @@
       "title": "Embedded Systems II",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following: CSE 3323, CSE 3442, and CSE 3313."
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following: CSE 3323, CSE 3442, and CSE 3313.",
+      "prerequisiteGroups": [
+        [
+          "CSE 3323"
+        ],
+        [
+          "CSE 3442"
+        ],
+        [
+          "CSE 3313"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 4344",
@@ -1637,7 +2114,13 @@
       "title": "Computer Network Organization",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3320."
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3320.",
+      "prerequisiteGroups": [
+        [
+          "CSE 3320"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 4345",
@@ -1646,7 +2129,21 @@
       "title": "Computational Methods",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following IE 3301 or MATH 3313, CSE 3318, and either CSE 3380 or MATH 3330."
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following IE 3301 or MATH 3313, CSE 3318, and either CSE 3380 or MATH 3330.",
+      "prerequisiteGroups": [
+        [
+          "IE 3301",
+          "MATH 3313"
+        ],
+        [
+          "CSE 3318"
+        ],
+        [
+          "CSE 3380",
+          "MATH 3330"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 4351",
@@ -1655,7 +2152,13 @@
       "title": "Parallel Processing",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3320."
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3320.",
+      "prerequisiteGroups": [
+        [
+          "CSE 3320"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 4352",
@@ -1664,7 +2167,13 @@
       "title": "IOT and Networking",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3442."
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3442.",
+      "prerequisiteGroups": [
+        [
+          "CSE 3442"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 4354",
@@ -1673,7 +2182,16 @@
       "title": "Real-Time Operating Systems",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in both CSE 3320 and CSE 3442."
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in both CSE 3320 and CSE 3442.",
+      "prerequisiteGroups": [
+        [
+          "CSE 3320"
+        ],
+        [
+          "CSE 3442"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 4355",
@@ -1682,7 +2200,16 @@
       "title": "Electromechanical Systems and Sensors",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in both CSE 3323 and CSE 3442."
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in both CSE 3323 and CSE 3442.",
+      "prerequisiteGroups": [
+        [
+          "CSE 3323"
+        ],
+        [
+          "CSE 3442"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 4356",
@@ -1691,7 +2218,13 @@
       "title": "System on Chip (SOC) Design",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3442."
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3442.",
+      "prerequisiteGroups": [
+        [
+          "CSE 3442"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 4358",
@@ -1700,7 +2233,13 @@
       "title": "Microprocessor Systems",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3442."
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3442.",
+      "prerequisiteGroups": [
+        [
+          "CSE 3442"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 4360",
@@ -1709,7 +2248,20 @@
       "title": "Autonomous Robot Design and Programming",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following: CSE 3318, CSE 3320 and CSE 3380 (or MATH 3330)."
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following: CSE 3318, CSE 3320 and CSE 3380 (or MATH 3330).",
+      "prerequisiteGroups": [
+        [
+          "CSE 3318"
+        ],
+        [
+          "CSE 3320"
+        ],
+        [
+          "CSE 3380",
+          "MATH 3330"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 4361",
@@ -1718,7 +2270,13 @@
       "title": "Software Design Patterns",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisites: Admitted into an Engineering Professional Program. C or better in CSE 3311."
+      "prerequisites": "Prerequisites: Admitted into an Engineering Professional Program. C or better in CSE 3311.",
+      "prerequisiteGroups": [
+        [
+          "CSE 3311"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 4372",
@@ -1727,7 +2285,13 @@
       "title": "RISC Processor Design",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3442."
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3442.",
+      "prerequisiteGroups": [
+        [
+          "CSE 3442"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 4373",
@@ -1736,7 +2300,13 @@
       "title": "General Purpose GPU Programming",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisites: Admitted into an Engineering Professional Program. C or better in CSE 3320."
+      "prerequisites": "Prerequisites: Admitted into an Engineering Professional Program. C or better in CSE 3320.",
+      "prerequisiteGroups": [
+        [
+          "CSE 3320"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 4376",
@@ -1745,7 +2315,13 @@
       "title": "Digital Communication Systems",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3313."
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3313.",
+      "prerequisiteGroups": [
+        [
+          "CSE 3313"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 4377",
@@ -1754,7 +2330,16 @@
       "title": "Wireless Communication Systems",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3313 and CSE 3442."
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3313 and CSE 3442.",
+      "prerequisiteGroups": [
+        [
+          "CSE 3313"
+        ],
+        [
+          "CSE 3442"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 4378",
@@ -1763,7 +2348,9 @@
       "title": "Introduction to Unmanned Vehicle Systems",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admission to a professional engineering or science program."
+      "prerequisites": "Prerequisite: Admission to a professional engineering or science program.",
+      "prerequisiteGroups": [],
+      "concurrentOk": []
     },
     {
       "code": "CSE 4379",
@@ -1772,7 +2359,13 @@
       "title": "Unmanned Vehicle System Development",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: B or better in CSE 4378 and admission to the UVS certificate program."
+      "prerequisites": "Prerequisite: B or better in CSE 4378 and admission to the UVS certificate program.",
+      "prerequisiteGroups": [
+        [
+          "CSE 4378"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 4380",
@@ -1781,7 +2374,13 @@
       "title": "Information Security",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3320."
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3320.",
+      "prerequisiteGroups": [
+        [
+          "CSE 3320"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 4381",
@@ -1790,7 +2389,18 @@
       "title": "Information Security II",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3320 and C or better in CSE 4344 (or concurrently)."
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3320 and C or better in CSE 4344 (or concurrently).",
+      "prerequisiteGroups": [
+        [
+          "CSE 3320"
+        ],
+        [
+          "CSE 4344"
+        ]
+      ],
+      "concurrentOk": [
+        "CSE 4344"
+      ]
     },
     {
       "code": "CSE 4382",
@@ -1799,7 +2409,13 @@
       "title": "Secure Programming",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3320."
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3320.",
+      "prerequisiteGroups": [
+        [
+          "CSE 3320"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "CSE 4392",
@@ -1808,7 +2424,9 @@
       "title": "Special Topics",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: consent of instructor."
+      "prerequisites": "Prerequisite: consent of instructor.",
+      "prerequisiteGroups": [],
+      "concurrentOk": []
     },
     {
       "code": "ECON 2305",
@@ -1817,7 +2435,9 @@
       "title": "Principles of Macroeconomics",
       "hours": "3",
       "tccn": "ECON 2301",
-      "prerequisites": null
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
     },
     {
       "code": "ENGL 1301",
@@ -1826,7 +2446,9 @@
       "title": "Rhetoric and Composition I",
       "hours": "3",
       "tccn": "ENGL 1301",
-      "prerequisites": null
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
     },
     {
       "code": "ENGR 1101",
@@ -1835,7 +2457,9 @@
       "title": "Entrance to Engineering for Transfer Students",
       "hours": "1",
       "tccn": null,
-      "prerequisites": null
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
     },
     {
       "code": "ENGR 4302",
@@ -1844,7 +2468,9 @@
       "title": "Engineering Entrepreneurship",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Student must be in an engineering professional program."
+      "prerequisites": "Prerequisite: Student must be in an engineering professional program.",
+      "prerequisiteGroups": [],
+      "concurrentOk": []
     },
     {
       "code": "IE 2308",
@@ -1853,7 +2479,15 @@
       "title": "Economics for Engineers",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisites: MATH 1426 or concurrent enrollment."
+      "prerequisites": "Prerequisites: MATH 1426 or concurrent enrollment.",
+      "prerequisiteGroups": [
+        [
+          "MATH 1426"
+        ]
+      ],
+      "concurrentOk": [
+        "MATH 1426"
+      ]
     },
     {
       "code": "IE 3301",
@@ -1862,7 +2496,13 @@
       "title": "Engineering Probability",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: MATH 2425."
+      "prerequisites": "Prerequisite: MATH 2425.",
+      "prerequisiteGroups": [
+        [
+          "MATH 2425"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "IE 3315",
@@ -1871,7 +2511,15 @@
       "title": "Operations Research I",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: MATH 2326 or concurrent enrollment."
+      "prerequisites": "Prerequisite: MATH 2326 or concurrent enrollment.",
+      "prerequisiteGroups": [
+        [
+          "MATH 2326"
+        ]
+      ],
+      "concurrentOk": [
+        "MATH 2326"
+      ]
     },
     {
       "code": "MATH 1426",
@@ -1880,7 +2528,9 @@
       "title": "Calculus I",
       "hours": "4",
       "tccn": "MATH 2413",
-      "prerequisites": "Prerequisite: A qualifying score on the Math Placement Test (MPT) or ALEKS PPL is required to register for this course, or student group."
+      "prerequisites": "Prerequisite: A qualifying score on the Math Placement Test (MPT) or ALEKS PPL is required to register for this course, or student group.",
+      "prerequisiteGroups": [],
+      "concurrentOk": []
     },
     {
       "code": "MATH 2326",
@@ -1889,7 +2539,13 @@
       "title": "Calculus III",
       "hours": "3",
       "tccn": "MATH 2315",
-      "prerequisites": "Prerequisite: C or better in MATH 2425 or HONR-SC 2425, or student group."
+      "prerequisites": "Prerequisite: C or better in MATH 2425 or HONR-SC 2425, or student group.",
+      "prerequisiteGroups": [
+        [
+          "MATH 2425"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "MATH 2425",
@@ -1898,7 +2554,13 @@
       "title": "Calculus II",
       "hours": "4",
       "tccn": "MATH 2414",
-      "prerequisites": "Prerequisite: C or better in MATH 1426 or HONR-SC 1426, or student group."
+      "prerequisites": "Prerequisite: C or better in MATH 1426 or HONR-SC 1426, or student group.",
+      "prerequisiteGroups": [
+        [
+          "MATH 1426"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "MATH 3313",
@@ -1907,7 +2569,13 @@
       "title": "Introduction to Probability",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: C or better in MATH 2326, or student group."
+      "prerequisites": "Prerequisite: C or better in MATH 2326, or student group.",
+      "prerequisiteGroups": [
+        [
+          "MATH 2326"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "MATH 3330",
@@ -1916,7 +2584,13 @@
       "title": "Introduction to Linear Algebra and Vector Spaces",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: C or better in MATH 2425, or student group."
+      "prerequisites": "Prerequisite: C or better in MATH 2425, or student group.",
+      "prerequisiteGroups": [
+        [
+          "MATH 2425"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "PHYS 1443",
@@ -1925,7 +2599,13 @@
       "title": "General Technical Physics I",
       "hours": "4",
       "tccn": "PHYS 2425",
-      "prerequisites": "Prerequisite: MATH 1426 or consent of instructor."
+      "prerequisites": "Prerequisite: MATH 1426 or consent of instructor.",
+      "prerequisiteGroups": [
+        [
+          "MATH 1426"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "PHYS 1444",
@@ -1934,7 +2614,18 @@
       "title": "General Technical Physics II",
       "hours": "4",
       "tccn": "PHYS 2426",
-      "prerequisites": "Prerequisites: PHYS 1443 or equivalent and MATH 2425 or concurrent enrollment."
+      "prerequisites": "Prerequisites: PHYS 1443 or equivalent and MATH 2425 or concurrent enrollment.",
+      "prerequisiteGroups": [
+        [
+          "PHYS 1443"
+        ],
+        [
+          "MATH 2425"
+        ]
+      ],
+      "concurrentOk": [
+        "MATH 2425"
+      ]
     },
     {
       "code": "PHYS 3183",
@@ -1943,7 +2634,15 @@
       "title": "Modern Physics Laboratory",
       "hours": "1",
       "tccn": null,
-      "prerequisites": "Prerequisite: PHYS 3313 or concurrent enrollment."
+      "prerequisites": "Prerequisite: PHYS 3313 or concurrent enrollment.",
+      "prerequisiteGroups": [
+        [
+          "PHYS 3313"
+        ]
+      ],
+      "concurrentOk": [
+        "PHYS 3313"
+      ]
     },
     {
       "code": "PHYS 3313",
@@ -1952,7 +2651,16 @@
       "title": "Introduction to Modern Physics",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisites: PHYS 1444 or equivalent and MATH 2425."
+      "prerequisites": "Prerequisites: PHYS 1444 or equivalent and MATH 2425.",
+      "prerequisiteGroups": [
+        [
+          "PHYS 1444"
+        ],
+        [
+          "MATH 2425"
+        ]
+      ],
+      "concurrentOk": []
     },
     {
       "code": "UNIV 1101",
@@ -1961,7 +2669,9 @@
       "title": "Career Preparation and Student Success",
       "hours": "1",
       "tccn": null,
-      "prerequisites": null
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
     },
     {
       "code": "UNIV 1131",
@@ -1970,7 +2680,9 @@
       "title": "Student Success",
       "hours": "1",
       "tccn": null,
-      "prerequisites": null
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
     }
   ]
 }

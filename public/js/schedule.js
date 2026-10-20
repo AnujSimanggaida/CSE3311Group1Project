@@ -33,6 +33,8 @@ const viewTitles = {
 };
 
 const searchInput = document.getElementById('search-input');
+const hideTaken = document.getElementById('hide-taken');
+const canTake = document.getElementById('can-take');
 const searchStatus = document.getElementById('search-status');
 const searchResults = document.getElementById('search-results');
 
@@ -256,7 +258,10 @@ async function runSearch() {
   let found;
   try {
     const query = encodeURIComponent(searchInput.value.trim());
-    found = (await Auth.request('GET', `/api/courses?q=${query}`)).courses;
+    // With hideTaken the server leaves out courses marked as taken on the My degree page;
+    // with canTake, courses whose prerequisites are not among them.
+    found = await Auth.request('GET',
+      `/api/courses?q=${query}&hideTaken=${hideTaken.checked}&canTake=${canTake.checked}`);
   } catch (err) {
     if (searchId !== latestSearch) return;
     searchResults.replaceChildren();
@@ -267,9 +272,18 @@ async function runSearch() {
   // Ignore a slow response that a newer search has already replaced.
   if (searchId !== latestSearch) return;
 
-  searchStatus.textContent = 'No courses match that search.';
-  searchStatus.hidden = found.length > 0;
-  searchResults.replaceChildren(...found.map((course) => {
+  const sections = (n) => `${n} section${n === 1 ? '' : 's'}`;
+  let hidden = '';
+  if (found.hiddenTaken > 0) {
+    hidden += ` ${sections(found.hiddenTaken)} of courses you have taken ${found.hiddenTaken === 1 ? 'is' : 'are'} hidden.`;
+  }
+  if (found.hiddenNotReady > 0) {
+    hidden += ` ${sections(found.hiddenNotReady)} of courses whose prerequisites you have not taken `
+      + `${found.hiddenNotReady === 1 ? 'is' : 'are'} hidden.`;
+  }
+  searchStatus.textContent = found.courses.length > 0 ? hidden.trim() : `No courses match that search.${hidden}`;
+  searchStatus.hidden = searchStatus.textContent === '';
+  searchResults.replaceChildren(...found.courses.map((course) => {
     const added = courses.some((c) => c.id === course.id);
     const add = el('button', 'btn-secondary', added ? 'Added' : 'Add');
     add.type = 'button';
@@ -280,6 +294,8 @@ async function runSearch() {
   }));
 }
 
+hideTaken.addEventListener('change', runSearch);
+canTake.addEventListener('change', runSearch);
 searchInput.addEventListener('input', () => {
   clearTimeout(searchTimer);
   searchTimer = setTimeout(runSearch, 200);

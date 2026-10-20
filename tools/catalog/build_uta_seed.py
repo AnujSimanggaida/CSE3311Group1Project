@@ -86,8 +86,93 @@ def read_courses(folder):
                 "hours": hours,
                 "tccn": tccn.strip() if tccn else None,
                 "prerequisites": desc[start:] if start >= 0 else None,
+                "prerequisiteGroups": parse_prerequisites(desc[start:]) if start >= 0 else [],
+                "concurrentOk": concurrent_codes(desc[start:]) if start >= 0 else [],
             }
     return courses
+
+
+# ---------- Prerequisite structure ----------
+#
+# The catalog states prerequisites in English. parse_prerequisites turns that into
+# "all of these groups", where each group lists the courses that can satisfy it:
+#     "C or better in CSE 3318, CSE 3380 or MATH 3330, and IE 3301 or MATH 3313"
+#     -> [["CSE 3318"], ["CSE 3380", "MATH 3330"], ["IE 3301", "MATH 3313"]]
+# A group also holds "OTHER" when something other than a course can satisfy it,
+# such as an ALEKS placement score. Only groups with exactly one course and no
+# "OTHER" are certain, so only those are checked off automatically in the app.
+# Review the output when the catalog changes; it is plain JSON and can be fixed by hand.
+
+PREREQ_CODE = re.compile(r"\b[A-Z]{2,5}(?:-[A-Z]{2})? \d{4}\b")
+NON_COURSE = re.compile(r"ALEKS|placement|qualifying score", re.I)
+# Wording that does not change which courses are needed. Exceptions such as "student
+# group" or "consent of instructor" are rare, so they do not make a course optional.
+NOISE = [
+    r"Prerequisites?:|Co-?requisites?:",
+    r"\(?or concurrent(?:ly| enrollment)(?: in)?\.?\)?",
+    r"or equivalent",
+    r",?\s*or student group(?: [A-Z]+ \d{4})?",
+    r"or consent of instructor",
+    r"\ba?\s*(?:Grade )?[ABC] or better in(?: each of the following:?| the following:?| both)?",
+    r"\b(?:each of the following:?|the following:?|both|either)\b",
+]
+
+
+def _groups(sentence):
+    for pattern in NOISE:
+        sentence = re.sub(pattern, " ", sentence, flags=re.I)
+    # "(A, B or C)" lists alternatives; "X (or Y)" adds one. Either way the parentheses mean "or".
+    sentence = re.sub(r"\(\s*or\s+([^()]*)\)", r" or \1", sentence)
+    sentence = re.sub(r"\(([^()]*\d{4}[^()]*)\)", lambda m: " " + re.sub(r",\s*(?:or\s+)?", " or ", m.group(1)) + " ", sentence)
+    groups = []
+    # What is left at the top level: commas and "and" join requirements, "or" joins alternatives.
+    for clause in re.split(r",\s*and\s+|\s+and\s+|,", sentence):
+        codes = PREREQ_CODE.findall(clause)
+        if not codes:
+            continue
+        # An honors section stands in for the regular course with the same number.
+        codes = [c for c in codes if not (c.startswith("HONR-") and any(o[-4:] == c[-4:] and o != c for o in codes))]
+        group = list(dict.fromkeys(codes)) + (["OTHER"] if NON_COURSE.search(clause) else [])
+        if group not in groups:
+            groups.append(group)
+    return groups
+
+
+def parse_prerequisites(text):
+    # Some courses list different prerequisites per degree plan; keep only what every plan requires.
+    parts = re.split(r"For academic plan [^,]*,", text)
+    common = None
+    for part in parts[1:]:
+        plan = [g for sentence in part.split(". ") for g in _groups(sentence)]
+        common = plan if common is None else [g for g in common if g in plan]
+    groups = [g for sentence in parts[0].split(". ") for g in _groups(sentence)]
+    return groups + [g for g in (common or []) if g not in groups]
+
+
+CONCURRENT = re.compile(r"concurrent(?:ly| enrollment)?(\s+in\b)?", re.I)
+
+
+def concurrent_codes(text):
+    """The prerequisite courses the catalog lets a student take in the same term instead of before.
+
+    "MATH 1426 (or concurrent enrollment)" and "CSE 3314 (or concurrently)" mark the course
+    just before the words; "(or concurrent enrollment in) (MATH 1421, MATH 1426)" and
+    "or concurrent enrollment in MATH 2425" mark the courses after them, up to the next ")".
+    """
+    found = []
+    for match in CONCURRENT.finditer(text):
+        if match.group(1):
+            rest = text[match.end():]
+            first = PREREQ_CODE.search(rest)
+            if not first:
+                continue
+            close = rest.find(")", first.start())
+            found += PREREQ_CODE.findall(rest[:close if close >= 0 else len(rest)])
+        else:
+            before = PREREQ_CODE.findall(text[:match.start()])
+            if before:
+                found.append(before[-1])
+    return sorted({c for c in found if not c.startswith("HONR-")})
 
 
 # ---------- Degree requirement tables ----------
@@ -154,6 +239,8 @@ def read_requirements(page):
     parser = CourseList()
     parser.feed(page)
     requirements, total_hours = [], None
+    # Hours the plan requires without naming courses: core curriculum areas and free electives.
+    not_listed = []
     section, choosing = None, None
     for kind, code, text, hours in parser.rows:
         if kind == "header":
@@ -161,6 +248,12 @@ def read_requirements(page):
         elif kind == "comment":
             if text.startswith("Total Hours"):
                 total_hours = int(hours)
+            elif text.startswith("In addition to the specified courses"):
+                # "...must choose 6 hours of U.S. History, 6 hours of Political Science, ... in the general education core."
+                for area_hours, area in re.findall(r"(\d+) hours of (.+?)(?=,? (?:and )?\d+ hours of| in the general|\.$)", text):
+                    not_listed.append({"name": "Core curriculum: " + area.strip(" ,"), "hours": int(area_hours)})
+            elif "electives sufficient to complete" in text and hours:
+                not_listed.append({"name": "Free electives", "hours": int(hours)})
             elif text.startswith("For ") and text.endswith("select:"):
                 section, choosing = "Core curriculum: " + text[4:-len(" select:")], None
             elif text.startswith("Select") and hours and "electives sufficient" not in text:
@@ -178,7 +271,7 @@ def read_requirements(page):
                 requirements[-1]["options"].append(option)
             else:
                 requirements.append({"section": section, "chooseHours": None, "note": None, "options": [option]})
-    return requirements, total_hours
+    return requirements, total_hours, not_listed
 
 
 def main(folder, output):
@@ -186,12 +279,13 @@ def main(folder, output):
     courses = read_courses(folder)
     degrees, used = [], set()
     for stem, name, path in DEGREES:
-        requirements, total = read_requirements((folder / f"{stem}.html").read_text(encoding="utf-8"))
+        requirements, total, not_listed = read_requirements((folder / f"{stem}.html").read_text(encoding="utf-8"))
         for requirement in requirements:
             for option in requirement["options"]:
                 used.update(option)
         degrees.append({"name": name, "award": "Bachelor of Science", "totalHours": total,
-                        "catalogUrl": CATALOG + path, "requirements": requirements})
+                        "catalogUrl": CATALOG + path, "requirements": requirements,
+                        "notListedHours": not_listed})
     missing = sorted(used - courses.keys())
     if missing:
         sys.exit(f"Courses used by a degree but missing from the course pages: {missing}")

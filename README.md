@@ -21,8 +21,50 @@ So far it covers accounts (creating an account, signing in, resetting a forgotte
   - **Rename** a schedule, or **Delete** it after confirming.
 - **Time conflict warnings** when two courses in a schedule overlap.
 - **UTA course catalog.** The catalog covers 81 courses used by UTA's Computer Science, Software Engineering and Computer Engineering degrees, each with its official title, hours and prerequisites. Each course is offered by the real instructors who taught it, rated with UTA's Student Feedback Survey. See [Where the catalog data comes from](#where-the-catalog-data-comes-from).
+- **My degree** (`profile.html`). See [My degree and courses taken](#my-degree-and-courses-taken).
+  - Choose your college and major, and tick the courses you have already taken.
+  - 3000- and 4000-level courses are listed first.
+  - Ticking a course also ticks its prerequisites.
+  - A counter shows how many classes you have left to graduate.
+- **"Hide courses I have already taken"** in course search. It is on by default.
+- **"Only show courses I can take now"** in course search hides courses whose prerequisites you have not taken.
 - **Colleges and degrees.** UTA is the default college. Its three degrees each have their required courses from the 2026–2027 catalog.
 - **Java backend** that serves the pages and a JSON API, storing accounts in a SQLite database.
+
+### My degree and courses taken
+
+The **My degree** page is linked from the top bar and the home page:
+- **College:** UTA is selected by default.
+- **Major:** Computer Science, Software Engineering or Computer Engineering.
+- **Courses taken:** a checklist of all 81 catalog courses, with a search box to narrow it.
+  - **Professional courses come first.** All 3000- and 4000-level courses are at the top, then the 1000- and 2000-level ones. Once you choose a major, each part is grouped the way your degree plan is.
+  - **Prerequisites are ticked for you.** Ticking a course also ticks every course it certainly requires, all the way down the chain. For example, CSE 3311 brings CSE 3310 and CSE 3318, and through them CSE 1325, 1320, 2315 and 1310. Unticking a course also unticks the courses that need it. A note says what was added or removed, and the server applies the same rule when you save.
+  - **"Or" prerequisites are never guessed.** When a prerequisite can be met more than one way, nothing is ticked for it. Examples: "CSE 3380 or MATH 3330", an ALEKS placement score instead of a math course, and CSE 4316's different requirements for each degree plan.
+- **Classes left to graduate:** updates as you tick courses, before you save. It shows:
+  - how many classes are left in your degree plan
+  - a bar of the listed hours you have completed
+  - a list of each requirement still open
+  - **What it cannot count.** About 18 hours of core curriculum (U.S. History, Political Science, Language/Philosophy/Culture, Creative Arts) and any free electives are listed separately. The catalog does not name specific courses for them, so CourseSweep cannot tell whether you have taken them.
+
+**How the count works** (`DegreeProgress.java`). It goes through the degree plan in catalog order:
+- **A requirement with alternatives**, such as "IE 3301 or MATH 3313", is met by any one of them.
+- **A "choose N hours" group**, such as technical electives, counts the hours of the courses you have taken, up to N.
+- **Each course counts toward only one requirement.** In CS, CSE 4380 cannot fill both "select one security course" and a technical elective.
+- **Classes left** is the fewest classes that would meet every open requirement.
+
+Course search has two filters that use your ticked courses. The search says how many sections each one hid, and unticking a box shows them again. Your own custom courses are never hidden.
+- **Hide courses I have already taken** leaves out every section of a course you ticked. It is on by default.
+- **Only show courses I can take now** leaves out courses whose prerequisites you have not taken. It is off by default. For example, with only CSE 1310 ticked, CSE 1320 shows but CSE 1325 and CSE 3311 do not. The rules (`CourseIndex.notReady`):
+  - **Every prerequisite group must be met** by one of its courses. "CSE 3380 or MATH 3330" is met by either.
+  - **Same-term prerequisites count.** When the catalog says "or concurrent enrollment", the prerequisite is met if you could sign up for it now and take both together. A new student can take CSE 1310 alongside UNIV 1131, but CSE 2315 still needs MATH 1426 first, because its same-term option, MATH 2425, needs MATH 1426 too.
+  - **What CourseSweep cannot check counts as met.** A group that an ALEKS score or a course outside the catalog (such as MATH 1302) can meet never hides a course. So does "admitted into a professional program", which is not a course.
+
+**How it is stored:**
+- **Course index.** At startup, every course code in `uta-catalog.json` goes into a `HashMap` from code to bit number (`CourseIndex.java`). The bit number is the course's `college_courses.id`, which stays the same when the catalog is reloaded, so saved courses never change meaning. For every course, the index also holds a `BitSet` of the full prerequisite chain, built by following the prerequisites one course at a time.
+- **Prerequisite structure.** `prerequisiteGroups` in `uta-catalog.json` turns each course's prerequisite sentence into "all of these groups, any one course per group", for example `[["CSE 3318"], ["CSE 3380", "MATH 3330"]]`. A group holds `"OTHER"` when something other than a course can meet it. Only single-course groups are ticked automatically. `concurrentOk` lists the prerequisites the catalog lets you take in the same term (10 courses have one). `tools/catalog/build_uta_seed.py` produces the structure from the catalog text. It is plain JSON, so a wrong entry can be fixed by hand.
+- **Courses taken.** A student's courses taken are a `java.util.BitSet` with one bit per course. It is saved in the `student_profiles` table as bytes (`BitSet.toByteArray()`), next to the chosen major.
+- **Filtering.** Search checks each result's course against the student's BitSet, one row at a time on the request's own thread, with no parallel streams or extra threads. The 50-result limit is applied after filtering, so hiding courses never leaves the list short.
+- **The profile belongs to the account.** Password and Google sign-in see the same one, and deleting the account deletes it.
 
 ### Where the catalog data comes from
 
@@ -378,6 +420,7 @@ public/                      Front end (HTML, CSS, JavaScript, logo)
   home.html                  Page shown after signing in
   schedule.html              Schedule builder and the Add course dialog; ?id= opens a saved schedule
   schedules.html             My schedules: list, rename and delete saved schedules
+  profile.html               My degree: college, major and courses taken
   admin.html                 Manage users (admins only)
   js/auth.js                 Calls the account API
   js/form.js                 Validation shared by the forms
@@ -386,6 +429,7 @@ public/                      Front end (HTML, CSS, JavaScript, logo)
   js/admin.js                Manage users page logic
   js/schedule.js             Schedule builder logic
   js/schedules.js            My schedules page logic
+  js/profile.js              My degree page logic
 src/main/java/coursesweep/   Back end
   Main.java                  Starts the server
   ApiHandler.java            The /api/ endpoints
@@ -396,6 +440,9 @@ src/main/java/coursesweep/   Back end
   Database.java              SQLite connection and tables
   CatalogSeed.java           Loads the UTA catalog and survey results into the database at startup
   DegreeService.java         Colleges, degrees and required courses for the API
+  CourseIndex.java           HashMap of every catalog course code to its bit, BitSet conversion and prerequisite chains
+  DegreeProgress.java        Counts the classes a student still needs for their degree
+  ProfileService.java        A student's major and courses taken (stored as a BitSet)
   FeedbackImport.java        Turns a Student Feedback Survey PDF into a seed CSV (run by hand)
   GoogleAuth.java            Sign in with Google (OAuth code flow with PKCE)
   Mailer.java                Sends reset emails (prints to the console for now)
@@ -432,7 +479,11 @@ All requests and responses are JSON.
 | POST | `/api/admin/users/set-admin` | `id`, `admin` | Gives or removes admin access (admins only) |
 | POST | `/api/admin/users/sign-out` | `id` | Ends all of a user's sessions (admins only) |
 | POST | `/api/admin/users/delete` | `id` | Deletes the account, its schedules and custom courses (admins only) |
-| GET | `/api/courses?q=` | | Catalog courses and your custom courses matching the search. Catalog courses include `ratingResponses`, `ratingTerms`, `timeIsSample` and `prerequisites` |
+| GET | `/api/courses?q=&hideTaken=true&canTake=true` | | Catalog courses and your custom courses matching the search. Catalog courses include `ratingResponses`, `ratingTerms`, `timeIsSample` and `prerequisites`. With `hideTaken=true`, courses marked as taken are left out, and `hiddenTaken` says how many sections were hidden. With `canTake=true`, courses whose prerequisites you have not taken are left out, counted in `hiddenNotReady` |
+| GET | `/api/profile` | | Your `degreeId` (or null), `completed` (a list of course codes) and `progress` (as `/api/progress`, or null without a major) |
+| PUT | `/api/profile` | `degreeId` (or null), `completed` | Saves your major and replaces your courses taken, adding every course they certainly require. Unknown codes answer 400 |
+| GET | `/api/colleges/{id}/courses` | | Every catalog course of a college: `code`, `title`, `hours`, and `requires` (every course it certainly requires) |
+| POST | `/api/progress` | `degreeId`, `completed` | Classes left to graduate for those courses, without saving: `classesRemaining`, `hoursRemaining`, `listedHours`, `listedHoursDone`, `remaining` (open requirements), `notListed` (core and elective hours not tracked) |
 | GET | `/api/colleges` | | Every college with its degrees. The first, UTA, has `"default": true` |
 | GET | `/api/degrees/{id}` | | One degree and its `requirements` in catalog order. Each requirement has `section`, `chooseHours` (set when students pick that many hours from the options) and `options` (lists of courses with `code`, `title`, `hours` and `prerequisites`) |
 | POST | `/api/courses` | `name`, `professor`, `days`, `start`, `end`, `rating` | Creates a custom course |
@@ -480,7 +531,10 @@ The first run creates `data/secret.key`. This key protects the stored email addr
 - There is no way yet to remove a catalog course or one of your own custom courses. A removed course can only appear in a saved schedule when the catalog is changed or reloaded.
 - **Catalog meeting times are sample data.** Instructors, ratings, titles and prerequisites are real.
 - **Degrees have no page in the app yet.** They are available through `/api/colleges` and `/api/degrees/{id}`.
-- **Prerequisites are stored as UTA's official wording.** They are not yet checked against a student's courses.
+- **"Courses I can take now" ignores grades and non-course rules.** It assumes a C or better in every ticked course, and it does not check professional-program admission, instructor consent or placement scores.
+- **Only the 81 catalog courses can be marked as taken.** These are the courses UTA's three computing degrees use.
+- **Some hours are not counted toward graduation.** Core curriculum areas without named courses and free electives are listed separately instead.
+- **Transfer credit and waived prerequisites are not handled.** Taking a course is assumed to mean its prerequisites were taken too.
 - Custom courses are never shared with other students yet (see the planned feature above).
 - Reset emails are printed to the console instead of being sent.
 - While the Google OAuth app is in "Testing" mode, only the test users added in Google Cloud Console can use Google sign-in.
