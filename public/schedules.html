@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My schedules | CourseSweep</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a href="home.html"><img class="topbar-logo" src="assets/logo.png" alt="CourseSweep home" width="662" height="181"></a>
+    <div class="topbar-user">
+      <a id="admin-link" class="btn-ghost" href="admin.html" hidden>Admin</a>
+      <span id="user-email"></span>
+      <button type="button" id="sign-out" class="btn-ghost">Sign out</button>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="card card-wide" aria-labelledby="schedules-heading">
+      <div class="section-head section-head-top">
+        <h1 id="schedules-heading">My schedules</h1>
+        <a class="btn-secondary" href="schedule.html">+ New schedule</a>
+      </div>
+
+      <p id="list-error" class="form-error" role="alert" hidden></p>
+      <p id="list-status" class="form-success" role="status" hidden></p>
+      <p id="list-loading" class="card-text">Loading your schedules…</p>
+      <p id="list-empty" class="card-text" hidden>You have no saved schedules yet. Use “New schedule” to build one.</p>
+      <ul id="schedule-list" class="course-list"></ul>
+
+      <p class="card-links"><a href="home.html">Back to home</a></p>
+    </section>
+  </main>
+
+  <script src="js/auth.js"></script>
+  <script src="js/form.js"></script>
+  <script src="js/topbar.js"></script>
+  <script src="js/schedules.js"></script>
+</body>
+</html>

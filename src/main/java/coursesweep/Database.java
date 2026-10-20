@@ -5,7 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -54,6 +53,76 @@ final class Database {
                         expires_at INTEGER NOT NULL
                     )""");
 
+            // Colleges, their degrees, and the courses each degree requires. Filled from
+            // src/main/resources/seed by CatalogSeed; UTA is seeded first, so it has the lowest id.
+            st.executeUpdate("""
+                    CREATE TABLE IF NOT EXISTS colleges (
+                        id         INTEGER PRIMARY KEY,
+                        short_name TEXT NOT NULL UNIQUE,
+                        name       TEXT NOT NULL
+                    )""");
+            // A course as the college's catalog describes it, independent of any section or term.
+            st.executeUpdate("""
+                    CREATE TABLE IF NOT EXISTS college_courses (
+                        id            INTEGER PRIMARY KEY,
+                        college_id    INTEGER NOT NULL REFERENCES colleges(id) ON DELETE CASCADE,
+                        subject       TEXT NOT NULL,
+                        number        TEXT NOT NULL,
+                        title         TEXT NOT NULL,
+                        hours         TEXT NOT NULL,
+                        tccn          TEXT,
+                        prerequisites TEXT,
+                        UNIQUE (college_id, subject, number)
+                    )""");
+            st.executeUpdate("""
+                    CREATE TABLE IF NOT EXISTS degrees (
+                        id           INTEGER PRIMARY KEY,
+                        college_id   INTEGER NOT NULL REFERENCES colleges(id) ON DELETE CASCADE,
+                        name         TEXT NOT NULL,
+                        award        TEXT NOT NULL,
+                        catalog_year TEXT NOT NULL,
+                        catalog_url  TEXT,
+                        total_hours  INTEGER,
+                        UNIQUE (college_id, name)
+                    )""");
+            // One slot in a degree plan. It is met by any one of its options; choose_hours is set
+            // when the student picks that many hours from the options (for example technical electives).
+            st.executeUpdate("""
+                    CREATE TABLE IF NOT EXISTS degree_requirements (
+                        id           INTEGER PRIMARY KEY,
+                        degree_id    INTEGER NOT NULL REFERENCES degrees(id) ON DELETE CASCADE,
+                        position     INTEGER NOT NULL,
+                        section      TEXT,
+                        choose_hours INTEGER,
+                        note         TEXT,
+                        UNIQUE (degree_id, position)
+                    )""");
+            // The courses that make up each option; an option with two courses means both are taken together.
+            st.executeUpdate("""
+                    CREATE TABLE IF NOT EXISTS degree_requirement_options (
+                        requirement_id INTEGER NOT NULL REFERENCES degree_requirements(id) ON DELETE CASCADE,
+                        option_no      INTEGER NOT NULL,
+                        course_id      INTEGER NOT NULL REFERENCES college_courses(id) ON DELETE CASCADE,
+                        PRIMARY KEY (requirement_id, option_no, course_id)
+                    )""");
+            // UTA Student Feedback Survey results, one row per instructor and section (see FeedbackImport).
+            st.executeUpdate("""
+                    CREATE TABLE IF NOT EXISTS feedback_results (
+                        term        TEXT NOT NULL,
+                        term_name   TEXT,
+                        instructor  TEXT NOT NULL,
+                        subject     TEXT NOT NULL,
+                        number      TEXT NOT NULL,
+                        section     TEXT NOT NULL,
+                        title       TEXT,
+                        mode        TEXT,
+                        respondents INTEGER NOT NULL,
+                        enrolled    INTEGER NOT NULL,
+                        q1 REAL NOT NULL, q2 REAL NOT NULL, q3 REAL NOT NULL, q4 REAL NOT NULL, q5 REAL NOT NULL,
+                        PRIMARY KEY (term, subject, number, section, instructor)
+                    )""");
+            st.executeUpdate("CREATE INDEX IF NOT EXISTS feedback_course ON feedback_results(subject, number)");
+
             // owner_id is NULL for catalog courses and set for a student's custom course.
             st.executeUpdate("""
                     CREATE TABLE IF NOT EXISTS courses (
@@ -67,20 +136,34 @@ final class Database {
                         end_time   TEXT NOT NULL,
                         rating     REAL
                     )""");
+            // Catalog sections are kept in sync by CatalogSeed: catalog_key identifies one, college_course_id
+            // links it to the catalog course, and the rating_* columns describe where its rating came from.
+            addColumnIfMissing(conn, "courses", "college_course_id", "INTEGER REFERENCES college_courses(id)");
+            addColumnIfMissing(conn, "courses", "catalog_key", "TEXT");
+            addColumnIfMissing(conn, "courses", "time_is_sample", "INTEGER NOT NULL DEFAULT 0");
+            addColumnIfMissing(conn, "courses", "rating_responses", "INTEGER");
+            addColumnIfMissing(conn, "courses", "rating_terms", "TEXT");
+            st.executeUpdate("CREATE UNIQUE INDEX IF NOT EXISTS courses_catalog_key ON courses(catalog_key)");
+
+            // A schedule belongs to one account (user_id), whichever way that account signs in.
             st.executeUpdate("""
                     CREATE TABLE IF NOT EXISTS schedules (
                         id         INTEGER PRIMARY KEY,
                         user_id    INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
                         name       TEXT NOT NULL,
-                        created_at INTEGER NOT NULL
+                        created_at INTEGER NOT NULL,
+                        updated_at INTEGER NOT NULL DEFAULT 0
                     )""");
-            st.executeUpdate("""
-                    CREATE TABLE IF NOT EXISTS schedule_courses (
-                        schedule_id INTEGER NOT NULL REFERENCES schedules(id) ON DELETE CASCADE,
-                        course_id   INTEGER NOT NULL REFERENCES courses(id) ON DELETE CASCADE,
-                        PRIMARY KEY (schedule_id, course_id)
-                    )""");
-            seedCatalog(conn);
+            if (!hasColumn(conn, "schedules", "updated_at")) {
+                st.executeUpdate("ALTER TABLE schedules ADD COLUMN updated_at INTEGER NOT NULL DEFAULT 0");
+                st.executeUpdate("UPDATE schedules SET updated_at = created_at");
+            }
+            st.executeUpdate("CREATE INDEX IF NOT EXISTS schedules_user ON schedules(user_id)");
+            migrateScheduleCourses(conn);
+            // One row per course in a schedule, in order. course_label keeps the course's name,
+            // so if the course is ever removed (course_id becomes NULL) the schedule can still say
+            // which course is missing instead of silently dropping it.
+            st.executeUpdate(SCHEDULE_COURSES_TABLE);
 
             long now = System.currentTimeMillis() / 1000;
             st.executeUpdate("DELETE FROM sessions WHERE expires_at <= " + now);
@@ -88,54 +171,64 @@ final class Database {
         }
     }
 
-    /** table, column and definition are always constants from this class, never user input. */
-    private static void addColumnIfMissing(Connection conn, String table, String column, String definition)
-            throws SQLException {
+    private static final String SCHEDULE_COURSES_TABLE = """
+            CREATE TABLE IF NOT EXISTS schedule_courses (
+                schedule_id  INTEGER NOT NULL REFERENCES schedules(id) ON DELETE CASCADE,
+                position     INTEGER NOT NULL,
+                course_id    INTEGER REFERENCES courses(id) ON DELETE SET NULL,
+                course_label TEXT NOT NULL,
+                PRIMARY KEY (schedule_id, position)
+            )""";
+
+    /**
+     * Databases created before saved schedules could be opened again had a
+     * schedule_courses table that deleted rows along with their course. This
+     * rebuilds it in the new shape, keeping every row and its order.
+     */
+    private static void migrateScheduleCourses(Connection conn) throws SQLException {
+        if (!hasColumn(conn, "schedule_courses", "schedule_id") || hasColumn(conn, "schedule_courses", "course_label")) {
+            return;
+        }
+        conn.setAutoCommit(false);
         try (Statement st = conn.createStatement()) {
-            try (ResultSet rs = st.executeQuery("PRAGMA table_info(" + table + ")")) {
-                while (rs.next()) {
-                    if (rs.getString("name").equals(column)) {
-                        return;
-                    }
-                }
-            }
-            st.executeUpdate("ALTER TABLE " + table + " ADD COLUMN " + column + " " + definition);
+            st.executeUpdate("ALTER TABLE schedule_courses RENAME TO schedule_courses_old");
+            st.executeUpdate(SCHEDULE_COURSES_TABLE);
+            st.executeUpdate("""
+                    INSERT INTO schedule_courses (schedule_id, position, course_id, course_label)
+                    SELECT o.schedule_id,
+                           ROW_NUMBER() OVER (PARTITION BY o.schedule_id ORDER BY o.rowid) - 1,
+                           o.course_id,
+                           CASE WHEN c.code IS NULL THEN c.name ELSE c.code || ' · ' || c.name END
+                    FROM schedule_courses_old o JOIN courses c ON c.id = o.course_id""");
+            st.executeUpdate("DROP TABLE schedule_courses_old");
+            conn.commit();
+        } catch (SQLException e) {
+            conn.rollback();
+            throw e;
+        } finally {
+            conn.setAutoCommit(true);
         }
     }
 
-    /**
-     * SAMPLE DATA. The course codes and titles are real UTA Computer Science
-     * courses, but the professors, time slots and ratings are made up and
-     * must be replaced with real data.
-     */
-    private static final String[][] SAMPLE_CATALOG = {
-            // code, name, professor, days, start, end, rating
-            {"CSE 1310", "Introduction to Computers & Programming", "Dr. Elena Marchetti", "Mo,We", "09:30", "10:50", "4.6"},
-            {"CSE 1320", "Intermediate Programming", "Dr. Samuel Okafor", "Tu,Th", "11:00", "12:20", "3.9"},
-            {"CSE 1325", "Object-Oriented Programming", "Dr. Hannah Whitlock", "Mo,We", "13:00", "14:20", "4.2"},
-            {"CSE 2312", "Computer Organization & Assembly Language Programming", "Dr. Rajiv Deshmukh", "Tu,Th", "09:30", "10:50", "3.4"},
-            {"CSE 2315", "Discrete Structures", "Dr. Thomas Abernathy", "Mo,We,Fr", "10:00", "10:50", "2.8"},
-            {"CSE 3311", "Object-Oriented Software Engineering", "Dr. Mei-Lin Zhou", "Tu,Th", "14:00", "15:20", "4.8"},
-            {"CSE 3318", "Algorithms & Data Structures", "Dr. Carlos Villanueva", "Mo,We", "16:00", "17:20", "3.7"},
-            {"CSE 3320", "Operating Systems", "Dr. Grace Oyelaran", "Tu,Th", "17:30", "18:50", "4.1"},
-    };
-
-    private static void seedCatalog(Connection conn) throws SQLException {
+    /** table and column are always constants from this class, never user input. */
+    private static boolean hasColumn(Connection conn, String table, String column) throws SQLException {
         try (Statement st = conn.createStatement();
-             ResultSet rs = st.executeQuery("SELECT 1 FROM courses WHERE owner_id IS NULL LIMIT 1")) {
-            if (rs.next()) {
-                return;
-            }
-        }
-        try (PreparedStatement st = conn.prepareStatement(
-                "INSERT INTO courses (code, name, professor, days, start_time, end_time, rating)"
-                        + " VALUES (?, ?, ?, ?, ?, ?, ?)")) {
-            for (String[] course : SAMPLE_CATALOG) {
-                for (int i = 0; i < 6; i++) {
-                    st.setString(i + 1, course[i]);
+             ResultSet rs = st.executeQuery("PRAGMA table_info(" + table + ")")) {
+            while (rs.next()) {
+                if (rs.getString("name").equals(column)) {
+                    return true;
                 }
-                st.setDouble(7, Double.parseDouble(course[6]));
-                st.executeUpdate();
+            }
+            return false;
+        }
+    }
+
+    /** table, column and definition are always constants from this class, never user input. */
+    private static void addColumnIfMissing(Connection conn, String table, String column, String definition)
+            throws SQLException {
+        if (!hasColumn(conn, table, column)) {
+            try (Statement st = conn.createStatement()) {
+                st.executeUpdate("ALTER TABLE " + table + " ADD COLUMN " + column + " " + definition);
             }
         }
     }

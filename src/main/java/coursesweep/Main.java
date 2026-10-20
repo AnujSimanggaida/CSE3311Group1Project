@@ -34,6 +34,7 @@ public final class Main {
         Crypto crypto = Crypto.load(dataDir.resolve("secret.key"));
         Database db = new Database(dataDir.resolve("coursesweep.db"));
         db.init();
+        CatalogSeed.run(db);
 
         AuthService auth = new AuthService(db, crypto, new Mailer.Console(), baseUrl);
         GoogleAuth google = GoogleAuth.fromEnv(baseUrl);
@@ -41,7 +42,8 @@ public final class Main {
         AdminService admin = new AdminService(db, crypto, adminEmails);
 
         HttpServer server = HttpServer.create(new InetSocketAddress(host, port), 0);
-        server.createContext("/api/", new ApiHandler(auth, new ScheduleService(db), admin, google, secureCookies));
+        server.createContext("/api/", new ApiHandler(auth, new ScheduleService(db), admin, new DegreeService(db),
+                google, secureCookies));
         server.createContext("/", new StaticHandler(Path.of("public")));
         server.setExecutor(Executors.newFixedThreadPool(16));
         server.start();

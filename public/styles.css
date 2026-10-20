@@ -368,11 +368,6 @@ button:focus-visible,
   color: var(--muted);
 }
 
-.choice-note {
-  margin-top: 28px;
-  color: var(--border);
-}
-
 /* ---------- Schedule builder ---------- */
 
 .topbar a {
@@ -490,6 +485,47 @@ button:focus-visible,
   border-radius: 999px;
 }
 
+/* ---------- Saved schedules ---------- */
+
+.section-head-top {
+  margin-top: 0;
+}
+
+.section-head-top h1 {
+  margin: 0;
+}
+
+.card a.btn-secondary,
+.card a.btn-link {
+  display: inline-block;
+  text-decoration: none;
+}
+
+.card a.btn-secondary:hover {
+  color: var(--white);
+}
+
+.rename-form {
+  flex: 1;
+}
+
+.rename-form .field {
+  margin-bottom: 10px;
+}
+
+#missing-panel p {
+  margin: 0;
+}
+
+.missing-title {
+  font-weight: 700;
+}
+
+#missing-list {
+  margin: 6px 0 8px;
+  padding-left: 20px;
+}
+
 /* ---------- Admin ---------- */
 
 .topbar .btn-ghost {
@@ -514,6 +550,17 @@ button:focus-visible,
 
 .btn-danger {
   color: var(--error);
+}
+
+.course-prereq {
+  padding-top: 4px;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.tag-sample {
+  color: #7a4a00;
+  background: #fff1d6;
 }
 
 .course-warning {

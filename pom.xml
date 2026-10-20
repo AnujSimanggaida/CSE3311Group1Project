@@ -13,6 +13,8 @@
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- A property, not plugin configuration, so -Dexec.mainClass=... can run another tool such as FeedbackImport. -->
+    <exec.mainClass>coursesweep.Main</exec.mainClass>
   </properties>
 
   <dependencies>
@@ -26,6 +28,12 @@
       <artifactId>gson</artifactId>
       <version>2.14.0</version>
     </dependency>
+    <!-- Reads UTA Student Feedback Survey PDFs; used only by FeedbackImport. -->
+    <dependency>
+      <groupId>org.apache.pdfbox</groupId>
+      <artifactId>pdfbox</artifactId>
+      <version>3.0.8</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -34,9 +42,6 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
         <version>3.6.4</version>
-        <configuration>
-          <mainClass>coursesweep.Main</mainClass>
-        </configuration>
       </plugin>
     </plugins>
   </build>

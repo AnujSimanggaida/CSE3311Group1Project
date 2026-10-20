@@ -1,8 +1,14 @@
 // Schedule builder: a named list of courses, added either from the catalog
-// or as custom courses, then saved to the server.
+// or as custom courses, then saved to the server. With ?id=<schedule id> it
+// opens that saved schedule for viewing and editing instead.
 
 const DAY_LABELS = { Mo: 'Mon', Tu: 'Tue', We: 'Wed', Th: 'Thu', Fr: 'Fri', Sa: 'Sat', Su: 'Sun' };
 
+const builderHeading = document.getElementById('builder-heading');
+const loadError = document.getElementById('load-error');
+const builder = document.getElementById('builder');
+const missingPanel = document.getElementById('missing-panel');
+const missingList = document.getElementById('missing-list');
 const nameInput = document.getElementById('schedule-name');
 const addCourseBtn = document.getElementById('add-course');
 const emptyNote = document.getElementById('empty-note');
@@ -10,6 +16,7 @@ const courseList = document.getElementById('course-list');
 const saveBtn = document.getElementById('save-schedule');
 const saveError = document.getElementById('save-error');
 const savedPanel = document.getElementById('saved');
+const savedMessage = document.getElementById('saved-message');
 
 const dialog = document.getElementById('add-dialog');
 const dialogTitle = document.getElementById('dialog-title');
@@ -42,7 +49,8 @@ const dayBoxes = [...customForm.querySelectorAll('input[name="day"]')];
 
 // Courses in the schedule being built, in the order they were added.
 let courses = [];
-let saved = false;
+// Id of the saved schedule being edited, or null for one not saved yet.
+let scheduleId = null;
 
 // ---------- Formatting ----------
 
@@ -78,17 +86,37 @@ function el(tag, className, text) {
   return node;
 }
 
+// A custom course's rating is the student's own. A catalog rating is the average of the five
+// UTA Student Feedback Survey questions for that instructor and course.
+function ratingTag(course) {
+  if (course.rating == null) {
+    return el('span', 'tag', course.custom ? 'No rating' : 'No UTA feedback data');
+  }
+  if (course.custom) return el('span', 'tag', `★ ${course.rating.toFixed(1)} · your rating`);
+  const responses = `${course.ratingResponses} response${course.ratingResponses === 1 ? '' : 's'}`;
+  const tag = el('span', 'tag', `★ ${course.rating.toFixed(2)} UTA feedback · ${responses}`);
+  tag.title = `Average of the five UTA Student Feedback Survey questions for this instructor and course `
+    + `(${course.ratingTerms}). Scores are 1 to 5.`;
+  return tag;
+}
+
 // Builds one course row; `action` is the button shown on the right, if any.
 function courseItem(course, action) {
   const item = el('li', 'course');
   const info = el('div', 'course-info');
   info.append(el('p', 'course-title', courseTitle(course)));
 
-  const details = [course.professor || 'No professor listed', formatSlot(course)];
-  info.append(el('p', 'course-meta', details.join(' · ')));
+  const professor = course.professor || (course.custom ? 'No professor listed' : 'Instructor not yet available');
+  info.append(el('p', 'course-meta', `${professor} · ${formatSlot(course)}`));
+  if (course.prerequisites) info.append(el('p', 'course-prereq', course.prerequisites));
 
   const tags = el('p', 'course-tags');
-  tags.append(el('span', 'tag', course.rating == null ? 'No rating' : `★ ${course.rating.toFixed(1)}`));
+  tags.append(ratingTag(course));
+  if (course.timeIsSample) {
+    const sample = el('span', 'tag tag-sample', 'Sample time');
+    sample.title = 'UTA does not publish meeting times the app can read yet, so this time slot is made up.';
+    tags.append(sample);
+  }
   if (course.custom) tags.append(el('span', 'tag', 'Custom'));
   info.append(tags);
 
@@ -102,16 +130,14 @@ function courseItem(course, action) {
 function renderSchedule() {
   emptyNote.hidden = courses.length > 0;
   courseList.replaceChildren(...courses.map((course) => {
-    let remove = null;
-    if (!saved) {
-      remove = el('button', 'btn-link', 'Remove');
-      remove.type = 'button';
-      remove.setAttribute('aria-label', `Remove ${courseTitle(course)}`);
-      remove.addEventListener('click', () => {
-        courses = courses.filter((c) => c.id !== course.id);
-        renderSchedule();
-      });
-    }
+    const remove = el('button', 'btn-link', 'Remove');
+    remove.type = 'button';
+    remove.setAttribute('aria-label', `Remove ${courseTitle(course)}`);
+    remove.addEventListener('click', () => {
+      courses = courses.filter((c) => c.id !== course.id);
+      markChanged();
+      renderSchedule();
+    });
 
     const item = courseItem(course, remove);
     const clashing = courses.filter((other) => other.id !== course.id && conflicts(course, other));
@@ -128,11 +154,33 @@ function addCourse(course) {
     courses.push(course);
   }
   saveError.hidden = true;
+  markChanged();
   renderSchedule();
   dialog.close();
 }
 
-nameInput.addEventListener('input', () => setFieldError(nameInput, ''));
+// Hides "Schedule saved" once the schedule differs from what was saved.
+function markChanged() {
+  savedPanel.hidden = true;
+}
+
+function showEditMode(schedule) {
+  scheduleId = schedule.id;
+  builderHeading.textContent = 'Edit schedule';
+  document.title = `${schedule.name} | CourseSweep`;
+  // Keep the address pointing at this schedule, so a refresh reopens it.
+  history.replaceState(null, '', `schedule.html?id=${schedule.id}`);
+}
+
+function showMissing(labels) {
+  missingList.replaceChildren(...labels.map((label) => el('li', null, label)));
+  missingPanel.hidden = labels.length === 0;
+}
+
+nameInput.addEventListener('input', () => {
+  setFieldError(nameInput, '');
+  markChanged();
+});
 
 saveBtn.addEventListener('click', async () => {
   const name = nameInput.value.trim();
@@ -147,16 +195,23 @@ saveBtn.addEventListener('click', async () => {
     return;
   }
 
-  const ok = await submitWith(saveBtn, 'Saving…', saveError, () =>
-    Auth.request('POST', '/api/schedules', { name, courseIds: courses.map((c) => c.id) }));
+  const body = { name, courseIds: courses.map((c) => c.id) };
+  const wasNew = scheduleId === null;
+  let result;
+  const ok = await submitWith(saveBtn, 'Saving…', saveError, async () => {
+    // The first save creates the schedule; later saves update that same schedule.
+    result = wasNew
+      ? await Auth.request('POST', '/api/schedules', body)
+      : await Auth.request('PUT', `/api/schedules/${scheduleId}`, body);
+  });
   if (ok) {
-    // Lock the page so the saved schedule cannot be edited into a duplicate.
-    saved = true;
-    nameInput.disabled = true;
-    addCourseBtn.hidden = true;
-    saveBtn.hidden = true;
+    // submitWith only restores the button after a failure; here the page stays open for more edits.
+    saveBtn.disabled = false;
+    saveBtn.textContent = 'Save schedule';
+    showEditMode(result);
+    showMissing(result.missing);
+    savedMessage.textContent = wasNew ? 'Schedule saved.' : 'Changes saved.';
     savedPanel.hidden = false;
-    renderSchedule();
   }
 });
 
@@ -279,4 +334,29 @@ customForm.addEventListener('submit', async (event) => {
   if (ok) addCourse(created);
 });
 
-renderSchedule();
+// ---------- Opening a saved schedule ----------
+
+async function openSavedSchedule(id) {
+  builder.hidden = true;
+  builderHeading.textContent = 'Loading schedule…';
+  try {
+    const schedule = await Auth.request('GET', `/api/schedules/${encodeURIComponent(id)}`);
+    showEditMode(schedule);
+    nameInput.value = schedule.name;
+    courses = schedule.courses;
+    showMissing(schedule.missing);
+    renderSchedule();
+    builder.hidden = false;
+  } catch (err) {
+    builderHeading.textContent = 'Schedule not available';
+    loadError.textContent = err.status === 404 ? 'This schedule was not found. It may have been deleted.' : err.message;
+    loadError.hidden = false;
+  }
+}
+
+const requestedId = new URLSearchParams(window.location.search).get('id');
+if (requestedId) {
+  openSavedSchedule(requestedId);
+} else {
+  renderSchedule();
+}

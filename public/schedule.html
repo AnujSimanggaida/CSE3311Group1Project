@@ -20,27 +20,38 @@
     <section class="card card-wide" aria-labelledby="builder-heading">
       <h1 id="builder-heading">New schedule</h1>
 
-      <div class="field">
-        <label for="schedule-name">Schedule name</label>
-        <input type="text" id="schedule-name" maxlength="100" placeholder="Spring 2027" aria-describedby="schedule-name-error">
-        <p id="schedule-name-error" class="field-error" hidden></p>
+      <p id="load-error" class="form-error" role="alert" hidden></p>
+
+      <div id="builder">
+        <div id="missing-panel" class="form-error" role="alert" hidden>
+          <p class="missing-title">Some courses in this schedule are no longer available:</p>
+          <ul id="missing-list"></ul>
+          <p>They were removed after you saved this schedule, so they are left out below. Save the schedule to remove them for good.</p>
+        </div>
+
+        <div class="field">
+          <label for="schedule-name">Schedule name</label>
+          <input type="text" id="schedule-name" maxlength="100" placeholder="Spring 2027" aria-describedby="schedule-name-error">
+          <p id="schedule-name-error" class="field-error" hidden></p>
+        </div>
+
+        <div class="section-head">
+          <h2>Courses</h2>
+          <button type="button" id="add-course" class="btn-secondary">+ Add course</button>
+        </div>
+
+        <p id="empty-note" class="card-text">No courses yet. Use “Add course” to search the catalog or create your own.</p>
+        <ul id="course-list" class="course-list"></ul>
+
+        <p id="save-error" class="form-error" role="alert" hidden></p>
+        <button type="button" id="save-schedule" class="btn-primary">Save schedule</button>
+
+        <div id="saved" hidden>
+          <p id="saved-message" class="form-success" role="status">Schedule saved.</p>
+        </div>
       </div>
 
-      <div class="section-head">
-        <h2>Courses</h2>
-        <button type="button" id="add-course" class="btn-secondary">+ Add course</button>
-      </div>
-
-      <p id="empty-note" class="card-text">No courses yet. Use “Add course” to search the catalog or create your own.</p>
-      <ul id="course-list" class="course-list"></ul>
-
-      <p id="save-error" class="form-error" role="alert" hidden></p>
-      <button type="button" id="save-schedule" class="btn-primary">Save schedule</button>
-
-      <div id="saved" hidden>
-        <p class="form-success" role="status">Schedule saved.</p>
-        <p class="card-links"><a href="home.html">Back to home</a> · <a href="schedule.html">Start another schedule</a></p>
-      </div>
+      <p class="card-links"><a href="schedules.html">My schedules</a> · <a href="schedule.html">Start another schedule</a></p>
     </section>
   </main>
 
@@ -69,7 +80,7 @@
         <label for="search-input">Course code, name or professor</label>
         <input type="search" id="search-input" placeholder="e.g. CSE 3311 or Algorithms" autocomplete="off">
       </div>
-      <p class="field-hint">Catalog professors, times and ratings are sample data for now.</p>
+      <p class="field-hint">Instructors and ratings come from UTA’s Student Feedback Survey; hover a rating to see which terms. Meeting times are sample data.</p>
       <p id="search-status" class="card-text" role="status" hidden></p>
       <ul id="search-results" class="course-list"></ul>
     </div>

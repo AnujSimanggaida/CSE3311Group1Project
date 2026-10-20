@@ -1,0 +1,1976 @@
+{
+  "source": {
+    "catalog": "UTA University Catalog 2026-2027",
+    "retrieved": "2026-10-20",
+    "degreePages": [
+      "https://catalog.uta.edu/engineering/computer/undergraduate/computer-science-bs/",
+      "https://catalog.uta.edu/engineering/computer/undergraduate/software-engineering-bs/",
+      "https://catalog.uta.edu/engineering/computer/undergraduate/computer-engineering-bs/"
+    ],
+    "coursePages": [
+      "https://catalog.uta.edu/coursedescriptions/cse/",
+      "https://catalog.uta.edu/coursedescriptions/math/",
+      "https://catalog.uta.edu/coursedescriptions/phys/",
+      "https://catalog.uta.edu/coursedescriptions/ie/",
+      "https://catalog.uta.edu/coursedescriptions/econ/",
+      "https://catalog.uta.edu/coursedescriptions/engl/",
+      "https://catalog.uta.edu/coursedescriptions/coms/",
+      "https://catalog.uta.edu/coursedescriptions/univ/",
+      "https://catalog.uta.edu/coursedescriptions/engr/",
+      "https://catalog.uta.edu/coursedescriptions/biol/",
+      "https://catalog.uta.edu/coursedescriptions/chem/"
+    ]
+  },
+  "college": {
+    "name": "The University of Texas at Arlington",
+    "shortName": "UTA"
+  },
+  "degrees": [
+    {
+      "name": "Computer Science",
+      "award": "Bachelor of Science",
+      "totalHours": 123,
+      "catalogUrl": "https://catalog.uta.edu/engineering/computer/undergraduate/computer-science-bs/",
+      "requirements": [
+        {
+          "section": "Core curriculum: Communication",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "COMS 2302"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: Communication",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "ENGL 1301"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: Mathematics",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "MATH 1426"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: Life & Physical Sciences",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "PHYS 1443"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: Life & Physical Sciences",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "PHYS 1444"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: Social & Behavioral Sciences",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "IE 2308"
+            ],
+            [
+              "ECON 2305"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: Component Area Option",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "MATH 2425"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: Component Area Option",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "MATH 2326"
+            ]
+          ]
+        },
+        {
+          "section": "BSCS Foundations",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "UNIV 1131"
+            ],
+            [
+              "ENGR 1101"
+            ],
+            [
+              "UNIV 1101"
+            ]
+          ]
+        },
+        {
+          "section": "BSCS Foundations",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 1106"
+            ]
+          ]
+        },
+        {
+          "section": "BSCS Foundations",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 1310"
+            ]
+          ]
+        },
+        {
+          "section": "BSCS Foundations",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 1320"
+            ]
+          ]
+        },
+        {
+          "section": "BSCS Foundations",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 1325"
+            ]
+          ]
+        },
+        {
+          "section": "BSCS Foundations",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 2312"
+            ]
+          ]
+        },
+        {
+          "section": "BSCS Foundations",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 2315"
+            ]
+          ]
+        },
+        {
+          "section": "BSCS Foundations",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 3318"
+            ]
+          ]
+        },
+        {
+          "section": "BSCS Specialization (Professional Program)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "IE 3301"
+            ],
+            [
+              "MATH 3313"
+            ]
+          ]
+        },
+        {
+          "section": "BSCS Specialization (Professional Program)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 3302"
+            ]
+          ]
+        },
+        {
+          "section": "BSCS Specialization (Professional Program)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 3310"
+            ]
+          ]
+        },
+        {
+          "section": "BSCS Specialization (Professional Program)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 3314"
+            ]
+          ]
+        },
+        {
+          "section": "BSCS Specialization (Professional Program)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 3315"
+            ]
+          ]
+        },
+        {
+          "section": "BSCS Specialization (Professional Program)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 3320"
+            ]
+          ]
+        },
+        {
+          "section": "BSCS Specialization (Professional Program)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 3330"
+            ]
+          ]
+        },
+        {
+          "section": "BSCS Specialization (Professional Program)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 3380"
+            ],
+            [
+              "MATH 3330"
+            ]
+          ]
+        },
+        {
+          "section": "BSCS Specialization (Professional Program)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 4316"
+            ]
+          ]
+        },
+        {
+          "section": "BSCS Specialization (Professional Program)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 4317"
+            ]
+          ]
+        },
+        {
+          "section": "BSCS Specialization (Professional Program)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 4344"
+            ]
+          ]
+        },
+        {
+          "section": "BSCS Specialization (Professional Program)",
+          "chooseHours": 3,
+          "note": "Select one of the following:",
+          "options": [
+            [
+              "CSE 4380"
+            ],
+            [
+              "CSE 4381"
+            ],
+            [
+              "CSE 4382"
+            ]
+          ]
+        },
+        {
+          "section": "Technical Electives",
+          "chooseHours": 18,
+          "note": "Select six from the following",
+          "options": [
+            [
+              "CSE 4303"
+            ],
+            [
+              "CSE 4304"
+            ],
+            [
+              "CSE 4305"
+            ],
+            [
+              "CSE 4308"
+            ],
+            [
+              "CSE 4309"
+            ],
+            [
+              "CSE 4310"
+            ],
+            [
+              "CSE 4311"
+            ],
+            [
+              "CSE 4321"
+            ],
+            [
+              "CSE 4322"
+            ],
+            [
+              "CSE 4323"
+            ],
+            [
+              "CSE 4331"
+            ],
+            [
+              "CSE 4333"
+            ],
+            [
+              "CSE 4334"
+            ],
+            [
+              "CSE 4345"
+            ],
+            [
+              "CSE 4351"
+            ],
+            [
+              "CSE 4360"
+            ],
+            [
+              "CSE 4361"
+            ],
+            [
+              "CSE 4373"
+            ],
+            [
+              "CSE 4376"
+            ],
+            [
+              "CSE 4378"
+            ],
+            [
+              "CSE 4379"
+            ],
+            [
+              "CSE 4380"
+            ],
+            [
+              "CSE 4381"
+            ],
+            [
+              "CSE 4382"
+            ],
+            [
+              "CSE 4392"
+            ],
+            [
+              "CSE 3311"
+            ],
+            [
+              "CSE 3313"
+            ],
+            [
+              "CSE 3340"
+            ],
+            [
+              "ENGR 4302"
+            ],
+            [
+              "IE 3315"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Software Engineering",
+      "award": "Bachelor of Science",
+      "totalHours": 124,
+      "catalogUrl": "https://catalog.uta.edu/engineering/computer/undergraduate/software-engineering-bs/",
+      "requirements": [
+        {
+          "section": "Core curriculum: Communication",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "ENGL 1301"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: Communication",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "COMS 2302"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: Life & Physical Sciences",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "PHYS 1443"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: Life & Physical Sciences",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "PHYS 1444"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: Mathematics",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "MATH 1426"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: Social & Behavioral Sciences",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "IE 2308"
+            ],
+            [
+              "ECON 2305"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: Foundation Component area option",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "MATH 2425"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: Foundation Component area option",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "MATH 2326"
+            ]
+          ]
+        },
+        {
+          "section": "BSSE Foundations",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "UNIV 1131"
+            ],
+            [
+              "ENGR 1101"
+            ],
+            [
+              "UNIV 1101"
+            ]
+          ]
+        },
+        {
+          "section": "BSSE Foundations",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 1106"
+            ]
+          ]
+        },
+        {
+          "section": "BSSE Foundations",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 1310"
+            ]
+          ]
+        },
+        {
+          "section": "BSSE Foundations",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 1320"
+            ]
+          ]
+        },
+        {
+          "section": "BSSE Foundations",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 1325"
+            ]
+          ]
+        },
+        {
+          "section": "BSSE Foundations",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 2312"
+            ]
+          ]
+        },
+        {
+          "section": "BSSE Foundations",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 2315"
+            ]
+          ]
+        },
+        {
+          "section": "BSSE Foundations",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 3318"
+            ]
+          ]
+        },
+        {
+          "section": "BSSE Specialization (Professional Program)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "IE 3301"
+            ],
+            [
+              "MATH 3313"
+            ]
+          ]
+        },
+        {
+          "section": "BSSE Specialization (Professional Program)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 3302"
+            ]
+          ]
+        },
+        {
+          "section": "BSSE Specialization (Professional Program)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 3310"
+            ]
+          ]
+        },
+        {
+          "section": "BSSE Specialization (Professional Program)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 3311"
+            ]
+          ]
+        },
+        {
+          "section": "BSSE Specialization (Professional Program)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 3314"
+            ]
+          ]
+        },
+        {
+          "section": "BSSE Specialization (Professional Program)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 3315"
+            ]
+          ]
+        },
+        {
+          "section": "BSSE Specialization (Professional Program)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 3320"
+            ]
+          ]
+        },
+        {
+          "section": "BSSE Specialization (Professional Program)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 3330"
+            ]
+          ]
+        },
+        {
+          "section": "BSSE Specialization (Professional Program)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 3380"
+            ],
+            [
+              "MATH 3330"
+            ]
+          ]
+        },
+        {
+          "section": "BSSE Specialization (Professional Program)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 4316"
+            ]
+          ]
+        },
+        {
+          "section": "BSSE Specialization (Professional Program)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 4317"
+            ]
+          ]
+        },
+        {
+          "section": "BSSE Specialization (Professional Program)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 4321"
+            ]
+          ]
+        },
+        {
+          "section": "BSSE Specialization (Professional Program)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 4322"
+            ]
+          ]
+        },
+        {
+          "section": "BSSE Specialization (Professional Program)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 4361"
+            ]
+          ]
+        },
+        {
+          "section": "BSSE Specialization (Professional Program)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 4380"
+            ]
+          ]
+        },
+        {
+          "section": "BSSE Specialization (Professional Program)",
+          "chooseHours": 4,
+          "note": "Select four hours from the following. If you choose the PHYS option, both PHYS 3313 and PHYS 3183 have to completed.",
+          "options": [
+            [
+              "BIOL 1441"
+            ],
+            [
+              "CHEM 1441"
+            ],
+            [
+              "CHEM 1465"
+            ],
+            [
+              "PHYS 3313",
+              "PHYS 3183"
+            ]
+          ]
+        },
+        {
+          "section": "Technical Electives",
+          "chooseHours": 9,
+          "note": "Select three from the following",
+          "options": [
+            [
+              "CSE 4303"
+            ],
+            [
+              "CSE 4304"
+            ],
+            [
+              "CSE 4305"
+            ],
+            [
+              "CSE 4308"
+            ],
+            [
+              "CSE 4309"
+            ],
+            [
+              "CSE 4310"
+            ],
+            [
+              "CSE 4311"
+            ],
+            [
+              "CSE 4323"
+            ],
+            [
+              "CSE 4331"
+            ],
+            [
+              "CSE 4333"
+            ],
+            [
+              "CSE 4334"
+            ],
+            [
+              "CSE 4344"
+            ],
+            [
+              "CSE 4345"
+            ],
+            [
+              "CSE 4351"
+            ],
+            [
+              "CSE 4360"
+            ],
+            [
+              "CSE 4378"
+            ],
+            [
+              "CSE 4381"
+            ],
+            [
+              "CSE 4382"
+            ],
+            [
+              "CSE 4392"
+            ],
+            [
+              "CSE 3313"
+            ],
+            [
+              "CSE 3340"
+            ],
+            [
+              "ENGR 4302"
+            ],
+            [
+              "IE 3315"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Computer Engineering",
+      "award": "Bachelor of Science",
+      "totalHours": 124,
+      "catalogUrl": "https://catalog.uta.edu/engineering/computer/undergraduate/computer-engineering-bs/",
+      "requirements": [
+        {
+          "section": "Core curriculum: Communication",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "COMS 2302"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: Communication",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "ENGL 1301"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: Life & Physical Sciences",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "PHYS 1443"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: Life & Physical Sciences",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "PHYS 1444"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: Mathematics",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "MATH 1426"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: Social & Behavioral Sciences",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "IE 2308"
+            ],
+            [
+              "ECON 2305"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: Foundation Core Component option",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "MATH 2425"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: Foundation Core Component option",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "MATH 2326"
+            ]
+          ]
+        },
+        {
+          "section": "BS Computer Engineering Foundations (Pre-Professional)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "UNIV 1131"
+            ],
+            [
+              "ENGR 1101"
+            ],
+            [
+              "UNIV 1101"
+            ]
+          ]
+        },
+        {
+          "section": "BS Computer Engineering Foundations (Pre-Professional)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 1106"
+            ]
+          ]
+        },
+        {
+          "section": "BS Computer Engineering Foundations (Pre-Professional)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 1310"
+            ]
+          ]
+        },
+        {
+          "section": "BS Computer Engineering Foundations (Pre-Professional)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 1320"
+            ]
+          ]
+        },
+        {
+          "section": "BS Computer Engineering Foundations (Pre-Professional)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 1326"
+            ]
+          ]
+        },
+        {
+          "section": "BS Computer Engineering Foundations (Pre-Professional)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 2312"
+            ]
+          ]
+        },
+        {
+          "section": "BS Computer Engineering Foundations (Pre-Professional)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 2315"
+            ]
+          ]
+        },
+        {
+          "section": "BS Computer Engineering Foundations (Pre-Professional)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 2440"
+            ]
+          ]
+        },
+        {
+          "section": "BS Computer Engineering Foundations (Pre-Professional)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 2441"
+            ]
+          ]
+        },
+        {
+          "section": "BS Computer Engineering Foundations (Pre-Professional)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 3318"
+            ]
+          ]
+        },
+        {
+          "section": "BS Computer Engineering Specialization (Professional Courses)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "IE 3301"
+            ],
+            [
+              "MATH 3313"
+            ]
+          ]
+        },
+        {
+          "section": "BS Computer Engineering Specialization (Professional Courses)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 3313"
+            ]
+          ]
+        },
+        {
+          "section": "BS Computer Engineering Specialization (Professional Courses)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 3314"
+            ]
+          ]
+        },
+        {
+          "section": "BS Computer Engineering Specialization (Professional Courses)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 3320"
+            ]
+          ]
+        },
+        {
+          "section": "BS Computer Engineering Specialization (Professional Courses)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 3323"
+            ]
+          ]
+        },
+        {
+          "section": "BS Computer Engineering Specialization (Professional Courses)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 3341"
+            ]
+          ]
+        },
+        {
+          "section": "BS Computer Engineering Specialization (Professional Courses)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 3380"
+            ],
+            [
+              "MATH 3330"
+            ]
+          ]
+        },
+        {
+          "section": "BS Computer Engineering Specialization (Professional Courses)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 3442"
+            ]
+          ]
+        },
+        {
+          "section": "BS Computer Engineering Specialization (Professional Courses)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 4316"
+            ]
+          ]
+        },
+        {
+          "section": "BS Computer Engineering Specialization (Professional Courses)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 4317"
+            ]
+          ]
+        },
+        {
+          "section": "BS Computer Engineering Specialization (Professional Courses)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 4323"
+            ]
+          ]
+        },
+        {
+          "section": "BS Computer Engineering Specialization (Professional Courses)",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "CSE 4342"
+            ]
+          ]
+        },
+        {
+          "section": "BS Computer Engineering Specialization (Professional Courses)",
+          "chooseHours": 4,
+          "note": "Select four hours from the following. If you choose the PHYS option, both PHYS 3313 and PHYS 3183 have to completed.",
+          "options": [
+            [
+              "BIOL 1441"
+            ],
+            [
+              "CHEM 1441"
+            ],
+            [
+              "CHEM 1465"
+            ],
+            [
+              "PHYS 3313",
+              "PHYS 3183"
+            ]
+          ]
+        },
+        {
+          "section": "Technical Electives",
+          "chooseHours": 9,
+          "note": "Select three from the following",
+          "options": [
+            [
+              "CSE 4352"
+            ],
+            [
+              "CSE 4354"
+            ],
+            [
+              "CSE 4355"
+            ],
+            [
+              "CSE 4356"
+            ],
+            [
+              "CSE 4358"
+            ],
+            [
+              "CSE 4372"
+            ],
+            [
+              "CSE 4373"
+            ],
+            [
+              "CSE 4376"
+            ],
+            [
+              "CSE 4377"
+            ],
+            [
+              "CSE 4392"
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "courses": [
+    {
+      "code": "BIOL 1441",
+      "subject": "BIOL",
+      "number": "1441",
+      "title": "Biology I for Science Majors: Cell and Molecular Biology",
+      "hours": "4",
+      "tccn": "BIOL 1406",
+      "prerequisites": null
+    },
+    {
+      "code": "CHEM 1441",
+      "subject": "CHEM",
+      "number": "1441",
+      "title": "General Chemistry I",
+      "hours": "4",
+      "tccn": "CHEM 1411",
+      "prerequisites": "Prerequisite: MATH 1302 or MATH 1303 or MATH 1322 or MATH 1323 or MATH 1324 or MATH 1402 or MATH 1421 or MATH 1426 or ALEKS =/> 61 or Student Group CHEM 1441."
+    },
+    {
+      "code": "CHEM 1465",
+      "subject": "CHEM",
+      "number": "1465",
+      "title": "Chemistry for Engineers",
+      "hours": "4",
+      "tccn": "CHEM 1409",
+      "prerequisites": "Prerequisite: C or better in MATH 1322 or C or better in MATH 1323 or C or better in MATH 1324 or C or better in MATH 1421 (or concurrent enrollment) or MATH 1426 (or concurrent enrollment) or HONR-SC 1426 (or concurrent enrollment) or MATH 2425 (or concurrent enrollment) or HONR-SC 2425 (or concurrent enrollment) or ALEKS =/> 61 or Student Group CHEM 1465."
+    },
+    {
+      "code": "COMS 2302",
+      "subject": "COMS",
+      "number": "2302",
+      "title": "Professional and Technical Communication for Science and Engineering",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisites: 30 or more hours earned and ENGL 1301 or Student Group."
+    },
+    {
+      "code": "CSE 1106",
+      "subject": "CSE",
+      "number": "1106",
+      "title": "Introduction to Computer Science and Engineering",
+      "hours": "1",
+      "tccn": null,
+      "prerequisites": "Prerequisite: C or better in CSE 1310."
+    },
+    {
+      "code": "CSE 1310",
+      "subject": "CSE",
+      "number": "1310",
+      "title": "Introduction to Computers & Programming",
+      "hours": "3",
+      "tccn": "COSC 1320",
+      "prerequisites": "Prerequisite: C or better in MATH 1302 or MATH 1402 or C or better in (or concurrent enrollment in) a subsequent mathematics course (MATH 1421, MATH 1426, MATH 2425, MATH 2326, MATH 3330, HONR-SC 1426 or HONR-SC 2425) or a qualifying score on the ALEKS PPL and C or better in UNIV 1131 (or concurrent enrollment) or ENGR 1101 (or concurrent enrollment)."
+    },
+    {
+      "code": "CSE 1320",
+      "subject": "CSE",
+      "number": "1320",
+      "title": "Intermediate Programming",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: C or better in CSE 1310 and C or better in (or concurrent enrollment in) (MATH 1421, MATH 1426, MATH 2425, MATH 2326, MATH 3330, HONR-SC 1426, or HONR-SC 2425) or a qualifying score on the ALEKS PPL and C or better in UNIV 1131 (or concurrent enrollment) or ENGR 1101 (or concurrent enrollment.)."
+    },
+    {
+      "code": "CSE 1325",
+      "subject": "CSE",
+      "number": "1325",
+      "title": "Object-Oriented Programming",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: CSE 1320."
+    },
+    {
+      "code": "CSE 1326",
+      "subject": "CSE",
+      "number": "1326",
+      "title": "Object-Oriented Programming in C++",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: CSE 1320."
+    },
+    {
+      "code": "CSE 2312",
+      "subject": "CSE",
+      "number": "2312",
+      "title": "Computer Organization & Assembly Language Programming",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: a C or better in CSE 1320 and a C or better in CSE 1205 or CSE 1106."
+    },
+    {
+      "code": "CSE 2315",
+      "subject": "CSE",
+      "number": "2315",
+      "title": "Discrete Structures",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: C or better in CSE 1310 and C or better in MATH 1426 (or C or better in or concurrent enrollment in MATH 2425)."
+    },
+    {
+      "code": "CSE 2440",
+      "subject": "CSE",
+      "number": "2440",
+      "title": "Circuit Analysis",
+      "hours": "4",
+      "tccn": null,
+      "prerequisites": "Prerequisite: Grade C or better in MATH 2425 and PHYS 1444."
+    },
+    {
+      "code": "CSE 2441",
+      "subject": "CSE",
+      "number": "2441",
+      "title": "Digital Logic Design I",
+      "hours": "4",
+      "tccn": null,
+      "prerequisites": "Prerequisite: CSE 1320 and CSE 2315."
+    },
+    {
+      "code": "CSE 3302",
+      "subject": "CSE",
+      "number": "3302",
+      "title": "Programming Languages",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: C or better in each of the following: CSE 1325, CSE 2312 and CSE 3318."
+    },
+    {
+      "code": "CSE 3310",
+      "subject": "CSE",
+      "number": "3310",
+      "title": "Fundamentals of Software Engineering",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: C or better in each of the following: CSE 1320, CSE 1325 and CSE 2315."
+    },
+    {
+      "code": "CSE 3311",
+      "subject": "CSE",
+      "number": "3311",
+      "title": "Object-Oriented Software Engineering",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: C or better in each of the following: CSE 3310 and CSE 3318."
+    },
+    {
+      "code": "CSE 3313",
+      "subject": "CSE",
+      "number": "3313",
+      "title": "Introduction to Signal Processing",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisites: C or better in each of the following: CSE 3318, CSE 3380 or MATH 3330, and IE 3301 or MATH 3313."
+    },
+    {
+      "code": "CSE 3314",
+      "subject": "CSE",
+      "number": "3314",
+      "title": "Professional Practices",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: C or better in CSE 3318 and COMS 2302."
+    },
+    {
+      "code": "CSE 3315",
+      "subject": "CSE",
+      "number": "3315",
+      "title": "Theoretical Concepts in Computer Science and Engineering",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: C or better in CSE 2315."
+    },
+    {
+      "code": "CSE 3318",
+      "subject": "CSE",
+      "number": "3318",
+      "title": "Algorithms & Data Structures",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: CSE 1320 and CSE 2315."
+    },
+    {
+      "code": "CSE 3320",
+      "subject": "CSE",
+      "number": "3320",
+      "title": "Operating Systems",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: C or better in CSE 2312."
+    },
+    {
+      "code": "CSE 3323",
+      "subject": "CSE",
+      "number": "3323",
+      "title": "Electronics",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: C or better in CSE 2440."
+    },
+    {
+      "code": "CSE 3330",
+      "subject": "CSE",
+      "number": "3330",
+      "title": "Database Systems and File Structures",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: C or better in each of the following: CSE 1325 and CSE 3318."
+    },
+    {
+      "code": "CSE 3340",
+      "subject": "CSE",
+      "number": "3340",
+      "title": "Introduction to Human Computer Interaction",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: C or better in CSE 3318, and C or better in CSE 3310."
+    },
+    {
+      "code": "CSE 3341",
+      "subject": "CSE",
+      "number": "3341",
+      "title": "Digital Logic Design II",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: C or better in CSE 2441."
+    },
+    {
+      "code": "CSE 3380",
+      "subject": "CSE",
+      "number": "3380",
+      "title": "Linear Algebra for CSE",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: C or better in CSE 2315."
+    },
+    {
+      "code": "CSE 3442",
+      "subject": "CSE",
+      "number": "3442",
+      "title": "Embedded Systems I",
+      "hours": "4",
+      "tccn": null,
+      "prerequisites": "Prerequisite: C or better in each of the following: CSE 2312, CSE 2440 and CSE 2441."
+    },
+    {
+      "code": "CSE 4303",
+      "subject": "CSE",
+      "number": "4303",
+      "title": "Computer Graphics",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following: CSE 3318, and either CSE 3380 or MATH 3330."
+    },
+    {
+      "code": "CSE 4304",
+      "subject": "CSE",
+      "number": "4304",
+      "title": "Game Design and Development",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3380 or MATH 3330."
+    },
+    {
+      "code": "CSE 4305",
+      "subject": "CSE",
+      "number": "4305",
+      "title": "Compilers for Algorithmic Languages",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in the following: CSE 3302 and CSE 3315."
+    },
+    {
+      "code": "CSE 4308",
+      "subject": "CSE",
+      "number": "4308",
+      "title": "Artificial Intelligence",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following: CSE 3318 and (IE 3301 or MATH 3313)."
+    },
+    {
+      "code": "CSE 4309",
+      "subject": "CSE",
+      "number": "4309",
+      "title": "Fundamentals of Machine Learning",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisites: Admitted into an Engineering Professional Program. C or better in each of the following: CSE 3318, IE 3301 or MATH 3313, and CSE 3380 or MATH 3330."
+    },
+    {
+      "code": "CSE 4310",
+      "subject": "CSE",
+      "number": "4310",
+      "title": "Fundamentals of Computer Vision",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following: CSE 3318, IE 3301 or MATH 3313, and CSE 3380 or MATH 3330."
+    },
+    {
+      "code": "CSE 4311",
+      "subject": "CSE",
+      "number": "4311",
+      "title": "Neural Networks and Deep Learning",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3380 or MATH 3330, and C or better in IE 3301 or MATH 3313."
+    },
+    {
+      "code": "CSE 4316",
+      "subject": "CSE",
+      "number": "4316",
+      "title": "Computer System Design Project I",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisites: Admitted into a CSE Professional Program. For academic plan CS__CS or SE__SE, C or better in CSE 3310 and CSE 3320, and C or better in CSE 3314 (or concurrently). For academic plan CSE_CP, C or better in CSE 3320 and CSE 3442, and C or better in CSE 3314 (or concurrently)."
+    },
+    {
+      "code": "CSE 4317",
+      "subject": "CSE",
+      "number": "4317",
+      "title": "Computer System Design Project II",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 4316 and continuation with the same team."
+    },
+    {
+      "code": "CSE 4321",
+      "subject": "CSE",
+      "number": "4321",
+      "title": "Software Testing & Maintenance",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3310."
+    },
+    {
+      "code": "CSE 4322",
+      "subject": "CSE",
+      "number": "4322",
+      "title": "Software Project Management",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3310."
+    },
+    {
+      "code": "CSE 4323",
+      "subject": "CSE",
+      "number": "4323",
+      "title": "Quantitative Computer Architecture",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3320."
+    },
+    {
+      "code": "CSE 4331",
+      "subject": "CSE",
+      "number": "4331",
+      "title": "Database Implementation and Theory",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3330."
+    },
+    {
+      "code": "CSE 4333",
+      "subject": "CSE",
+      "number": "4333",
+      "title": "Cloud Computing Fundamentals and Applications",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3330, and C or better in CSE 3320."
+    },
+    {
+      "code": "CSE 4334",
+      "subject": "CSE",
+      "number": "4334",
+      "title": "Data Mining",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following: IE 3301 (or MATH 3313). Co-requisite: CSE 3330."
+    },
+    {
+      "code": "CSE 4342",
+      "subject": "CSE",
+      "number": "4342",
+      "title": "Embedded Systems II",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following: CSE 3323, CSE 3442, and CSE 3313."
+    },
+    {
+      "code": "CSE 4344",
+      "subject": "CSE",
+      "number": "4344",
+      "title": "Computer Network Organization",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3320."
+    },
+    {
+      "code": "CSE 4345",
+      "subject": "CSE",
+      "number": "4345",
+      "title": "Computational Methods",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following IE 3301 or MATH 3313, CSE 3318, and either CSE 3380 or MATH 3330."
+    },
+    {
+      "code": "CSE 4351",
+      "subject": "CSE",
+      "number": "4351",
+      "title": "Parallel Processing",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3320."
+    },
+    {
+      "code": "CSE 4352",
+      "subject": "CSE",
+      "number": "4352",
+      "title": "IOT and Networking",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3442."
+    },
+    {
+      "code": "CSE 4354",
+      "subject": "CSE",
+      "number": "4354",
+      "title": "Real-Time Operating Systems",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in both CSE 3320 and CSE 3442."
+    },
+    {
+      "code": "CSE 4355",
+      "subject": "CSE",
+      "number": "4355",
+      "title": "Electromechanical Systems and Sensors",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in both CSE 3323 and CSE 3442."
+    },
+    {
+      "code": "CSE 4356",
+      "subject": "CSE",
+      "number": "4356",
+      "title": "System on Chip (SOC) Design",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3442."
+    },
+    {
+      "code": "CSE 4358",
+      "subject": "CSE",
+      "number": "4358",
+      "title": "Microprocessor Systems",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3442."
+    },
+    {
+      "code": "CSE 4360",
+      "subject": "CSE",
+      "number": "4360",
+      "title": "Autonomous Robot Design and Programming",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following: CSE 3318, CSE 3320 and CSE 3380 (or MATH 3330)."
+    },
+    {
+      "code": "CSE 4361",
+      "subject": "CSE",
+      "number": "4361",
+      "title": "Software Design Patterns",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisites: Admitted into an Engineering Professional Program. C or better in CSE 3311."
+    },
+    {
+      "code": "CSE 4372",
+      "subject": "CSE",
+      "number": "4372",
+      "title": "RISC Processor Design",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3442."
+    },
+    {
+      "code": "CSE 4373",
+      "subject": "CSE",
+      "number": "4373",
+      "title": "General Purpose GPU Programming",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisites: Admitted into an Engineering Professional Program. C or better in CSE 3320."
+    },
+    {
+      "code": "CSE 4376",
+      "subject": "CSE",
+      "number": "4376",
+      "title": "Digital Communication Systems",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3313."
+    },
+    {
+      "code": "CSE 4377",
+      "subject": "CSE",
+      "number": "4377",
+      "title": "Wireless Communication Systems",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3313 and CSE 3442."
+    },
+    {
+      "code": "CSE 4378",
+      "subject": "CSE",
+      "number": "4378",
+      "title": "Introduction to Unmanned Vehicle Systems",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: Admission to a professional engineering or science program."
+    },
+    {
+      "code": "CSE 4379",
+      "subject": "CSE",
+      "number": "4379",
+      "title": "Unmanned Vehicle System Development",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: B or better in CSE 4378 and admission to the UVS certificate program."
+    },
+    {
+      "code": "CSE 4380",
+      "subject": "CSE",
+      "number": "4380",
+      "title": "Information Security",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3320."
+    },
+    {
+      "code": "CSE 4381",
+      "subject": "CSE",
+      "number": "4381",
+      "title": "Information Security II",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3320 and C or better in CSE 4344 (or concurrently)."
+    },
+    {
+      "code": "CSE 4382",
+      "subject": "CSE",
+      "number": "4382",
+      "title": "Secure Programming",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3320."
+    },
+    {
+      "code": "CSE 4392",
+      "subject": "CSE",
+      "number": "4392",
+      "title": "Special Topics",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: consent of instructor."
+    },
+    {
+      "code": "ECON 2305",
+      "subject": "ECON",
+      "number": "2305",
+      "title": "Principles of Macroeconomics",
+      "hours": "3",
+      "tccn": "ECON 2301",
+      "prerequisites": null
+    },
+    {
+      "code": "ENGL 1301",
+      "subject": "ENGL",
+      "number": "1301",
+      "title": "Rhetoric and Composition I",
+      "hours": "3",
+      "tccn": "ENGL 1301",
+      "prerequisites": null
+    },
+    {
+      "code": "ENGR 1101",
+      "subject": "ENGR",
+      "number": "1101",
+      "title": "Entrance to Engineering for Transfer Students",
+      "hours": "1",
+      "tccn": null,
+      "prerequisites": null
+    },
+    {
+      "code": "ENGR 4302",
+      "subject": "ENGR",
+      "number": "4302",
+      "title": "Engineering Entrepreneurship",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: Student must be in an engineering professional program."
+    },
+    {
+      "code": "IE 2308",
+      "subject": "IE",
+      "number": "2308",
+      "title": "Economics for Engineers",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisites: MATH 1426 or concurrent enrollment."
+    },
+    {
+      "code": "IE 3301",
+      "subject": "IE",
+      "number": "3301",
+      "title": "Engineering Probability",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: MATH 2425."
+    },
+    {
+      "code": "IE 3315",
+      "subject": "IE",
+      "number": "3315",
+      "title": "Operations Research I",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: MATH 2326 or concurrent enrollment."
+    },
+    {
+      "code": "MATH 1426",
+      "subject": "MATH",
+      "number": "1426",
+      "title": "Calculus I",
+      "hours": "4",
+      "tccn": "MATH 2413",
+      "prerequisites": "Prerequisite: A qualifying score on the Math Placement Test (MPT) or ALEKS PPL is required to register for this course, or student group."
+    },
+    {
+      "code": "MATH 2326",
+      "subject": "MATH",
+      "number": "2326",
+      "title": "Calculus III",
+      "hours": "3",
+      "tccn": "MATH 2315",
+      "prerequisites": "Prerequisite: C or better in MATH 2425 or HONR-SC 2425, or student group."
+    },
+    {
+      "code": "MATH 2425",
+      "subject": "MATH",
+      "number": "2425",
+      "title": "Calculus II",
+      "hours": "4",
+      "tccn": "MATH 2414",
+      "prerequisites": "Prerequisite: C or better in MATH 1426 or HONR-SC 1426, or student group."
+    },
+    {
+      "code": "MATH 3313",
+      "subject": "MATH",
+      "number": "3313",
+      "title": "Introduction to Probability",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: C or better in MATH 2326, or student group."
+    },
+    {
+      "code": "MATH 3330",
+      "subject": "MATH",
+      "number": "3330",
+      "title": "Introduction to Linear Algebra and Vector Spaces",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: C or better in MATH 2425, or student group."
+    },
+    {
+      "code": "PHYS 1443",
+      "subject": "PHYS",
+      "number": "1443",
+      "title": "General Technical Physics I",
+      "hours": "4",
+      "tccn": "PHYS 2425",
+      "prerequisites": "Prerequisite: MATH 1426 or consent of instructor."
+    },
+    {
+      "code": "PHYS 1444",
+      "subject": "PHYS",
+      "number": "1444",
+      "title": "General Technical Physics II",
+      "hours": "4",
+      "tccn": "PHYS 2426",
+      "prerequisites": "Prerequisites: PHYS 1443 or equivalent and MATH 2425 or concurrent enrollment."
+    },
+    {
+      "code": "PHYS 3183",
+      "subject": "PHYS",
+      "number": "3183",
+      "title": "Modern Physics Laboratory",
+      "hours": "1",
+      "tccn": null,
+      "prerequisites": "Prerequisite: PHYS 3313 or concurrent enrollment."
+    },
+    {
+      "code": "PHYS 3313",
+      "subject": "PHYS",
+      "number": "3313",
+      "title": "Introduction to Modern Physics",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisites: PHYS 1444 or equivalent and MATH 2425."
+    },
+    {
+      "code": "UNIV 1101",
+      "subject": "UNIV",
+      "number": "1101",
+      "title": "Career Preparation and Student Success",
+      "hours": "1",
+      "tccn": null,
+      "prerequisites": null
+    },
+    {
+      "code": "UNIV 1131",
+      "subject": "UNIV",
+      "number": "1131",
+      "title": "Student Success",
+      "hours": "1",
+      "tccn": null,
+      "prerequisites": null
+    }
+  ]
+}
