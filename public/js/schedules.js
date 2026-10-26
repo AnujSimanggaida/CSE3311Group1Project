@@ -71,7 +71,8 @@ function scheduleItem(schedule) {
   titleRow.append(title);
   info.append(titleRow);
   info.append(el('p', 'course-meta',
-    `${plural(schedule.courseCount, 'course')} · Saved ${formatDate(schedule.updatedAt)}`));
+    `${schedule.semester || 'No semester chosen'} · ${plural(schedule.courseCount, 'course')}`
+    + ` · Saved ${formatDate(schedule.updatedAt)}`));
   if (schedule.missingCount > 0) {
     info.append(el('p', 'course-warning',
       `${plural(schedule.missingCount, 'course')} in this schedule ${schedule.missingCount === 1 ? 'is' : 'are'} `

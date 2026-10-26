@@ -2,6 +2,51 @@
 
 What changed in CourseSweep, newest first. Full instructions for every feature are in [README.md](README.md).
 
+## Whole courses in search, and student ratings
+
+### Added
+
+- **Search is grouped by course.** **Select course (all N sections)** lets Find best schedules pick any of the course's sections. **Select only this section** keeps that one section. Each course is boxed in blue, with its sections in a second blue box.
+- **Select, then save.** Search only selects courses. A bar pinned to the bottom of the search has a green **Save selected courses** button and **Exit without saving**.
+- **Sections and ratings** on each course in your list shows all its sections. It can switch between the two ways a course is added.
+- **Your rating.** Rate any professor's section from 1 to 5. Find best schedules uses your rating for that section. Every rating is saved and averaged into the section's overall rating, where each student counts as one survey response.
+- **New API:** `GET /api/courses/{id}/sections` and `PUT /api/ratings`. Schedules and the schedule finder take `entries` (with `anySection` and `chosen`) instead of `courseIds`; `courseIds` still works.
+
+### What you need to do after pulling
+
+Restart the server. The new `section_ratings` table and the `any_section` and `section_chosen` columns are added automatically. Plans saved before this update keep working as before: each course counts as the whole course.
+
+## Core curriculum, senior prerequisites and "courses my degree still needs"
+
+### Added
+
+- **Core curriculum courses.** The catalog gains 57 courses from UTA's General Core Requirements page: U.S. History, Political Science, Language/Philosophy/Culture and Creative Arts. Each comes with its official title, prerequisites and real instructors from the survey data. The three degree plans now list them as requirements, so "Classes left to graduate" counts them. Only free electives remain uncounted.
+- **Core curriculum section on My degree.** U.S. History and Political Science are checkboxes; Language/Philosophy/Culture and Creative Arts each have a menu asking which course you took. These courses no longer crowd the checklist.
+- **4000-level courses need Calculus II and Physics II.** Every 4000-level course now also requires MATH 2425 and PHYS 1444, for "Only show courses I can take now" and for automatic ticking on My degree.
+- **"Only show courses my degree still needs"** in course search. It hides courses that cannot fill an open requirement of your major. Combine it with "can take now" to see what you could sign up for next.
+- **Seed script.** `build_uta_seed.py` reads the general core page and more subject pages (see `SUBJECTS` and `CORE_PAGE`), and applies the 4000-level rule (`SENIOR_PREREQUISITES`).
+- **New API option:** `needed=true` on `GET /api/courses`, with the count in `hiddenNotNeeded`.
+
+### What you need to do after pulling
+
+Restart the server. The new courses, sections and degree requirements are loaded automatically, and saved schedules keep their courses. Saved profiles gain MATH 2425 and PHYS 1444 for any 4000-level course the next time they are saved.
+
+## Time blocks and best schedules
+
+### Added
+
+- **Time blocks** in the schedule builder: 0 to 6 weekly times you are busy, each with days and a start and end time picked from hour (1–12), minute (every 5) and AM/PM menus. They are saved with the schedule, and a course that overlaps one gets a warning.
+- **Find best schedules.** Tries every section of each course in your list, skips sections that overlap a time block or clash, and ranks the rest by average rating (to the nearest 0.25), then by the least time between classes. Shows the best 10. **Use this schedule** puts one into your list.
+- **"Create a new degree plan"** replaces "Create a new schedule" on the home page, My schedules and the builder, since CourseSweep now helps plan a whole degree.
+- **Semester.** Choose the semester a plan is for (Fall 2026, Spring 2027 or Fall 2027) before saving. My schedules shows it.
+- **"View existing degree plans"** replaces "View existing schedules" on the home page.
+- **Explains empty results.** It names the courses whose every section overlaps a time block, or the pairs of courses that always clash.
+- **New API:** `POST /api/schedule-options`. Saving a schedule accepts `blocks`, and opening one returns them.
+
+### What you need to do after pulling
+
+Restart the server. The new `time_blocks` and `semester` columns are added automatically. Schedules saved before have no time blocks and no semester; choose one the next time you save them.
+
 ## Courses I can take now
 
 ### Added

@@ -685,6 +685,27 @@ a.choice {
 .search-filter {
   margin: 10px 0 10px;
   font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* Same size for every filter box, even when its label wraps onto two lines. */
+.search-filter input {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--success);
+}
+
+.search-filter input:checked {
+  outline: 2px solid var(--success);
+  outline-offset: 1px;
+}
+
+.search-filter input:checked:focus-visible {
+  outline: 3px solid var(--orange);
+  outline-offset: 2px;
 }
 
 /* ---------- Admin ---------- */
@@ -823,6 +844,11 @@ a.choice {
   margin-bottom: 0;
 }
 
+/* Course boxes replace the plain row lines in search results. */
+#search-results > .course-group:last-child {
+  margin-bottom: 0;
+}
+
 .optional {
   font-weight: 400;
   color: var(--muted);
@@ -867,4 +893,264 @@ a.choice {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 0 16px;
+}
+
+/* ---------- Time blocks and best schedules ---------- */
+
+.block-list,
+.best-list {
+  margin: 0 0 22px;
+  padding: 0;
+  list-style: none;
+}
+
+.block,
+.best {
+  margin-bottom: 12px;
+  padding: 14px 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+}
+
+.block .field,
+.block .days {
+  margin-bottom: 8px;
+}
+
+.block .field-error {
+  margin: 0;
+}
+
+.block-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+  margin-bottom: 8px;
+}
+
+.block-head p {
+  margin: 0;
+}
+
+.block-title {
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.best-chosen {
+  border-color: var(--navy);
+  background: #f3f6fa;
+}
+
+.best-courses {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+#best-status {
+  margin-bottom: 12px;
+}
+
+.time-pick {
+  display: flex;
+  gap: 6px;
+}
+
+.time-field select {
+  flex: 1;
+  min-width: 0;
+  padding: 9px 6px;
+  font: inherit;
+  color: var(--ink);
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+}
+
+/* ---------- Core curriculum menus on My degree ---------- */
+
+.core-slots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 0 16px;
+}
+
+.core-slots select {
+  text-overflow: ellipsis;
+}
+
+/* ---------- Courses with all their sections, and student ratings ---------- */
+
+.course-group {
+  margin-bottom: 14px;
+  padding: 14px;
+  border: 2px solid var(--navy);
+  border-radius: 10px;
+}
+
+.course-group-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+/* The sections of one course, boxed inside the course's box. */
+.sections-box {
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: #f3f7fc;
+  border: 1.5px solid #6f9fd8;
+  border-radius: 8px;
+}
+
+.sections-box-label {
+  margin: 0 0 4px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.section-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.section-list .course {
+  padding: 10px 0;
+  border-top: 1px dashed #b7cde8;
+}
+
+.section-list .course:first-child {
+  border-top: none;
+}
+
+.section-list .course:last-child {
+  border-bottom: none;
+}
+
+.section-row .course-title {
+  font-size: 0.95rem;
+}
+
+.plan-entry {
+  flex-wrap: wrap;
+}
+
+.plan-entry .user-actions {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.sections-panel {
+  flex-basis: 100%;
+  padding: 4px 0 0;
+}
+
+.sections-panel .field-hint {
+  margin: 0 0 4px;
+}
+
+.rating-pick {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.rating-pick select {
+  padding: 3px 6px;
+  font: inherit;
+  color: var(--ink);
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+}
+
+.rating-pick .field-error {
+  flex-basis: 100%;
+  margin: 0;
+}
+
+.tag-mode {
+  color: #1b4d2e;
+  background: #e3f2e8;
+}
+
+@media (max-width: 520px) {
+  .course-group-head,
+  .course {
+    flex-wrap: wrap;
+  }
+}
+
+/* ---------- Selecting courses in search ---------- */
+
+/* Pinned to the bottom of the dialog while the results scroll under it. */
+.search-actions {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 16px -24px -24px;
+  padding: 12px 24px 16px;
+  background: var(--white);
+  border-top: 1px solid var(--border);
+  box-shadow: 0 -6px 12px rgba(1, 30, 54, 0.08);
+}
+
+.search-actions button {
+  flex: 1 1 180px;
+}
+
+.btn-save {
+  padding: 10px 14px;
+  font: inherit;
+  font-weight: 700;
+  color: var(--white);
+  background: var(--success);
+  border: 1.5px solid var(--success);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-save:hover:not(:disabled) {
+  background: #154a19;
+}
+
+.btn-save:disabled {
+  color: var(--white);
+  background: #8fb592;
+  border-color: #8fb592;
+  cursor: default;
+}
+
+.btn-save:focus-visible,
+.search-actions .btn-secondary:focus-visible {
+  outline: 3px solid var(--orange);
+  outline-offset: 2px;
+}
+
+/* A course or section picked in search, not yet saved to the plan. */
+.btn-secondary.is-selected,
+.btn-secondary.is-selected:hover:not(:disabled) {
+  color: var(--white);
+  background: var(--success);
+  border-color: var(--success);
+}
+
+.btn-link.is-selected {
+  color: var(--success);
 }

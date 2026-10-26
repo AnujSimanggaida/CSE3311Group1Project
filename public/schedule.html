@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>New schedule | CourseSweep</title>
+  <title>New degree plan | CourseSweep</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -19,7 +19,7 @@
 
   <main class="page">
     <section class="card card-wide" aria-labelledby="builder-heading">
-      <h1 id="builder-heading">New schedule</h1>
+      <h1 id="builder-heading">New degree plan</h1>
 
       <p id="load-error" class="form-error" role="alert" hidden></p>
 
@@ -36,6 +36,18 @@
           <p id="schedule-name-error" class="field-error" hidden></p>
         </div>
 
+        <div class="field">
+          <label for="semester">Semester you are enrolling in</label>
+          <!-- The same list as ScheduleService.SEMESTERS on the server. -->
+          <select id="semester" aria-describedby="semester-error">
+            <option value="">Choose a semester</option>
+            <option>Fall 2026</option>
+            <option>Spring 2027</option>
+            <option>Fall 2027</option>
+          </select>
+          <p id="semester-error" class="field-error" hidden></p>
+        </div>
+
         <div class="section-head">
           <h2>Courses</h2>
           <button type="button" id="add-course" class="btn-secondary">+ Add course</button>
@@ -43,6 +55,23 @@
 
         <p id="empty-note" class="card-text">No courses yet. Use “Add course” to search the catalog or create your own.</p>
         <ul id="course-list" class="course-list"></ul>
+
+        <div class="section-head">
+          <h2>Time blocks</h2>
+          <button type="button" id="add-block" class="btn-secondary">+ Add time block</button>
+        </div>
+        <p class="field-hint">Times you are busy each week, such as work or commuting. The best schedules keep them free. You can add up to 6.</p>
+        <p id="blocks-empty" class="card-text">No time blocks, so classes can be at any time.</p>
+        <ul id="block-list" class="block-list"></ul>
+
+        <div class="section-head">
+          <h2>Best schedules</h2>
+          <button type="button" id="find-best" class="btn-secondary">Find best schedules</button>
+        </div>
+        <p class="field-hint">CourseSweep tries every section of each course in your list. It skips sections that overlap a time block or clash with each other, then ranks the schedules by average rating (to the nearest 0.25), then by the least time between classes.</p>
+        <p id="best-error" class="form-error" role="alert" hidden></p>
+        <div id="best-status" class="card-text" role="status" hidden></div>
+        <ol id="best-list" class="best-list"></ol>
 
         <p id="save-error" class="form-error" role="alert" hidden></p>
         <button type="button" id="save-schedule" class="btn-primary">Save schedule</button>
@@ -52,7 +81,7 @@
         </div>
       </div>
 
-      <p class="card-links"><a href="schedules.html">My schedules</a> · <a href="schedule.html">Start another schedule</a></p>
+      <p class="card-links"><a href="schedules.html">My schedules</a> · <a href="schedule.html">Create a new degree plan</a></p>
     </section>
   </main>
 
@@ -89,9 +118,19 @@
         <input type="checkbox" id="can-take">
         Only show courses I can take now (prerequisites taken)
       </label>
+      <label class="remember search-filter">
+        <input type="checkbox" id="needed">
+        Only show courses my degree still needs
+      </label>
       <p class="field-hint">Instructors and ratings come from UTA’s Student Feedback Survey; hover a rating to see which terms. Meeting times are sample data. Prerequisites come from the courses marked on <a href="profile.html">My degree</a>; ones CourseSweep cannot check, such as an ALEKS score, count as met.</p>
       <p id="search-status" class="card-text" role="status" hidden></p>
       <ul id="search-results" class="course-list"></ul>
+
+      <!-- Stays at the bottom of the dialog while the results scroll. -->
+      <div class="search-actions">
+        <button type="button" id="save-selected" class="btn-save" disabled>Save selected courses</button>
+        <button type="button" id="exit-search" class="btn-secondary">Exit without saving</button>
+      </div>
     </div>
 
     <!-- Step 2b: create a custom course -->

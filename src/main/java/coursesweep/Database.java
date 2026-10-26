@@ -173,12 +173,34 @@ final class Database {
                 st.executeUpdate("ALTER TABLE schedules ADD COLUMN updated_at INTEGER NOT NULL DEFAULT 0");
                 st.executeUpdate("UPDATE schedules SET updated_at = created_at");
             }
+            // time_blocks: JSON list of {days, start, end}, the weekly times the student is busy.
+            addColumnIfMissing(conn, "schedules", "time_blocks", "TEXT");
+            // semester: the term the plan is for, such as "Fall 2026" (see ScheduleService.SEMESTERS).
+            addColumnIfMissing(conn, "schedules", "semester", "TEXT");
             st.executeUpdate("CREATE INDEX IF NOT EXISTS schedules_user ON schedules(user_id)");
             migrateScheduleCourses(conn);
             // One row per course in a schedule, in order. course_label keeps the course's name,
             // so if the course is ever removed (course_id becomes NULL) the schedule can still say
             // which course is missing instead of silently dropping it.
             st.executeUpdate(SCHEDULE_COURSES_TABLE);
+            // any_section: the schedule finder may pick any section of the course, not only course_id.
+            // section_chosen: course_id was picked, not just standing in for the course. Rows saved before
+            // these existed stood for their whole course and showed their section, so both default to 1.
+            addColumnIfMissing(conn, "schedule_courses", "any_section", "INTEGER NOT NULL DEFAULT 1");
+            addColumnIfMissing(conn, "schedule_courses", "section_chosen", "INTEGER NOT NULL DEFAULT 1");
+            st.executeUpdate("CREATE INDEX IF NOT EXISTS courses_college_course ON courses(college_course_id)");
+
+            // Students' own 1-to-5 ratings of catalog sections (one professor teaching one course).
+            // They are averaged with the survey results into the section's overall rating.
+            st.executeUpdate("""
+                    CREATE TABLE IF NOT EXISTS section_ratings (
+                        user_id    INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+                        course_id  INTEGER NOT NULL REFERENCES courses(id) ON DELETE CASCADE,
+                        rating     REAL NOT NULL,
+                        updated_at INTEGER NOT NULL,
+                        PRIMARY KEY (user_id, course_id)
+                    )""");
+            st.executeUpdate("CREATE INDEX IF NOT EXISTS section_ratings_course ON section_ratings(course_id)");
 
             long now = System.currentTimeMillis() / 1000;
             st.executeUpdate("DELETE FROM sessions WHERE expires_at <= " + now);

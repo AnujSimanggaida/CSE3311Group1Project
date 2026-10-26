@@ -1,8 +1,11 @@
 # CourseSweep
 
-CourseSweep helps college students build the best possible class schedule from the classes and time blocks available to them.
+CourseSweep helps college students plan their undergraduate degree, from freshman to senior year, and build the best possible class schedule for each semester from the classes and time blocks available to them.
 
-So far it covers accounts (creating an account, signing in, resetting a forgotten password) and a schedule builder where students add courses, save the result, and come back later to view, edit, rename or delete their saved schedules. Automatically picking the best schedule is not built yet.
+So far it covers:
+- **Accounts:** creating an account, signing in (with a password or Google), and resetting a forgotten password.
+- **My degree:** choosing a major, marking the courses already taken (core curriculum included), and seeing how many classes are left to graduate.
+- **Degree plans:** a plan for one semester. Students add courses and time blocks, rate professors, let CourseSweep pick the best schedules, save the result, and come back later to view, edit, rename or delete it.
 
 ## What is in this version
 
@@ -10,24 +13,31 @@ So far it covers accounts (creating an account, signing in, resetting a forgotte
 - **Create account page.**
 - **Sign in with Google** on the sign in and create account pages, once a Google OAuth client is set up. See [Sign in with Google](#sign-in-with-google).
 - **Forgot password and reset password pages.** A reset link works once and expires after 30 minutes.
-- **Home page** shown after signing in. It asks whether to create a new schedule or view existing ones.
-- **Schedule builder.** Name a schedule, add courses, and save it. "Add course" offers two choices:
-  - **Search for an existing course** by code, name or professor.
+- **Home page** shown after signing in. It offers **Create a new degree plan**, **My degree** and **View existing degree plans**.
+- **Degree plan builder** (`schedule.html`). Name the plan, choose the **semester you are enrolling in** (Fall 2026, Spring 2027 or Fall 2027), add courses and time blocks, and save it. "Add course" offers two choices:
+  - **Search for an existing course** by code, name or professor. Results are grouped by course. **Select course (all N sections)** lets Find best schedules pick any of its sections. **Select only this section** keeps one professor and time. Each section has a **Your rating** menu. Selecting does not add anything yet: the bar pinned to the bottom of the search has **Save selected courses**, which adds them all to your plan, and **Exit without saving**, which drops them. Closing the search any other way also drops them.
   - **Create a custom course** with a name, professor, time slot (days, start and end time) and a rating from 1 to 5. Professor and rating are optional. Custom courses are visible only to the student who made them.
 - **Admin page** for moderating the app: list every account, make or remove admins, sign a user out on every device, and delete accounts. See [Admins](#admins).
 - **Saved schedules.** See [Saved schedules](#saved-schedules).
   - **My schedules** (`schedules.html`) lists your saved schedules, with the most recently saved first.
   - **Open** a schedule in the builder to view or change it, then save your changes.
   - **Rename** a schedule, or **Delete** it after confirming.
-- **Time conflict warnings** when two courses in a schedule overlap.
-- **UTA course catalog.** The catalog covers 81 courses used by UTA's Computer Science, Software Engineering and Computer Engineering degrees, each with its official title, hours and prerequisites. Each course is offered by the real instructors who taught it, rated with UTA's Student Feedback Survey. See [Where the catalog data comes from](#where-the-catalog-data-comes-from).
+- **Time conflict warnings** when two courses in a schedule overlap, or a course overlaps a time block.
+- **Time blocks.** Add 0 to 6 weekly times you are busy, such as work. See [Time blocks and best schedules](#time-blocks-and-best-schedules).
+- **Time block menus.** Start and end times are picked from hour (1 to 12), minute (every 5) and AM/PM menus.
+- **Find best schedules.** CourseSweep tries the sections of the courses in your list, either every section of a course or the one section you chose, and shows the 10 best schedules ranked by rating and then by the least time between classes. See [Time blocks and best schedules](#time-blocks-and-best-schedules).
+- **Student ratings.** Rate any professor's section from 1 to 5. The schedule finder uses your rating, and every student's rating is averaged into the section's overall rating. See [Student ratings](#student-ratings).
+- **UTA course catalog.** The catalog covers 138 courses used by UTA's Computer Science, Software Engineering and Computer Engineering degrees, including the approved core curriculum courses for U.S. History, Political Science, Language/Philosophy/Culture and Creative Arts, each with its official title, hours and prerequisites. Each course is offered by the real instructors who taught it, rated with UTA's Student Feedback Survey. See [Where the catalog data comes from](#where-the-catalog-data-comes-from).
 - **My degree** (`profile.html`). See [My degree and courses taken](#my-degree-and-courses-taken).
   - Choose your college and major, and tick the courses you have already taken.
   - 3000- and 4000-level courses are listed first.
   - Ticking a course also ticks its prerequisites.
-  - A counter shows how many classes you have left to graduate.
-- **"Hide courses I have already taken"** in course search. It is on by default.
-- **"Only show courses I can take now"** in course search hides courses whose prerequisites you have not taken.
+  - A **Core curriculum courses** section asks which U.S. History, Political Science, Language/Philosophy/Culture and Creative Arts courses you have taken.
+  - A counter shows how many classes you have left to graduate, core curriculum included.
+- **Course search filters**, shown in bold with boxes that turn green when checked:
+  - **"Hide courses I have already taken"**, on by default.
+  - **"Only show courses I can take now"** hides courses whose prerequisites you have not taken. Every 4000-level course also needs Calculus II (MATH 2425) and Physics II (PHYS 1444).
+  - **"Only show courses my degree still needs"** hides courses that cannot fill an open requirement of your major.
 - **Colleges and degrees.** UTA is the default college. Its three degrees each have their required courses from the 2026–2027 catalog.
 - **Java backend** that serves the pages and a JSON API, storing accounts in a SQLite database.
 
@@ -36,7 +46,8 @@ So far it covers accounts (creating an account, signing in, resetting a forgotte
 The **My degree** page is linked from the top bar and the home page:
 - **College:** UTA is selected by default.
 - **Major:** Computer Science, Software Engineering or Computer Engineering.
-- **Courses taken:** a checklist of all 81 catalog courses, with a search box to narrow it.
+- **Core curriculum courses:** the core areas the degree plan leaves open. U.S. History (HIST 1301, 1302, 1331, 1332) and Political Science (POLS 2311, 2312) are checkboxes. Language, Philosophy and Culture and Creative Arts each have one menu listing UTA's approved courses: choose the one you took, or leave "Not taken yet". These courses are left out of the checklist below. The menus appear once you choose a major.
+- **Courses taken:** a checklist of the other catalog courses, with a search box to narrow it.
   - **Professional courses come first.** All 3000- and 4000-level courses are at the top, then the 1000- and 2000-level ones. Once you choose a major, each part is grouped the way your degree plan is.
   - **Prerequisites are ticked for you.** Ticking a course also ticks every course it certainly requires, all the way down the chain. For example, CSE 3311 brings CSE 3310 and CSE 3318, and through them CSE 1325, 1320, 2315 and 1310. Unticking a course also unticks the courses that need it. A note says what was added or removed, and the server applies the same rule when you save.
   - **"Or" prerequisites are never guessed.** When a prerequisite can be met more than one way, nothing is ticked for it. Examples: "CSE 3380 or MATH 3330", an ALEKS placement score instead of a math course, and CSE 4316's different requirements for each degree plan.
@@ -44,7 +55,7 @@ The **My degree** page is linked from the top bar and the home page:
   - how many classes are left in your degree plan
   - a bar of the listed hours you have completed
   - a list of each requirement still open
-  - **What it cannot count.** About 18 hours of core curriculum (U.S. History, Political Science, Language/Philosophy/Culture, Creative Arts) and any free electives are listed separately. The catalog does not name specific courses for them, so CourseSweep cannot tell whether you have taken them.
+  - **What it cannot count.** Free electives (3 hours in Computer Science) are listed separately, because the catalog does not name courses for them. Core curriculum hours are counted through the core menus.
 
 **How the count works** (`DegreeProgress.java`). It goes through the degree plan in catalog order:
 - **A requirement with alternatives**, such as "IE 3301 or MATH 3313", is met by any one of them.
@@ -52,12 +63,14 @@ The **My degree** page is linked from the top bar and the home page:
 - **Each course counts toward only one requirement.** In CS, CSE 4380 cannot fill both "select one security course" and a technical elective.
 - **Classes left** is the fewest classes that would meet every open requirement.
 
-Course search has two filters that use your ticked courses. The search says how many sections each one hid, and unticking a box shows them again. Your own custom courses are never hidden.
+Course search has three filters that use My degree. The search says how many sections each one hid, and unticking a box shows them again. Your own custom courses are never hidden.
 - **Hide courses I have already taken** leaves out every section of a course you ticked. It is on by default.
 - **Only show courses I can take now** leaves out courses whose prerequisites you have not taken. It is off by default. For example, with only CSE 1310 ticked, CSE 1320 shows but CSE 1325 and CSE 3311 do not. The rules (`CourseIndex.notReady`):
   - **Every prerequisite group must be met** by one of its courses. "CSE 3380 or MATH 3330" is met by either.
   - **Same-term prerequisites count.** When the catalog says "or concurrent enrollment", the prerequisite is met if you could sign up for it now and take both together. A new student can take CSE 1310 alongside UNIV 1131, but CSE 2315 still needs MATH 1426 first, because its same-term option, MATH 2425, needs MATH 1426 too.
   - **What CourseSweep cannot check counts as met.** A group that an ALEKS score or a course outside the catalog (such as MATH 1302) can meet never hides a course. So does "admitted into a professional program", which is not a course.
+  - **Senior courses need Calculus II and Physics II.** Every 4000-level course also requires MATH 2425 and PHYS 1444. This is CourseSweep's own rule, added on top of the catalog's prerequisites, and the course's prerequisite text says so. Ticking a 4000-level course on My degree ticks both, with their own prerequisites.
+- **Only show courses my degree still needs** leaves out courses that cannot fill any open requirement of your major, using the same count as "Classes left to graduate". For example, once you choose HIST 1301 for U.S. History 1, HIST 1331 is hidden but HIST 1302 and HIST 1332 still show. It is off by default, needs a major chosen on My degree, and works together with the other two filters: with "can take now" also on, search lists the courses you could sign up for that count toward your degree.
 
 **How it is stored:**
 - **Course index.** At startup, every course code in `uta-catalog.json` goes into a `HashMap` from code to bit number (`CourseIndex.java`). The bit number is the course's `college_courses.id`, which stays the same when the catalog is reloaded, so saved courses never change meaning. For every course, the index also holds a `BitSet` of the full prerequisite chain, built by following the prerequisites one course at a time.
@@ -72,13 +85,15 @@ Course search has two filters that use your ticked courses. The search says how 
 |---|---|---|
 | Colleges, degrees and each degree's required courses | [UTA University Catalog 2026–2027](https://catalog.uta.edu/engineering/computer/undergraduate/) degree pages | Real |
 | Course codes, titles, hours, prerequisites, Texas common course numbers | UTA catalog course descriptions, for example [CSE](https://catalog.uta.edu/coursedescriptions/cse/) | Real |
+| Approved courses for each core curriculum area | [UTA General Core Requirements](https://catalog.uta.edu/academicregulations/degreerequirements/generalcorerequirements/) | Real |
+| Calculus II and Physics II for every 4000-level course | CourseSweep's own rule | Added by the seed script |
 | Instructors for each course | [UTA Student Feedback Survey](https://www.uta.edu/administration/ier/student-feedback-survey/students) results, Fall 2025 to Summer 2026 | Real |
 | Ratings | The same survey results | Real |
 | Meeting days and times | Generated by the app | **Sample.** Each one is tagged **Sample time** in the app |
 
 **How it fits together.** Each catalog course appears once for each instructor who taught it in the most recent fall or spring term that surveyed it. Summer is used only when a course has no other data, because summer offers far fewer sections. A course with no survey results appears once, with "Instructor not yet available".
 
-**Ratings.** A rating is the average of the survey's five 1-to-5 questions for that instructor and course, weighted by respondents across every loaded term. The app shows how many students responded, and hovering a rating shows which terms it covers. UTA notes that these summaries are not comprehensive and that comparing instructors can be misleading, so treat them as one signal, not a ranking.
+**Ratings.** A section's survey rating is the average of the survey's five 1-to-5 questions for that instructor and course, weighted by respondents across every loaded term. Its **overall rating** also averages in CourseSweep students' own ratings (see [Student ratings](#student-ratings)). The app shows how many students responded, and hovering a rating shows which terms it covers. UTA notes that these summaries are not comprehensive and that comparing instructors can be misleading, so treat them as one signal, not a ranking.
 
 **Meeting times are not real.** UTA's class schedule is only available through a sign-in page that the app cannot read. Real times would have to be entered from UTA's [class search](https://www.uta.edu/academics/courses-and-schedules).
 
@@ -103,12 +118,13 @@ docker compose run --rm app mvn -q compile exec:java -Dexec.mainClass=courseswee
 
 The importer writes `src/main/resources/seed/feedback/sfs-<term>.csv` and lists it in `terms.txt` in the same folder. Commit both files, then restart the server.
 
-**A new catalog year.** `tools/catalog/build_uta_seed.py` rebuilds `src/main/resources/seed/uta-catalog.json` from the catalog's web pages. It needs only Python 3, with no extra packages, and the instructions are at the top of the script. Commit the new JSON, then restart the server.
+**A new catalog year.** `tools/catalog/build_uta_seed.py` rebuilds `src/main/resources/seed/uta-catalog.json` from the catalog's web pages: the three degree pages, one course page for each subject in `SUBJECTS`, and the General Core Requirements page (`CORE_PAGE`), which lists the approved core curriculum courses. The script also adds CourseSweep's 4000-level rule (`SENIOR_PREREQUISITES`). It needs only Python 3, with no extra packages, and the instructions are at the top of the script. Commit the new JSON, then restart the server.
 
 ### Saved schedules
 
 A saved schedule belongs to one CourseSweep account. Signing in with a password or with Google shows the same schedules, because both sign in to the same account. Schedules are stored in the app's own SQLite database, not in a cloud service.
 
+- **Semester.** Each plan is for one semester: Fall 2026, Spring 2027 or Fall 2027. You choose it before saving, and My schedules shows it. Plans saved before this option existed show "No semester chosen" until you pick one and save.
 - **Saving.** The first time you save a new schedule, it is stored and the address changes to `schedule.html?id=<number>`. Saving again updates that same schedule instead of making a copy.
 - **What is stored.** Each schedule's owner, name, created and last-saved times, and its list of courses in order.
 - **Privacy.** You can only see, change or delete your own schedules. The server checks this on every request. Someone else's schedule looks exactly like one that does not exist.
@@ -119,6 +135,40 @@ A saved schedule belongs to one CourseSweep account. Signing in with a password 
   - Saving the schedule removes the missing course for good.
 
 Databases created before this update are converted automatically when the server starts. Existing schedules and their courses are kept.
+
+### Time blocks and best schedules
+
+**Time blocks** are weekly times you are busy, such as a job or a commute. Each one has days, a start time and an end time. Times are picked from three menus: hour (1 to 12), minute (00 to 55, every 5) and AM or PM.
+- A schedule has **0 to 6** time blocks. With none, classes can be at any time.
+- They are saved with the schedule and come back when you open it.
+- A course in your list that overlaps a time block gets a warning.
+
+**Which sections it tries.** Each course in your list was added one of two ways:
+- **Whole course** (Select course, all sections): every section of it is tried. The list shows "Any section" until a schedule is picked, then "Picked from N sections".
+- **One section** (Select only this section): only that section is used. The list shows "This section only".
+- A custom course has one section, itself. **Sections and ratings** on a course in your list shows all its sections, and switches between the two ways.
+
+The steps (`ScheduleGenerator.java`):
+
+1. **Filter.** Drop every section that overlaps a time block. If a course has no section left, stop and say which courses are blocked.
+2. **Search.** Backtracking picks one section per course, skipping any section that clashes with one already picked. Courses with the fewest sections go first, so clashes cut the search early.
+3. **Score.** Each complete schedule gets a key:
+   - its average rating, rounded to the nearest 0.25, higher first. Each section counts with your own rating if you gave one, otherwise its overall rating. Sections without a rating are left out of the average;
+   - then the total minutes between classes on the same day, summed over the week, lower first.
+   - Ties are broken by the exact average, then by section id, so the order never changes between runs.
+4. **Keep the best 10** in a bounded min-heap (`PriorityQueue`). The worst kept schedule sits on top, and is dropped when a better one is found.
+
+When no schedule exists, the page says why: the courses blocked by time blocks, or pairs of courses whose sections all meet at the same time. The search stops after 2 million steps so a very long course list cannot tie up the server. The page then says the results are the best of the schedules checked. Four to six courses finish in well under a second.
+
+**Use this schedule** puts that option's sections into your list. Whole-course entries stay whole-course entries, so Find best schedules can still choose again. Save to keep it.
+
+### Student ratings
+
+Students can rate any catalog section, meaning one professor teaching one course, from 1 to 5 in half steps. The **Your rating** menu is on every section in search and under **Sections and ratings** in your list. "Not rated" removes your rating.
+- **Find best schedules uses your rating.** For a section you rated, the schedule's average uses your rating instead of the overall one.
+- **Your rating is saved** in the `section_ratings` table, one row per student and section. Changing it replaces your earlier rating.
+- **Overall rating.** Each section's overall rating averages the survey results with every student's rating. Each student rating counts the same as one survey response: (survey average × survey responses + sum of student ratings) ÷ (survey responses + student ratings). A section with 140 survey responses moves only a little, and a section with no survey data is rated by students alone. The tag shows how many of each it is based on.
+- Custom courses keep the rating you gave them when you created them. Only you see it, so it is not averaged.
 
 ### Planned: sharing custom courses through search
 
@@ -435,7 +485,8 @@ src/main/java/coursesweep/   Back end
   ApiHandler.java            The /api/ endpoints
   AuthService.java           Accounts, sessions and password resets
   AdminService.java          Admin access and user management
-  ScheduleService.java       Course search, custom courses and saved schedules
+  ScheduleService.java       Course search, custom courses, time blocks and saved schedules
+  ScheduleGenerator.java     Picks the best schedules: filter by time blocks, backtracking search, bounded heap
   Crypto.java                Hashing and encryption
   Database.java              SQLite connection and tables
   CatalogSeed.java           Loads the UTA catalog and survey results into the database at startup
@@ -479,22 +530,25 @@ All requests and responses are JSON.
 | POST | `/api/admin/users/set-admin` | `id`, `admin` | Gives or removes admin access (admins only) |
 | POST | `/api/admin/users/sign-out` | `id` | Ends all of a user's sessions (admins only) |
 | POST | `/api/admin/users/delete` | `id` | Deletes the account, its schedules and custom courses (admins only) |
-| GET | `/api/courses?q=&hideTaken=true&canTake=true` | | Catalog courses and your custom courses matching the search. Catalog courses include `ratingResponses`, `ratingTerms`, `timeIsSample` and `prerequisites`. With `hideTaken=true`, courses marked as taken are left out, and `hiddenTaken` says how many sections were hidden. With `canTake=true`, courses whose prerequisites you have not taken are left out, counted in `hiddenNotReady` |
+| GET | `/api/courses?q=&hideTaken=true&canTake=true&needed=true` | | Catalog courses and your custom courses matching the search. Catalog courses include `ratingResponses`, `ratingTerms`, `timeIsSample` and `prerequisites`. With `hideTaken=true`, courses marked as taken are left out, and `hiddenTaken` says how many sections were hidden. With `canTake=true`, courses whose prerequisites you have not taken are left out, counted in `hiddenNotReady`. With `needed=true`, courses that fill no open requirement of your major are left out, counted in `hiddenNotNeeded`; without a major it answers 400 |
 | GET | `/api/profile` | | Your `degreeId` (or null), `completed` (a list of course codes) and `progress` (as `/api/progress`, or null without a major) |
 | PUT | `/api/profile` | `degreeId` (or null), `completed` | Saves your major and replaces your courses taken, adding every course they certainly require. Unknown codes answer 400 |
 | GET | `/api/colleges/{id}/courses` | | Every catalog course of a college: `code`, `title`, `hours`, and `requires` (every course it certainly requires) |
-| POST | `/api/progress` | `degreeId`, `completed` | Classes left to graduate for those courses, without saving: `classesRemaining`, `hoursRemaining`, `listedHours`, `listedHoursDone`, `remaining` (open requirements), `notListed` (core and elective hours not tracked) |
+| POST | `/api/progress` | `degreeId`, `completed` | Classes left to graduate for those courses, without saving: `classesRemaining`, `hoursRemaining`, `listedHours`, `listedHoursDone`, `remaining` (open requirements), `notListed` (elective hours not tracked) |
 | GET | `/api/colleges` | | Every college with its degrees. The first, UTA, has `"default": true` |
 | GET | `/api/degrees/{id}` | | One degree and its `requirements` in catalog order. Each requirement has `section`, `chooseHours` (set when students pick that many hours from the options) and `options` (lists of courses with `code`, `title`, `hours` and `prerequisites`) |
 | POST | `/api/courses` | `name`, `professor`, `days`, `start`, `end`, `rating` | Creates a custom course |
+| GET | `/api/courses/{id}/sections` | | Every section of that section's course (a custom course is its only section) |
+| PUT | `/api/ratings` | `courseId`, `rating` (1 to 5, or null to remove) | Saves your rating of a catalog section and returns the section with its new overall `rating`, `studentRatings` and `yourRating` |
 | GET | `/api/schedules` | | Your saved schedules, most recently saved first, with `courseCount` and `missingCount` |
-| POST | `/api/schedules` | `name`, `courseIds` | Saves a new schedule and returns it |
-| GET | `/api/schedules/{id}` | | One of your schedules: `name`, times, `courses`, and `missing` (names of removed courses) |
-| PUT | `/api/schedules/{id}` | `name`, `courseIds` | Replaces the schedule's name and courses |
+| POST | `/api/schedules` | `name`, `semester`, `entries`, `blocks` | Saves a new schedule and returns it |
+| GET | `/api/schedules/{id}` | | One of your schedules: `name`, `semester`, times, `courses`, `blocks`, and `missing` (names of removed courses) |
+| PUT | `/api/schedules/{id}` | `name`, `semester`, `entries`, `blocks` | Replaces the schedule's name, semester, courses and time blocks |
+| POST | `/api/schedule-options` | `entries`, `blocks` | The best schedules, best first: `schedules` (each with `averageRating`, `ratingScore`, `gapMinutes` and `courses`), `courses` (sections per course and how many fit the time blocks), `blockedCourses`, `conflictingPairs`, and `complete` (false if the search hit its step limit) |
 | PATCH | `/api/schedules/{id}` | `name` | Renames the schedule |
 | DELETE | `/api/schedules/{id}` | | Deletes the schedule |
 
-The course and schedule endpoints require being signed in. A schedule that is not yours answers 404, the same as one that does not exist. The admin endpoints also require admin access, and answer 403 otherwise. `days` is a list of day codes (`Mo`, `Tu`, `We`, `Th`, `Fr`, `Sa`, `Su`), and `start` and `end` are 24-hour times such as `09:30`.
+The course and schedule endpoints require being signed in. A schedule that is not yours answers 404, the same as one that does not exist. The admin endpoints also require admin access, and answer 403 otherwise. `days` is a list of day codes (`Mo`, `Tu`, `We`, `Th`, `Fr`, `Sa`, `Su`), and `start` and `end` are 24-hour times such as `09:30`. `entries` lists the plan's courses in order, each `{"id": <section id>, "anySection": true|false, "chosen": true|false}`: `anySection` lets the schedule finder use any section of that course, and `chosen` says the section was picked rather than standing in for its course. The older `courseIds` list is still accepted, each one counting as any section and chosen. Each course in search results and schedules also has `catalogCourseId` (shared by sections of the same course), `sectionCount`, `surveyRating`, `studentRatings`, `yourRating`, and `rating` (the overall rating). `semester` is `Fall 2026`, `Spring 2027` or `Fall 2027` (`ScheduleService.SEMESTERS`). `blocks` is a list of 0 to 6 time blocks, each `{"days": [...], "start": "...", "end": "..."}`. It is optional, and leaving it out means none.
 
 Errors come back as `{"error": "message"}` with a matching HTTP status.
 
@@ -532,13 +586,17 @@ The first run creates `data/secret.key`. This key protects the stored email addr
 - **Catalog meeting times are sample data.** Instructors, ratings, titles and prerequisites are real.
 - **Degrees have no page in the app yet.** They are available through `/api/colleges` and `/api/degrees/{id}`.
 - **"Courses I can take now" ignores grades and non-course rules.** It assumes a C or better in every ticked course, and it does not check professional-program admission, instructor consent or placement scores.
-- **Only the 81 catalog courses can be marked as taken.** These are the courses UTA's three computing degrees use.
-- **Some hours are not counted toward graduation.** Core curriculum areas without named courses and free electives are listed separately instead.
+- **Only the 138 catalog courses can be marked as taken.** These are the courses UTA's three computing degrees use, plus the core curriculum courses for the areas the degree plans leave open. Core courses for areas the plans fill with a fixed course, such as Mathematics, are not included.
+- **Free elective hours are not counted toward graduation.** They are listed separately instead.
+- **One course per core menu.** If you took two Language, Philosophy and Culture courses, the menu shows one of them. Both stay saved.
 - **Transfer credit and waived prerequisites are not handled.** Taking a course is assumed to mean its prerequisites were taken too.
 - Custom courses are never shared with other students yet (see the planned feature above).
 - Reset emails are printed to the console instead of being sent.
 - While the Google OAuth app is in "Testing" mode, only the test users added in Google Cloud Console can use Google sign-in.
 - Admins can manage accounts but not the course catalog or other users' custom courses yet.
 - There is no limit on repeated sign-in attempts.
+- **A degree plan covers one semester.** Plans for different semesters are separate; there is no single freshman-to-senior view of them yet.
+- **Search selections are dropped when you create a custom course** from the same Add course dialog. Save them first.
+- **Student ratings are per section,** that is one professor teaching one course. There is no combined rating for a professor across all their courses yet.
 - On localhost the connection is plain HTTP. Any real deployment needs HTTPS and `COURSESWEEP_SECURE_COOKIES=true`.
 - There are no automated tests yet.

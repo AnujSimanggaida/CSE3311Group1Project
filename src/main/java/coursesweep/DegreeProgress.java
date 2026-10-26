@@ -25,9 +25,13 @@ import java.util.Map;
  * A course counts toward only one slot, so a course listed both as a required
  * choice and as a technical elective is not counted twice.
  *
- * Hours the plan requires without naming courses (core curriculum areas such
- * as U.S. History, and free electives) are reported separately, because
- * CourseSweep cannot tell whether a student has taken them.
+ * Hours the plan requires without naming courses (such as free electives) are
+ * reported separately, because CourseSweep cannot tell whether a student has
+ * taken them. Core curriculum areas such as U.S. History are real slots, filled
+ * in from UTA's list of approved core courses (see tools/catalog).
+ *
+ * {@link #evaluate} also returns every course that could still fill an open slot,
+ * for the "courses my degree still needs" search filter.
  */
 final class DegreeProgress {
 
@@ -35,9 +39,16 @@ final class DegreeProgress {
 
     private record Slot(String section, Integer chooseHours, List<List<Course>> options) {}
 
+    /** The progress as sent to the browser, and the courses that could fill a slot still open. */
+    record Result(JsonObject progress, BitSet stillNeeded) {}
+
     private DegreeProgress() {}
 
     static JsonObject compute(Database db, long degreeId, BitSet taken) throws SQLException {
+        return evaluate(db, degreeId, taken).progress();
+    }
+
+    static Result evaluate(Database db, long degreeId, BitSet taken) throws SQLException {
         String name;
         int totalHours;
         String notListedJson;
@@ -82,6 +93,7 @@ final class DegreeProgress {
         }
 
         BitSet used = new BitSet();
+        BitSet stillNeeded = new BitSet();
         int listedHours = 0;
         int hoursLeft = 0;
         int classesLeft = 0;
@@ -109,6 +121,9 @@ final class DegreeProgress {
                         cheapest = option;
                     }
                 }
+                for (List<Course> option : slot.options()) {
+                    option.forEach(c -> stillNeeded.set(c.bit()));
+                }
                 classesLeft += cheapest.size();
                 hoursLeft += hours(cheapest);
                 remaining.add(item(slot.section(), describe(slot.options()), cheapest.size(), hours(cheapest)));
@@ -128,6 +143,9 @@ final class DegreeProgress {
                 if (need == 0) {
                     slotsDone++;
                     continue;
+                }
+                for (List<Course> option : open) {
+                    option.forEach(c -> stillNeeded.set(c.bit()));
                 }
                 // Fewest classes that cover the hours still needed: take the largest options first.
                 open.sort((a, b) -> hours(b) - hours(a));
@@ -167,7 +185,9 @@ final class DegreeProgress {
             notListedHours += entry.getAsJsonObject().get("hours").getAsInt();
         }
         progress.addProperty("notListedHours", notListedHours);
-        return progress;
+        // A course already taken never needs taking again, even if no slot could use it.
+        stillNeeded.andNot(taken);
+        return new Result(progress, stillNeeded);
     }
 
     /** "1-3" counts as 1, the least a course can be taken for. */

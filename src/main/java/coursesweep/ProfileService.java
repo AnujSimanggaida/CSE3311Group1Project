@@ -98,6 +98,28 @@ final class ProfileService {
         }
     }
 
+    /**
+     * The catalog courses that could still fill an open requirement of the user's major,
+     * or null if they have not chosen a major.
+     */
+    BitSet stillNeeded(long userId) throws SQLException {
+        Long degreeId = null;
+        BitSet completed = new BitSet();
+        try (Connection conn = db.open();
+             PreparedStatement st = conn.prepareStatement(
+                     "SELECT degree_id, completed_courses FROM student_profiles WHERE user_id = ?")) {
+            st.setLong(1, userId);
+            try (ResultSet rs = st.executeQuery()) {
+                if (rs.next()) {
+                    long id = rs.getLong(1);
+                    degreeId = rs.wasNull() ? null : id;
+                    completed = BitSet.valueOf(rs.getBytes(2));
+                }
+            }
+        }
+        return degreeId == null ? null : DegreeProgress.evaluate(db, degreeId, completed).stillNeeded();
+    }
+
     /** The catalog courses whose prerequisites are not met by the courses taken. */
     BitSet notReady(BitSet taken) {
         return courses.notReady(taken);

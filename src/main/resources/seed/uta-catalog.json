@@ -1,7 +1,7 @@
 {
   "source": {
     "catalog": "UTA University Catalog 2026-2027",
-    "retrieved": "2026-10-20",
+    "retrieved": "2026-10-26",
     "degreePages": [
       "https://catalog.uta.edu/engineering/computer/undergraduate/computer-science-bs/",
       "https://catalog.uta.edu/engineering/computer/undergraduate/software-engineering-bs/",
@@ -18,8 +18,37 @@
       "https://catalog.uta.edu/coursedescriptions/univ/",
       "https://catalog.uta.edu/coursedescriptions/engr/",
       "https://catalog.uta.edu/coursedescriptions/biol/",
-      "https://catalog.uta.edu/coursedescriptions/chem/"
-    ]
+      "https://catalog.uta.edu/coursedescriptions/chem/",
+      "https://catalog.uta.edu/coursedescriptions/hist/",
+      "https://catalog.uta.edu/coursedescriptions/pols/",
+      "https://catalog.uta.edu/coursedescriptions/arch/",
+      "https://catalog.uta.edu/coursedescriptions/art/",
+      "https://catalog.uta.edu/coursedescriptions/dnce/",
+      "https://catalog.uta.edu/coursedescriptions/jour/",
+      "https://catalog.uta.edu/coursedescriptions/musi/",
+      "https://catalog.uta.edu/coursedescriptions/thea/",
+      "https://catalog.uta.edu/coursedescriptions/anth/",
+      "https://catalog.uta.edu/coursedescriptions/arab/",
+      "https://catalog.uta.edu/coursedescriptions/asl/",
+      "https://catalog.uta.edu/coursedescriptions/chin/",
+      "https://catalog.uta.edu/coursedescriptions/clas/",
+      "https://catalog.uta.edu/coursedescriptions/divr/",
+      "https://catalog.uta.edu/coursedescriptions/woms/",
+      "https://catalog.uta.edu/coursedescriptions/fren/",
+      "https://catalog.uta.edu/coursedescriptions/germ/",
+      "https://catalog.uta.edu/coursedescriptions/global/",
+      "https://catalog.uta.edu/coursedescriptions/grek/",
+      "https://catalog.uta.edu/coursedescriptions/ints/",
+      "https://catalog.uta.edu/coursedescriptions/kore/",
+      "https://catalog.uta.edu/coursedescriptions/latn/",
+      "https://catalog.uta.edu/coursedescriptions/ling/",
+      "https://catalog.uta.edu/coursedescriptions/mas/",
+      "https://catalog.uta.edu/coursedescriptions/phil/",
+      "https://catalog.uta.edu/coursedescriptions/russ/",
+      "https://catalog.uta.edu/coursedescriptions/soci/",
+      "https://catalog.uta.edu/coursedescriptions/span/"
+    ],
+    "corePage": "https://catalog.uta.edu/academicregulations/degreerequirements/generalcorerequirements/"
   },
   "college": {
     "name": "The University of Texas at Arlington",
@@ -112,6 +141,219 @@
           "options": [
             [
               "MATH 2326"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: U.S. History",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "HIST 1301"
+            ],
+            [
+              "HIST 1331"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: U.S. History",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "HIST 1302"
+            ],
+            [
+              "HIST 1332"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: Political Science",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "POLS 2311"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: Political Science",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "POLS 2312"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: Language, Philosophy, Culture",
+          "chooseHours": 3,
+          "note": "Select one of the following:",
+          "options": [
+            [
+              "ANTH 2322"
+            ],
+            [
+              "ARAB 2310"
+            ],
+            [
+              "ARAB 2314"
+            ],
+            [
+              "ARCH 2300"
+            ],
+            [
+              "ART 1317"
+            ],
+            [
+              "ASL 2314"
+            ],
+            [
+              "CHIN 2310"
+            ],
+            [
+              "CHIN 2314"
+            ],
+            [
+              "CLAS 1300"
+            ],
+            [
+              "DIVR 2315"
+            ],
+            [
+              "ENGL 1350"
+            ],
+            [
+              "ENGL 2303"
+            ],
+            [
+              "ENGL 2309"
+            ],
+            [
+              "ENGL 2319"
+            ],
+            [
+              "ENGL 2329"
+            ],
+            [
+              "FREN 2310"
+            ],
+            [
+              "FREN 2314"
+            ],
+            [
+              "GERM 2310"
+            ],
+            [
+              "GERM 2314"
+            ],
+            [
+              "GLOBAL 2301"
+            ],
+            [
+              "GREK 2314"
+            ],
+            [
+              "GWSS 2310"
+            ],
+            [
+              "HIST 2377"
+            ],
+            [
+              "INTS 1310"
+            ],
+            [
+              "KORE 2310"
+            ],
+            [
+              "KORE 2314"
+            ],
+            [
+              "LATN 2314"
+            ],
+            [
+              "LING 2371"
+            ],
+            [
+              "MAS 2300"
+            ],
+            [
+              "PHIL 1304"
+            ],
+            [
+              "PHIL 2300"
+            ],
+            [
+              "RUSS 2310"
+            ],
+            [
+              "RUSS 2314"
+            ],
+            [
+              "SOCI 1310"
+            ],
+            [
+              "SPAN 2314"
+            ],
+            [
+              "SPAN 2310"
+            ],
+            [
+              "SPAN 2315"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: Creative Arts",
+          "chooseHours": 3,
+          "note": "Select one of the following:",
+          "options": [
+            [
+              "ARCH 1301"
+            ],
+            [
+              "ART 1301"
+            ],
+            [
+              "ART 1309"
+            ],
+            [
+              "ART 1310"
+            ],
+            [
+              "DNCE 1300"
+            ],
+            [
+              "ENGL 1375"
+            ],
+            [
+              "JOUR 2340"
+            ],
+            [
+              "MUSI 1300"
+            ],
+            [
+              "MUSI 1302"
+            ],
+            [
+              "MUSI 1304"
+            ],
+            [
+              "MUSI 2300"
+            ],
+            [
+              "MUSI 2301"
+            ],
+            [
+              "THEA 1342"
+            ],
+            [
+              "THEA 1343"
             ]
           ]
         },
@@ -433,22 +675,6 @@
       ],
       "notListedHours": [
         {
-          "name": "Core curriculum: U.S. History",
-          "hours": 6
-        },
-        {
-          "name": "Core curriculum: Political Science",
-          "hours": 6
-        },
-        {
-          "name": "Core curriculum: Language, Philosophy, Culture",
-          "hours": 3
-        },
-        {
-          "name": "Core curriculum: Creative Arts",
-          "hours": 3
-        },
-        {
           "name": "Free electives",
           "hours": 3
         }
@@ -540,6 +766,219 @@
           "options": [
             [
               "MATH 2326"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: U.S. History",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "HIST 1301"
+            ],
+            [
+              "HIST 1331"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: U.S. History",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "HIST 1302"
+            ],
+            [
+              "HIST 1332"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: Political Science",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "POLS 2311"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: Political Science",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "POLS 2312"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: Language, Philosophy, Culture",
+          "chooseHours": 3,
+          "note": "Select one of the following:",
+          "options": [
+            [
+              "ANTH 2322"
+            ],
+            [
+              "ARAB 2310"
+            ],
+            [
+              "ARAB 2314"
+            ],
+            [
+              "ARCH 2300"
+            ],
+            [
+              "ART 1317"
+            ],
+            [
+              "ASL 2314"
+            ],
+            [
+              "CHIN 2310"
+            ],
+            [
+              "CHIN 2314"
+            ],
+            [
+              "CLAS 1300"
+            ],
+            [
+              "DIVR 2315"
+            ],
+            [
+              "ENGL 1350"
+            ],
+            [
+              "ENGL 2303"
+            ],
+            [
+              "ENGL 2309"
+            ],
+            [
+              "ENGL 2319"
+            ],
+            [
+              "ENGL 2329"
+            ],
+            [
+              "FREN 2310"
+            ],
+            [
+              "FREN 2314"
+            ],
+            [
+              "GERM 2310"
+            ],
+            [
+              "GERM 2314"
+            ],
+            [
+              "GLOBAL 2301"
+            ],
+            [
+              "GREK 2314"
+            ],
+            [
+              "GWSS 2310"
+            ],
+            [
+              "HIST 2377"
+            ],
+            [
+              "INTS 1310"
+            ],
+            [
+              "KORE 2310"
+            ],
+            [
+              "KORE 2314"
+            ],
+            [
+              "LATN 2314"
+            ],
+            [
+              "LING 2371"
+            ],
+            [
+              "MAS 2300"
+            ],
+            [
+              "PHIL 1304"
+            ],
+            [
+              "PHIL 2300"
+            ],
+            [
+              "RUSS 2310"
+            ],
+            [
+              "RUSS 2314"
+            ],
+            [
+              "SOCI 1310"
+            ],
+            [
+              "SPAN 2314"
+            ],
+            [
+              "SPAN 2310"
+            ],
+            [
+              "SPAN 2315"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: Creative Arts",
+          "chooseHours": 3,
+          "note": "Select one of the following:",
+          "options": [
+            [
+              "ARCH 1301"
+            ],
+            [
+              "ART 1301"
+            ],
+            [
+              "ART 1309"
+            ],
+            [
+              "ART 1310"
+            ],
+            [
+              "DNCE 1300"
+            ],
+            [
+              "ENGL 1375"
+            ],
+            [
+              "JOUR 2340"
+            ],
+            [
+              "MUSI 1300"
+            ],
+            [
+              "MUSI 1302"
+            ],
+            [
+              "MUSI 1304"
+            ],
+            [
+              "MUSI 2300"
+            ],
+            [
+              "MUSI 2301"
+            ],
+            [
+              "THEA 1342"
+            ],
+            [
+              "THEA 1343"
             ]
           ]
         },
@@ -882,24 +1321,7 @@
           ]
         }
       ],
-      "notListedHours": [
-        {
-          "name": "Core curriculum: U.S. History",
-          "hours": 6
-        },
-        {
-          "name": "Core curriculum: Political Science",
-          "hours": 6
-        },
-        {
-          "name": "Core curriculum: Language, Philosophy, Culture",
-          "hours": 3
-        },
-        {
-          "name": "Core curriculum: Creative Arts",
-          "hours": 3
-        }
-      ]
+      "notListedHours": []
     },
     {
       "name": "Computer Engineering",
@@ -987,6 +1409,219 @@
           "options": [
             [
               "MATH 2326"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: U.S. History",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "HIST 1301"
+            ],
+            [
+              "HIST 1331"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: U.S. History",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "HIST 1302"
+            ],
+            [
+              "HIST 1332"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: Political Science",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "POLS 2311"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: Political Science",
+          "chooseHours": null,
+          "note": null,
+          "options": [
+            [
+              "POLS 2312"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: Language, Philosophy, Culture",
+          "chooseHours": 3,
+          "note": "Select one of the following:",
+          "options": [
+            [
+              "ANTH 2322"
+            ],
+            [
+              "ARAB 2310"
+            ],
+            [
+              "ARAB 2314"
+            ],
+            [
+              "ARCH 2300"
+            ],
+            [
+              "ART 1317"
+            ],
+            [
+              "ASL 2314"
+            ],
+            [
+              "CHIN 2310"
+            ],
+            [
+              "CHIN 2314"
+            ],
+            [
+              "CLAS 1300"
+            ],
+            [
+              "DIVR 2315"
+            ],
+            [
+              "ENGL 1350"
+            ],
+            [
+              "ENGL 2303"
+            ],
+            [
+              "ENGL 2309"
+            ],
+            [
+              "ENGL 2319"
+            ],
+            [
+              "ENGL 2329"
+            ],
+            [
+              "FREN 2310"
+            ],
+            [
+              "FREN 2314"
+            ],
+            [
+              "GERM 2310"
+            ],
+            [
+              "GERM 2314"
+            ],
+            [
+              "GLOBAL 2301"
+            ],
+            [
+              "GREK 2314"
+            ],
+            [
+              "GWSS 2310"
+            ],
+            [
+              "HIST 2377"
+            ],
+            [
+              "INTS 1310"
+            ],
+            [
+              "KORE 2310"
+            ],
+            [
+              "KORE 2314"
+            ],
+            [
+              "LATN 2314"
+            ],
+            [
+              "LING 2371"
+            ],
+            [
+              "MAS 2300"
+            ],
+            [
+              "PHIL 1304"
+            ],
+            [
+              "PHIL 2300"
+            ],
+            [
+              "RUSS 2310"
+            ],
+            [
+              "RUSS 2314"
+            ],
+            [
+              "SOCI 1310"
+            ],
+            [
+              "SPAN 2314"
+            ],
+            [
+              "SPAN 2310"
+            ],
+            [
+              "SPAN 2315"
+            ]
+          ]
+        },
+        {
+          "section": "Core curriculum: Creative Arts",
+          "chooseHours": 3,
+          "note": "Select one of the following:",
+          "options": [
+            [
+              "ARCH 1301"
+            ],
+            [
+              "ART 1301"
+            ],
+            [
+              "ART 1309"
+            ],
+            [
+              "ART 1310"
+            ],
+            [
+              "DNCE 1300"
+            ],
+            [
+              "ENGL 1375"
+            ],
+            [
+              "JOUR 2340"
+            ],
+            [
+              "MUSI 1300"
+            ],
+            [
+              "MUSI 1302"
+            ],
+            [
+              "MUSI 1304"
+            ],
+            [
+              "MUSI 2300"
+            ],
+            [
+              "MUSI 2301"
+            ],
+            [
+              "THEA 1342"
+            ],
+            [
+              "THEA 1343"
             ]
           ]
         },
@@ -1280,27 +1915,132 @@
           ]
         }
       ],
-      "notListedHours": [
-        {
-          "name": "Core curriculum: U.S. History",
-          "hours": 6
-        },
-        {
-          "name": "Core curriculum: Political Science",
-          "hours": 6
-        },
-        {
-          "name": "Core curriculum: Language, Philosophy, Culture",
-          "hours": 3
-        },
-        {
-          "name": "Core curriculum: Creative Arts",
-          "hours": 3
-        }
-      ]
+      "notListedHours": []
     }
   ],
   "courses": [
+    {
+      "code": "ANTH 2322",
+      "subject": "ANTH",
+      "number": "2322",
+      "title": "Global Cultures",
+      "hours": "3",
+      "tccn": "ANTH 2351",
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "ARAB 2310",
+      "subject": "ARAB",
+      "number": "2310",
+      "title": "Arabic Culture in the World",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "ARAB 2314",
+      "subject": "ARAB",
+      "number": "2314",
+      "title": "Intermediate Arabic II",
+      "hours": "3",
+      "tccn": "ARAB 2312",
+      "prerequisites": "Prerequisite: ARAB 2313 with a grade of C or better.",
+      "prerequisiteGroups": [
+        [
+          "ARAB 2313"
+        ]
+      ],
+      "concurrentOk": []
+    },
+    {
+      "code": "ARCH 1301",
+      "subject": "ARCH",
+      "number": "1301",
+      "title": "Introduction to Design in the Built Environment",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisites: Department consent. Corequisites: ARCH 1501.",
+      "prerequisiteGroups": [
+        [
+          "ARCH 1501"
+        ]
+      ],
+      "concurrentOk": []
+    },
+    {
+      "code": "ARCH 2300",
+      "subject": "ARCH",
+      "number": "2300",
+      "title": "Masterworks of Western Architecture",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "ART 1301",
+      "subject": "ART",
+      "number": "1301",
+      "title": "Art Appreciation",
+      "hours": "3",
+      "tccn": "ARTS 1301",
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "ART 1309",
+      "subject": "ART",
+      "number": "1309",
+      "title": "Introduction to Art History I: Prehistoric Through 16th Century",
+      "hours": "3",
+      "tccn": "ARTS 1303",
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "ART 1310",
+      "subject": "ART",
+      "number": "1310",
+      "title": "Introduction to Art History II: 17th Century to the Present",
+      "hours": "3",
+      "tccn": "ARTS 1304",
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "ART 1317",
+      "subject": "ART",
+      "number": "1317",
+      "title": "Introduction to Art History III: Africa, Asia, Americas",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "ASL 2314",
+      "subject": "ASL",
+      "number": "2314",
+      "title": "Intermediate American Sign Language II",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: ASL 2313, or the equivalent, with a grade of C or better.",
+      "prerequisiteGroups": [
+        [
+          "ASL 2313"
+        ]
+      ],
+      "concurrentOk": []
+    },
     {
       "code": "BIOL 1441",
       "subject": "BIOL",
@@ -1359,6 +2099,43 @@
         "MATH 1426",
         "MATH 2425"
       ]
+    },
+    {
+      "code": "CHIN 2310",
+      "subject": "CHIN",
+      "number": "2310",
+      "title": "Chinese Culture in the World",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "CHIN 2314",
+      "subject": "CHIN",
+      "number": "2314",
+      "title": "Intermediate Chinese II",
+      "hours": "3",
+      "tccn": "CHIN 2312",
+      "prerequisites": "Prerequisite: CHIN 2313 with a grade of C or better.",
+      "prerequisiteGroups": [
+        [
+          "CHIN 2313"
+        ]
+      ],
+      "concurrentOk": []
+    },
+    {
+      "code": "CLAS 1300",
+      "subject": "CLAS",
+      "number": "1300",
+      "title": "Introduction to Classical Mythology",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
     },
     {
       "code": "COMS 2302",
@@ -1823,7 +2600,7 @@
       "title": "Computer Graphics",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following: CSE 3318, and either CSE 3380 or MATH 3330.",
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following: CSE 3318, and either CSE 3380 or MATH 3330. CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
       "prerequisiteGroups": [
         [
           "CSE 3318"
@@ -1831,6 +2608,12 @@
         [
           "CSE 3380",
           "MATH 3330"
+        ],
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
         ]
       ],
       "concurrentOk": []
@@ -1842,11 +2625,17 @@
       "title": "Game Design and Development",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3380 or MATH 3330.",
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3380 or MATH 3330. CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
       "prerequisiteGroups": [
         [
           "CSE 3380",
           "MATH 3330"
+        ],
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
         ]
       ],
       "concurrentOk": []
@@ -1858,13 +2647,19 @@
       "title": "Compilers for Algorithmic Languages",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in the following: CSE 3302 and CSE 3315.",
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in the following: CSE 3302 and CSE 3315. CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
       "prerequisiteGroups": [
         [
           "CSE 3302"
         ],
         [
           "CSE 3315"
+        ],
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
         ]
       ],
       "concurrentOk": []
@@ -1876,7 +2671,7 @@
       "title": "Artificial Intelligence",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following: CSE 3318 and (IE 3301 or MATH 3313).",
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following: CSE 3318 and (IE 3301 or MATH 3313). CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
       "prerequisiteGroups": [
         [
           "CSE 3318"
@@ -1884,6 +2679,12 @@
         [
           "IE 3301",
           "MATH 3313"
+        ],
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
         ]
       ],
       "concurrentOk": []
@@ -1895,7 +2696,7 @@
       "title": "Fundamentals of Machine Learning",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisites: Admitted into an Engineering Professional Program. C or better in each of the following: CSE 3318, IE 3301 or MATH 3313, and CSE 3380 or MATH 3330.",
+      "prerequisites": "Prerequisites: Admitted into an Engineering Professional Program. C or better in each of the following: CSE 3318, IE 3301 or MATH 3313, and CSE 3380 or MATH 3330. CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
       "prerequisiteGroups": [
         [
           "CSE 3318"
@@ -1907,6 +2708,12 @@
         [
           "CSE 3380",
           "MATH 3330"
+        ],
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
         ]
       ],
       "concurrentOk": []
@@ -1918,7 +2725,7 @@
       "title": "Fundamentals of Computer Vision",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following: CSE 3318, IE 3301 or MATH 3313, and CSE 3380 or MATH 3330.",
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following: CSE 3318, IE 3301 or MATH 3313, and CSE 3380 or MATH 3330. CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
       "prerequisiteGroups": [
         [
           "CSE 3318"
@@ -1930,6 +2737,12 @@
         [
           "CSE 3380",
           "MATH 3330"
+        ],
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
         ]
       ],
       "concurrentOk": []
@@ -1941,7 +2754,7 @@
       "title": "Neural Networks and Deep Learning",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3380 or MATH 3330, and C or better in IE 3301 or MATH 3313.",
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3380 or MATH 3330, and C or better in IE 3301 or MATH 3313. CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
       "prerequisiteGroups": [
         [
           "CSE 3380",
@@ -1950,6 +2763,12 @@
         [
           "IE 3301",
           "MATH 3313"
+        ],
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
         ]
       ],
       "concurrentOk": []
@@ -1961,13 +2780,19 @@
       "title": "Computer System Design Project I",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisites: Admitted into a CSE Professional Program. For academic plan CS__CS or SE__SE, C or better in CSE 3310 and CSE 3320, and C or better in CSE 3314 (or concurrently). For academic plan CSE_CP, C or better in CSE 3320 and CSE 3442, and C or better in CSE 3314 (or concurrently).",
+      "prerequisites": "Prerequisites: Admitted into a CSE Professional Program. For academic plan CS__CS or SE__SE, C or better in CSE 3310 and CSE 3320, and C or better in CSE 3314 (or concurrently). For academic plan CSE_CP, C or better in CSE 3320 and CSE 3442, and C or better in CSE 3314 (or concurrently). CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
       "prerequisiteGroups": [
         [
           "CSE 3320"
         ],
         [
           "CSE 3314"
+        ],
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
         ]
       ],
       "concurrentOk": [
@@ -1981,10 +2806,16 @@
       "title": "Computer System Design Project II",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 4316 and continuation with the same team.",
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 4316 and continuation with the same team. CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
       "prerequisiteGroups": [
         [
           "CSE 4316"
+        ],
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
         ]
       ],
       "concurrentOk": []
@@ -1996,10 +2827,16 @@
       "title": "Software Testing & Maintenance",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3310.",
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3310. CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
       "prerequisiteGroups": [
         [
           "CSE 3310"
+        ],
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
         ]
       ],
       "concurrentOk": []
@@ -2011,10 +2848,16 @@
       "title": "Software Project Management",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3310.",
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3310. CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
       "prerequisiteGroups": [
         [
           "CSE 3310"
+        ],
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
         ]
       ],
       "concurrentOk": []
@@ -2026,10 +2869,16 @@
       "title": "Quantitative Computer Architecture",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3320.",
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3320. CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
       "prerequisiteGroups": [
         [
           "CSE 3320"
+        ],
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
         ]
       ],
       "concurrentOk": []
@@ -2041,10 +2890,16 @@
       "title": "Database Implementation and Theory",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3330.",
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3330. CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
       "prerequisiteGroups": [
         [
           "CSE 3330"
+        ],
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
         ]
       ],
       "concurrentOk": []
@@ -2056,13 +2911,19 @@
       "title": "Cloud Computing Fundamentals and Applications",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3330, and C or better in CSE 3320.",
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3330, and C or better in CSE 3320. CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
       "prerequisiteGroups": [
         [
           "CSE 3330"
         ],
         [
           "CSE 3320"
+        ],
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
         ]
       ],
       "concurrentOk": []
@@ -2074,7 +2935,7 @@
       "title": "Data Mining",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following: IE 3301 (or MATH 3313). Co-requisite: CSE 3330.",
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following: IE 3301 (or MATH 3313). Co-requisite: CSE 3330. CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
       "prerequisiteGroups": [
         [
           "IE 3301",
@@ -2082,6 +2943,12 @@
         ],
         [
           "CSE 3330"
+        ],
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
         ]
       ],
       "concurrentOk": []
@@ -2093,7 +2960,7 @@
       "title": "Embedded Systems II",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following: CSE 3323, CSE 3442, and CSE 3313.",
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following: CSE 3323, CSE 3442, and CSE 3313. CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
       "prerequisiteGroups": [
         [
           "CSE 3323"
@@ -2103,6 +2970,12 @@
         ],
         [
           "CSE 3313"
+        ],
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
         ]
       ],
       "concurrentOk": []
@@ -2114,10 +2987,16 @@
       "title": "Computer Network Organization",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3320.",
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3320. CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
       "prerequisiteGroups": [
         [
           "CSE 3320"
+        ],
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
         ]
       ],
       "concurrentOk": []
@@ -2129,7 +3008,7 @@
       "title": "Computational Methods",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following IE 3301 or MATH 3313, CSE 3318, and either CSE 3380 or MATH 3330.",
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following IE 3301 or MATH 3313, CSE 3318, and either CSE 3380 or MATH 3330. CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
       "prerequisiteGroups": [
         [
           "IE 3301",
@@ -2141,6 +3020,12 @@
         [
           "CSE 3380",
           "MATH 3330"
+        ],
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
         ]
       ],
       "concurrentOk": []
@@ -2152,10 +3037,16 @@
       "title": "Parallel Processing",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3320.",
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3320. CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
       "prerequisiteGroups": [
         [
           "CSE 3320"
+        ],
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
         ]
       ],
       "concurrentOk": []
@@ -2167,10 +3058,16 @@
       "title": "IOT and Networking",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3442.",
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3442. CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
       "prerequisiteGroups": [
         [
           "CSE 3442"
+        ],
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
         ]
       ],
       "concurrentOk": []
@@ -2182,13 +3079,19 @@
       "title": "Real-Time Operating Systems",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in both CSE 3320 and CSE 3442.",
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in both CSE 3320 and CSE 3442. CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
       "prerequisiteGroups": [
         [
           "CSE 3320"
         ],
         [
           "CSE 3442"
+        ],
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
         ]
       ],
       "concurrentOk": []
@@ -2200,13 +3103,19 @@
       "title": "Electromechanical Systems and Sensors",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in both CSE 3323 and CSE 3442.",
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in both CSE 3323 and CSE 3442. CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
       "prerequisiteGroups": [
         [
           "CSE 3323"
         ],
         [
           "CSE 3442"
+        ],
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
         ]
       ],
       "concurrentOk": []
@@ -2218,10 +3127,16 @@
       "title": "System on Chip (SOC) Design",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3442.",
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3442. CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
       "prerequisiteGroups": [
         [
           "CSE 3442"
+        ],
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
         ]
       ],
       "concurrentOk": []
@@ -2233,10 +3148,16 @@
       "title": "Microprocessor Systems",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3442.",
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3442. CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
       "prerequisiteGroups": [
         [
           "CSE 3442"
+        ],
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
         ]
       ],
       "concurrentOk": []
@@ -2248,7 +3169,7 @@
       "title": "Autonomous Robot Design and Programming",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following: CSE 3318, CSE 3320 and CSE 3380 (or MATH 3330).",
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in each of the following: CSE 3318, CSE 3320 and CSE 3380 (or MATH 3330). CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
       "prerequisiteGroups": [
         [
           "CSE 3318"
@@ -2259,6 +3180,12 @@
         [
           "CSE 3380",
           "MATH 3330"
+        ],
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
         ]
       ],
       "concurrentOk": []
@@ -2270,10 +3197,16 @@
       "title": "Software Design Patterns",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisites: Admitted into an Engineering Professional Program. C or better in CSE 3311.",
+      "prerequisites": "Prerequisites: Admitted into an Engineering Professional Program. C or better in CSE 3311. CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
       "prerequisiteGroups": [
         [
           "CSE 3311"
+        ],
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
         ]
       ],
       "concurrentOk": []
@@ -2285,10 +3218,16 @@
       "title": "RISC Processor Design",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3442.",
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3442. CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
       "prerequisiteGroups": [
         [
           "CSE 3442"
+        ],
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
         ]
       ],
       "concurrentOk": []
@@ -2300,10 +3239,16 @@
       "title": "General Purpose GPU Programming",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisites: Admitted into an Engineering Professional Program. C or better in CSE 3320.",
+      "prerequisites": "Prerequisites: Admitted into an Engineering Professional Program. C or better in CSE 3320. CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
       "prerequisiteGroups": [
         [
           "CSE 3320"
+        ],
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
         ]
       ],
       "concurrentOk": []
@@ -2315,10 +3260,16 @@
       "title": "Digital Communication Systems",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3313.",
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3313. CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
       "prerequisiteGroups": [
         [
           "CSE 3313"
+        ],
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
         ]
       ],
       "concurrentOk": []
@@ -2330,13 +3281,19 @@
       "title": "Wireless Communication Systems",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3313 and CSE 3442.",
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3313 and CSE 3442. CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
       "prerequisiteGroups": [
         [
           "CSE 3313"
         ],
         [
           "CSE 3442"
+        ],
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
         ]
       ],
       "concurrentOk": []
@@ -2348,8 +3305,15 @@
       "title": "Introduction to Unmanned Vehicle Systems",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admission to a professional engineering or science program.",
-      "prerequisiteGroups": [],
+      "prerequisites": "Prerequisite: Admission to a professional engineering or science program. CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
+      "prerequisiteGroups": [
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
+        ]
+      ],
       "concurrentOk": []
     },
     {
@@ -2359,10 +3323,16 @@
       "title": "Unmanned Vehicle System Development",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: B or better in CSE 4378 and admission to the UVS certificate program.",
+      "prerequisites": "Prerequisite: B or better in CSE 4378 and admission to the UVS certificate program. CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
       "prerequisiteGroups": [
         [
           "CSE 4378"
+        ],
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
         ]
       ],
       "concurrentOk": []
@@ -2374,10 +3344,16 @@
       "title": "Information Security",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3320.",
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3320. CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
       "prerequisiteGroups": [
         [
           "CSE 3320"
+        ],
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
         ]
       ],
       "concurrentOk": []
@@ -2389,13 +3365,19 @@
       "title": "Information Security II",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3320 and C or better in CSE 4344 (or concurrently).",
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3320 and C or better in CSE 4344 (or concurrently). CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
       "prerequisiteGroups": [
         [
           "CSE 3320"
         ],
         [
           "CSE 4344"
+        ],
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
         ]
       ],
       "concurrentOk": [
@@ -2409,10 +3391,16 @@
       "title": "Secure Programming",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3320.",
+      "prerequisites": "Prerequisite: Admitted into an Engineering Professional Program. C or better in CSE 3320. CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
       "prerequisiteGroups": [
         [
           "CSE 3320"
+        ],
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
         ]
       ],
       "concurrentOk": []
@@ -2424,7 +3412,36 @@
       "title": "Special Topics",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: consent of instructor.",
+      "prerequisites": "Prerequisite: consent of instructor. CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
+      "prerequisiteGroups": [
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
+        ]
+      ],
+      "concurrentOk": []
+    },
+    {
+      "code": "DIVR 2315",
+      "subject": "DIVR",
+      "number": "2315",
+      "title": "Introduction to LGBTQ+ Studies",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "DNCE 1300",
+      "subject": "DNCE",
+      "number": "1300",
+      "title": "Dance Appreciation",
+      "hours": "3",
+      "tccn": "DANC 2303",
+      "prerequisites": null,
       "prerequisiteGroups": [],
       "concurrentOk": []
     },
@@ -2451,6 +3468,88 @@
       "concurrentOk": []
     },
     {
+      "code": "ENGL 1350",
+      "subject": "ENGL",
+      "number": "1350",
+      "title": "Writing About Film",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "ENGL 1375",
+      "subject": "ENGL",
+      "number": "1375",
+      "title": "Introduction to Creative Writing",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "ENGL 2303",
+      "subject": "ENGL",
+      "number": "2303",
+      "title": "Topics in Literature",
+      "hours": "3",
+      "tccn": "ENGL 2341",
+      "prerequisites": "Prerequisite: C or better in ENGL 1301.",
+      "prerequisiteGroups": [
+        [
+          "ENGL 1301"
+        ]
+      ],
+      "concurrentOk": []
+    },
+    {
+      "code": "ENGL 2309",
+      "subject": "ENGL",
+      "number": "2309",
+      "title": "World Literature",
+      "hours": "3",
+      "tccn": "ENGL 2331",
+      "prerequisites": "Prerequisite: C or better in ENGL 1301.",
+      "prerequisiteGroups": [
+        [
+          "ENGL 1301"
+        ]
+      ],
+      "concurrentOk": []
+    },
+    {
+      "code": "ENGL 2319",
+      "subject": "ENGL",
+      "number": "2319",
+      "title": "British Literature",
+      "hours": "3",
+      "tccn": "ENGL 2321",
+      "prerequisites": "Prerequisite: C or better in ENGL 1301.",
+      "prerequisiteGroups": [
+        [
+          "ENGL 1301"
+        ]
+      ],
+      "concurrentOk": []
+    },
+    {
+      "code": "ENGL 2329",
+      "subject": "ENGL",
+      "number": "2329",
+      "title": "American Literature",
+      "hours": "3",
+      "tccn": "ENGL 2326",
+      "prerequisites": "Prerequisites: C or better in ENGL 1301.",
+      "prerequisiteGroups": [
+        [
+          "ENGL 1301"
+        ]
+      ],
+      "concurrentOk": []
+    },
+    {
       "code": "ENGR 1101",
       "subject": "ENGR",
       "number": "1101",
@@ -2468,7 +3567,158 @@
       "title": "Engineering Entrepreneurship",
       "hours": "3",
       "tccn": null,
-      "prerequisites": "Prerequisite: Student must be in an engineering professional program.",
+      "prerequisites": "Prerequisite: Student must be in an engineering professional program. CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course.",
+      "prerequisiteGroups": [
+        [
+          "MATH 2425"
+        ],
+        [
+          "PHYS 1444"
+        ]
+      ],
+      "concurrentOk": []
+    },
+    {
+      "code": "FREN 2310",
+      "subject": "FREN",
+      "number": "2310",
+      "title": "French and Francophone Cultures in the World",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "FREN 2314",
+      "subject": "FREN",
+      "number": "2314",
+      "title": "Intermediate French II",
+      "hours": "3",
+      "tccn": "FREN 2312",
+      "prerequisites": "Prerequisite: FREN 2313 with a grade of C or better.",
+      "prerequisiteGroups": [
+        [
+          "FREN 2313"
+        ]
+      ],
+      "concurrentOk": []
+    },
+    {
+      "code": "GERM 2310",
+      "subject": "GERM",
+      "number": "2310",
+      "title": "German Culture in the World",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "GERM 2314",
+      "subject": "GERM",
+      "number": "2314",
+      "title": "Intermediate German II",
+      "hours": "3",
+      "tccn": "GERM 2312",
+      "prerequisites": "Prerequisite: GERM 2313 with a grade of C or better.",
+      "prerequisiteGroups": [
+        [
+          "GERM 2313"
+        ]
+      ],
+      "concurrentOk": []
+    },
+    {
+      "code": "GLOBAL 2301",
+      "subject": "GLOBAL",
+      "number": "2301",
+      "title": "Introduction to Global Issues",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "GREK 2314",
+      "subject": "GREK",
+      "number": "2314",
+      "title": "Greek Level IV",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": "Prerequisite: GREK 2313 or equivalent.",
+      "prerequisiteGroups": [
+        [
+          "GREK 2313"
+        ]
+      ],
+      "concurrentOk": []
+    },
+    {
+      "code": "GWSS 2310",
+      "subject": "GWSS",
+      "number": "2310",
+      "title": "Intro to Women's & Gender Studies",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "HIST 1301",
+      "subject": "HIST",
+      "number": "1301",
+      "title": "History of the United States to 1865",
+      "hours": "3",
+      "tccn": "HIST 1301",
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "HIST 1302",
+      "subject": "HIST",
+      "number": "1302",
+      "title": "History of the United States, 1865 to Present",
+      "hours": "3",
+      "tccn": "HIST 1302",
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "HIST 1331",
+      "subject": "HIST",
+      "number": "1331",
+      "title": "Technology and Science in American Society, I",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "HIST 1332",
+      "subject": "HIST",
+      "number": "1332",
+      "title": "Technology and Science in American Society, II",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "HIST 2377",
+      "subject": "HIST",
+      "number": "2377",
+      "title": "Flight Culture and the Human Experience",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": null,
       "prerequisiteGroups": [],
       "concurrentOk": []
     },
@@ -2520,6 +3770,91 @@
       "concurrentOk": [
         "MATH 2326"
       ]
+    },
+    {
+      "code": "INTS 1310",
+      "subject": "INTS",
+      "number": "1310",
+      "title": "Introduction to Popular Culture",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "JOUR 2340",
+      "subject": "JOUR",
+      "number": "2340",
+      "title": "Understanding Photojournalism",
+      "hours": "3",
+      "tccn": "COMM 1316",
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "KORE 2310",
+      "subject": "KORE",
+      "number": "2310",
+      "title": "Korean Culture in the World",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "KORE 2314",
+      "subject": "KORE",
+      "number": "2314",
+      "title": "Intermediate Korean II",
+      "hours": "3",
+      "tccn": "KORE 2312",
+      "prerequisites": "Prerequisite: KORE 2313 with a grade of C or better.",
+      "prerequisiteGroups": [
+        [
+          "KORE 2313"
+        ]
+      ],
+      "concurrentOk": []
+    },
+    {
+      "code": "LATN 2314",
+      "subject": "LATN",
+      "number": "2314",
+      "title": "Latin Level IV",
+      "hours": "3",
+      "tccn": "LATN 2312",
+      "prerequisites": "Prerequisite: LATN 2313 or equivalent.",
+      "prerequisiteGroups": [
+        [
+          "LATN 2313"
+        ]
+      ],
+      "concurrentOk": []
+    },
+    {
+      "code": "LING 2371",
+      "subject": "LING",
+      "number": "2371",
+      "title": "Language in a Multicultural USA",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "MAS 2300",
+      "subject": "MAS",
+      "number": "2300",
+      "title": "Introduction to Mexican American Studies",
+      "hours": "3",
+      "tccn": "HUMA 1305",
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
     },
     {
       "code": "MATH 1426",
@@ -2593,6 +3928,83 @@
       "concurrentOk": []
     },
     {
+      "code": "MUSI 1300",
+      "subject": "MUSI",
+      "number": "1300",
+      "title": "Music Appreciation",
+      "hours": "3",
+      "tccn": "MUSI 1306",
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "MUSI 1302",
+      "subject": "MUSI",
+      "number": "1302",
+      "title": "Jazz Appreciation",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "MUSI 1304",
+      "subject": "MUSI",
+      "number": "1304",
+      "title": "History of Rock Music",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "MUSI 2300",
+      "subject": "MUSI",
+      "number": "2300",
+      "title": "Introduction to World Music",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "MUSI 2301",
+      "subject": "MUSI",
+      "number": "2301",
+      "title": "Appreciation of Music in Film",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "PHIL 1304",
+      "subject": "PHIL",
+      "number": "1304",
+      "title": "Contemporary Moral Problems",
+      "hours": "3",
+      "tccn": "PHIL 2306",
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "PHIL 2300",
+      "subject": "PHIL",
+      "number": "2300",
+      "title": "Introduction to Philosophy",
+      "hours": "3",
+      "tccn": "PHIL 1301",
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
       "code": "PHYS 1443",
       "subject": "PHYS",
       "number": "1443",
@@ -2660,6 +4072,128 @@
           "MATH 2425"
         ]
       ],
+      "concurrentOk": []
+    },
+    {
+      "code": "POLS 2311",
+      "subject": "POLS",
+      "number": "2311",
+      "title": "Government of the United States",
+      "hours": "3",
+      "tccn": "GOVT 2305",
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "POLS 2312",
+      "subject": "POLS",
+      "number": "2312",
+      "title": "State and Local Government",
+      "hours": "3",
+      "tccn": "GOVT 2306",
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "RUSS 2310",
+      "subject": "RUSS",
+      "number": "2310",
+      "title": "Russian Culture in the World",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "RUSS 2314",
+      "subject": "RUSS",
+      "number": "2314",
+      "title": "Intermediate Russian II",
+      "hours": "3",
+      "tccn": "RUSS 2312",
+      "prerequisites": "Prerequisite: RUSS 2313 with a grade of C or better.",
+      "prerequisiteGroups": [
+        [
+          "RUSS 2313"
+        ]
+      ],
+      "concurrentOk": []
+    },
+    {
+      "code": "SOCI 1310",
+      "subject": "SOCI",
+      "number": "1310",
+      "title": "Introduction to Popular Culture",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "SPAN 2310",
+      "subject": "SPAN",
+      "number": "2310",
+      "title": "Hispanic Culture in the World",
+      "hours": "3",
+      "tccn": null,
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "SPAN 2314",
+      "subject": "SPAN",
+      "number": "2314",
+      "title": "Intermediate Spanish II",
+      "hours": "3",
+      "tccn": "SPAN 2312",
+      "prerequisites": "Prerequisite: SPAN 2313 with a grade of C or better. Native or heritage speakers of Spanish may not take this course.",
+      "prerequisiteGroups": [
+        [
+          "SPAN 2313"
+        ]
+      ],
+      "concurrentOk": []
+    },
+    {
+      "code": "SPAN 2315",
+      "subject": "SPAN",
+      "number": "2315",
+      "title": "Spanish for Native/Heritage Speakers II",
+      "hours": "3",
+      "tccn": "SPAN 2315",
+      "prerequisites": "Prerequisite: SPAN 2312 with a Grade of C or better, or appropriate placement test score.",
+      "prerequisiteGroups": [
+        [
+          "SPAN 2312"
+        ]
+      ],
+      "concurrentOk": []
+    },
+    {
+      "code": "THEA 1342",
+      "subject": "THEA",
+      "number": "1342",
+      "title": "Theatre and Film Appreciation",
+      "hours": "3",
+      "tccn": "DRAM 2366",
+      "prerequisites": null,
+      "prerequisiteGroups": [],
+      "concurrentOk": []
+    },
+    {
+      "code": "THEA 1343",
+      "subject": "THEA",
+      "number": "1343",
+      "title": "Introduction to Theatre",
+      "hours": "3",
+      "tccn": "DRAM 1310",
+      "prerequisites": null,
+      "prerequisiteGroups": [],
       "concurrentOk": []
     },
     {

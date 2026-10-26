@@ -24,6 +24,8 @@ final class ApiHandler implements HttpHandler {
     private static final String DEGREE_PREFIX = "/api/degrees/";
     private static final String COLLEGE_PREFIX = "/api/colleges/";
     private static final String COURSES_SUFFIX = "/courses";
+    private static final String COURSES_PREFIX = "/api/courses/";
+    private static final String SECTIONS_SUFFIX = "/sections";
     // Holds the state and PKCE verifier while the browser is away at Google.
     private static final String GOOGLE_COOKIE = "cs_google";
     private static final int GOOGLE_COOKIE_SECONDS = 10 * 60;
@@ -89,6 +91,16 @@ final class ApiHandler implements HttpHandler {
             String rawId = path.substring(COLLEGE_PREFIX.length(), path.length() - COURSES_SUFFIX.length());
             JsonObject result = new JsonObject();
             result.add("courses", degrees.listCourses(pathId(rawId)));
+            send(exchange, 200, result);
+            return;
+        }
+        // /api/courses/{id}/sections: every section of that section's course.
+        if (path.startsWith(COURSES_PREFIX) && path.endsWith(SECTIONS_SUFFIX)) {
+            requireMethod(method, "GET");
+            long userId = requireUser(exchange);
+            String rawId = path.substring(COURSES_PREFIX.length(), path.length() - SECTIONS_SUFFIX.length());
+            JsonObject result = new JsonObject();
+            result.add("sections", schedules.listSections(userId, pathId(rawId)));
             send(exchange, 200, result);
             return;
         }
@@ -162,14 +174,21 @@ final class ApiHandler implements HttpHandler {
                     // canTake=true leaves out courses whose prerequisites the student has not taken.
                     boolean hideTaken = "true".equals(queryParam(exchange, "hideTaken"));
                     boolean canTake = "true".equals(queryParam(exchange, "canTake"));
+                    // needed=true keeps only courses that could fill an open requirement of the student's major.
+                    boolean needed = "true".equals(queryParam(exchange, "needed"));
+                    BitSet stillNeeded = needed ? profiles.stillNeeded(userId) : null;
+                    if (needed && stillNeeded == null) {
+                        throw new ApiException(400, "Choose your major on My degree to see the courses it needs.");
+                    }
                     BitSet completed = hideTaken || canTake ? profiles.completedCourses(userId) : new BitSet();
                     ScheduleService.SearchResult found = schedules.searchCourses(userId, queryParam(exchange, "q"),
                             hideTaken ? completed : new BitSet(),
-                            canTake ? profiles.notReady(completed) : new BitSet());
+                            canTake ? profiles.notReady(completed) : new BitSet(), stillNeeded);
                     JsonObject result = new JsonObject();
                     result.add("courses", found.courses());
                     result.addProperty("hiddenTaken", found.hiddenTaken());
                     result.addProperty("hiddenNotReady", found.hiddenNotReady());
+                    result.addProperty("hiddenNotNeeded", found.hiddenNotNeeded());
                     send(exchange, 200, result);
                 } else {
                     requireMethod(method, "POST");
@@ -218,9 +237,26 @@ final class ApiHandler implements HttpHandler {
                 } else {
                     requireMethod(method, "POST");
                     JsonObject body = readJson(exchange);
-                    long id = schedules.createSchedule(userId, string(body, "name"), idList(body, "courseIds"));
+                    long id = schedules.createSchedule(userId, string(body, "name"),
+                            optionalString(body, "semester"), ScheduleService.parseEntries(body),
+                            ScheduleService.parseBlocks(body.get("blocks")));
                     send(exchange, 201, schedules.getSchedule(userId, id));
                 }
+            }
+            case "/api/schedule-options" -> {
+                // The best schedules for the courses in the builder, around the student's time blocks.
+                requireMethod(method, "POST");
+                long userId = requireUser(exchange);
+                JsonObject body = readJson(exchange);
+                send(exchange, 200, schedules.generateSchedules(userId, ScheduleService.parseEntries(body),
+                        ScheduleService.parseBlocks(body.get("blocks"))));
+            }
+            case "/api/ratings" -> {
+                // The student's own rating of one catalog section; null removes it.
+                requireMethod(method, "PUT");
+                long userId = requireUser(exchange);
+                JsonObject body = readJson(exchange);
+                send(exchange, 200, schedules.rateSection(userId, id(body, "courseId"), optionalNumber(body, "rating")));
             }
             case "/api/admin/users" -> {
                 requireMethod(method, "GET");
@@ -259,7 +295,9 @@ final class ApiHandler implements HttpHandler {
             case "GET" -> send(exchange, 200, schedules.getSchedule(userId, scheduleId));
             case "PUT" -> {
                 JsonObject body = readJson(exchange);
-                schedules.updateSchedule(userId, scheduleId, string(body, "name"), idList(body, "courseIds"));
+                schedules.updateSchedule(userId, scheduleId, string(body, "name"),
+                        optionalString(body, "semester"), ScheduleService.parseEntries(body),
+                        ScheduleService.parseBlocks(body.get("blocks")));
                 send(exchange, 200, schedules.getSchedule(userId, scheduleId));
             }
             case "PATCH" -> {
@@ -387,17 +425,6 @@ final class ApiHandler implements HttpHandler {
             throw new ApiException(404, "Not found.");
         }
         return Long.parseLong(rawId);
-    }
-
-    private static List<Long> idList(JsonObject body, String field) {
-        List<Long> ids = new ArrayList<>();
-        for (JsonElement id : array(body, field)) {
-            if (!id.isJsonPrimitive() || !id.getAsJsonPrimitive().isNumber()) {
-                throw new ApiException(400, "Invalid field: " + field + ".");
-            }
-            ids.add(id.getAsLong());
-        }
-        return ids;
     }
 
     private static boolean bool(JsonObject body, String field) {

@@ -14,6 +14,8 @@ const autoNote = document.getElementById('auto-note');
 const courseFilter = document.getElementById('course-filter');
 const courseGroups = document.getElementById('course-groups');
 const noMatches = document.getElementById('no-matches');
+const corePanel = document.getElementById('core-panel');
+const coreSlots = document.getElementById('core-slots');
 const saveStatus = document.getElementById('save-status');
 const saveBtn = document.getElementById('save-profile');
 
@@ -33,6 +35,19 @@ let catalog = [];             // every course of the selected college: { code, t
 const requiresOf = new Map(); // code -> codes it certainly requires (directly or through a chain)
 const taken = new Set();      // codes of the courses checked as taken
 const boxes = new Map();      // code -> its checkbox
+const coreSelects = [];       // one menu per core curriculum slot, each listing the courses that fill it
+
+// Core areas shown in the Core curriculum section instead of the checklist. The few-course
+// areas get checkboxes; the long lists get one menu per slot, since a student takes one of them.
+const CORE_CHECKBOX_SECTIONS = [
+  'Core curriculum: U.S. History',
+  'Core curriculum: Political Science',
+];
+const CORE_MENU_SECTIONS = [
+  'Core curriculum: Language, Philosophy, Culture',
+  'Core curriculum: Creative Arts',
+];
+const CORE_SECTIONS = [...CORE_CHECKBOX_SECTIONS, ...CORE_MENU_SECTIONS];
 
 function el(tag, className, text) {
   const node = document.createElement(tag);
@@ -86,7 +101,9 @@ async function buildGroups() {
       + 'Courses are grouped as in the degree plan.';
     degreeInfo.hidden = false;
     const seen = new Set();
+    renderCore(degree.requirements.filter((r) => CORE_SECTIONS.includes(r.section)), seen);
     degree.requirements.forEach((requirement) => {
+      if (CORE_SECTIONS.includes(requirement.section)) return;
       const name = requirement.chooseHours
         ? `${requirement.section}: choose ${requirement.chooseHours} hours` : requirement.section;
       let group = groups.find((g) => g.name === name);
@@ -104,6 +121,7 @@ async function buildGroups() {
     groups.push({ name: 'Other courses', courses: catalog.filter((course) => !seen.has(course.code)) });
   } else {
     degreeInfo.hidden = true;
+    renderCore([], new Set());
     catalog.forEach((course) => {
       const name = course.code.split(' ')[0];
       let group = groups.find((g) => g.name === name);
@@ -118,6 +136,68 @@ async function buildGroups() {
     .map((g) => ({ name: g.name, courses: g.courses.filter((c) => isProfessional(c.code) === professional) }))
     .filter((g) => g.courses.length > 0);
   return { professional: split(true), foundation: split(false) };
+}
+
+// ---------- Core curriculum menus ----------
+
+// Checkboxes for U.S. History and Political Science, then one menu per slot of the other
+// areas, such as "Creative Arts". Adds each listed course to seen, so the checklist leaves it out.
+function renderCore(requirements, seen) {
+  coreSelects.length = 0;
+  corePanel.hidden = requirements.length === 0;
+
+  const checkGroups = CORE_CHECKBOX_SECTIONS.map((section) => {
+    const courses = requirements.filter((r) => r.section === section).flatMap((r) => r.options.flat());
+    if (courses.length === 0) return null;
+    const fieldset = el('fieldset', 'check-group');
+    fieldset.append(el('legend', null, section.replace('Core curriculum: ', '')));
+    courses.forEach((course) => {
+      seen.add(course.code);
+      fieldset.append(courseRow(course));
+    });
+    return fieldset;
+  }).filter(Boolean);
+
+  const menus = el('div', 'core-slots');
+  const menuRequirements = requirements.filter((r) => CORE_MENU_SECTIONS.includes(r.section));
+  menus.append(...menuRequirements.map((requirement, index) => {
+    const sameArea = menuRequirements.filter((r) => r.section === requirement.section);
+    const area = requirement.section.replace('Core curriculum: ', '');
+    const label = sameArea.length > 1 ? `${area} (${sameArea.indexOf(requirement) + 1} of ${sameArea.length})` : area;
+    const courses = requirement.options.flat();
+    courses.forEach((course) => seen.add(course.code));
+
+    const field = el('div', 'field');
+    const select = el('select');
+    select.id = `core-${index}`;
+    const labelEl = el('label', null, label);
+    labelEl.htmlFor = select.id;
+    select.append(new Option('Not taken yet', ''));
+    courses.forEach((course) => select.append(new Option(`${course.code} · ${course.title}`, course.code)));
+    select.addEventListener('change', () => {
+      // Swap the old choice for the new one, with the same prerequisite rules as the checkboxes.
+      // Read both first: each toggle re-syncs the menus.
+      const previous = select.dataset.current;
+      const next = select.value;
+      if (previous) toggle(previous, false);
+      if (next) toggle(next, true);
+    });
+    coreSelects.push(select);
+    field.append(labelEl, select);
+    return field;
+  }));
+  coreSlots.replaceChildren(...checkGroups, menus);
+  syncCoreMenus();
+}
+
+// Shows each slot's taken course, if any. Runs after every change, because checking or
+// unchecking a course elsewhere can add or remove one (ENGL 2329 needs ENGL 1301).
+function syncCoreMenus() {
+  coreSelects.forEach((select) => {
+    const codes = [...select.options].map((option) => option.value).filter(Boolean);
+    select.value = codes.find((code) => taken.has(code)) || '';
+    select.dataset.current = select.value;
+  });
 }
 
 function courseRow(course) {
@@ -147,13 +227,13 @@ function block(title, groups) {
 
 async function renderCourses() {
   let groups;
+  boxes.clear();
   try {
     groups = await buildGroups();
   } catch (err) {
     showError(err.message);
     return;
   }
-  boxes.clear();
   courseGroups.replaceChildren(
     block('Professional courses (3000 and 4000 level)', groups.professional),
     block('Foundation courses (1000 and 2000 level)', groups.foundation),
@@ -187,6 +267,7 @@ function toggle(code, checked) {
   changed.forEach((other) => {
     if (boxes.has(other)) boxes.get(other).checked = checked;
   });
+  syncCoreMenus();
   if (changed.length > 0) {
     autoNote.textContent = checked
       ? `Also checked ${changed.sort().join(', ')}, because ${code} requires ${changed.length === 1 ? 'it' : 'them'}.`
@@ -278,6 +359,7 @@ function renderProgress(p) {
   progressNotListed.textContent = p.notListedHours === 0 ? '' : `Not counted above: ${p.notListedHours} more hours the `
     + `plan does not list by course (${p.notListed.map((n) => `${n.name.replace('Core curriculum: ', '')} ${n.hours}`).join(', ')}). `
     + 'CourseSweep cannot tell whether you have taken these yet.';
+  progressNotListed.hidden = p.notListedHours === 0;
 }
 
 // ---------- Loading and saving ----------

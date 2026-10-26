@@ -7,11 +7,13 @@ Run this again when a new catalog year is published.
 Usage (Python 3.9+, standard library only):
     python3 tools/catalog/build_uta_seed.py <download dir> <output json>
 
-<download dir> must hold the pages listed in PAGES and SUBJECTS, saved as
-<name>.html. Fetch them with, for example:
+<download dir> must hold the pages listed in DEGREES, SUBJECTS and CORE_PAGE,
+saved as <name>.html. Fetch them with, for example:
     curl -sSL -o computer-science-bs.html \
       https://catalog.uta.edu/engineering/computer/undergraduate/computer-science-bs/
     curl -sSL -o cse-courses.html https://catalog.uta.edu/coursedescriptions/cse/
+    curl -sSL -o general-core.html \
+      https://catalog.uta.edu/academicregulations/degreerequirements/generalcorerequirements/
 """
 import datetime
 import html
@@ -28,10 +30,30 @@ DEGREES = [
     ("software-engineering-bs", "Software Engineering", "/engineering/computer/undergraduate/software-engineering-bs/"),
     ("computer-engineering-bs", "Computer Engineering", "/engineering/computer/undergraduate/computer-engineering-bs/"),
 ]
-SUBJECTS = ["cse", "math", "phys", "ie", "econ", "engl", "coms", "univ", "engr", "biol", "chem"]
+SUBJECTS = ["cse", "math", "phys", "ie", "econ", "engl", "coms", "univ", "engr", "biol", "chem",
+            # Subjects of the core curriculum courses in CORE_AREAS. GWSS courses are on the "woms" page.
+            "hist", "pols", "arch", "art", "dnce", "jour", "musi", "thea", "anth", "arab", "asl", "chin",
+            "clas", "divr", "woms", "fren", "germ", "global", "grek", "ints", "kore", "latn", "ling", "mas",
+            "phil", "russ", "soci", "span"]
+
+# The university-wide core curriculum, with the approved courses for each area.
+CORE_PAGE = ("general-core", "/academicregulations/degreerequirements/generalcorerequirements/")
+# Degree pages say "6 hours of U.S. History" without naming courses. These areas are filled in
+# from CORE_PAGE: the name the degree page uses -> the heading on the core page.
+CORE_AREAS = {
+    "U.S. History": "U.S. HISTORY",
+    "Political Science": "GOVERNMENT/POLITICAL SCIENCE",
+    "Language, Philosophy, Culture": "LANGUAGE, PHILOSOPHY AND CULTURE",
+    "Creative Arts": "CREATIVE ARTS",
+}
+
+# CourseSweep's own rule, on top of the catalog's: every 4000-level (senior) course also
+# needs Calculus II and Physics II.
+SENIOR_PREREQUISITES = ["MATH 2425", "PHYS 1444"]
+SENIOR_NOTE = "CourseSweep also requires MATH 2425 (Calculus II) and PHYS 1444 (Physics II) for every 4000-level course."
 
 # Words kept in capitals when catalog titles (all caps) are converted to title case.
-KEEP_UPPER = {"CSE", "GPU", "IOT", "SOC", "RISC", "II", "III", "IV", "U.S.", "C++", "GIS"}
+KEEP_UPPER = {"CSE", "GPU", "IOT", "SOC", "RISC", "II", "III", "IV", "U.S.", "C++", "GIS", "LGBTQ+", "USA"}
 KEEP_LOWER = {"a", "an", "and", "as", "at", "for", "in", "of", "on", "or", "the", "to", "with"}
 
 
@@ -45,7 +67,8 @@ def title_case(text):
         elif i > 0 and core.lower() in KEEP_LOWER:
             out.append(word.lower())
         else:
-            out.append("-".join(part[:1].upper() + part[1:].lower() for part in word.split("-")))
+            # Capitalize each part of "Native/Heritage" and "Hands-On".
+            out.append(re.sub(r"[^/-]+", lambda m: m.group(0)[:1].upper() + m.group(0)[1:].lower(), word))
     return " ".join(out)
 
 
@@ -274,12 +297,86 @@ def read_requirements(page):
     return requirements, total_hours, not_listed
 
 
+# ---------- General core curriculum ----------
+
+AREA = re.compile(r"<h3>(.*?)</h3>(.*?)(?=<h3>|$)", re.S)
+ROW = re.compile(r"<tr([^>]*)>(.*?)</tr>", re.S)
+# The course a row links to. Cross-listed courses ("DIVR/GWSS 2315") link to one code.
+ROW_CODE = re.compile(r"showCourse\(this, '([A-Z]+ \d{4})'\)")
+
+
+def read_core_areas(page):
+    """Each core area's slots, keyed by its heading: a list of slots, each a list of course codes.
+
+    A "Select one/two of the following" area is one slot holding every listed course. An area
+    that names its courses outright (Government) has one slot per course, and a row starting
+    with "or" (HIST 1331 or HIST 1301) is an alternative in the slot before it.
+    """
+    areas = {}
+    for heading, body in AREA.findall(page):
+        rows = []
+        for attrs, row in ROW.findall(body):
+            code = ROW_CODE.search(row)
+            if code:
+                # "or HIST 1331" rows carry the orclass class.
+                rows.append((code.group(1), "orclass" in attrs))
+        # "Select ..." with no "or" rows: the student picks from one list.
+        one_list = "Select" in body and not any(is_or for _, is_or in rows)
+        slots = []
+        for code, is_or in rows:
+            if slots and (is_or or one_list):
+                slots[-1].append(code)
+            else:
+                slots.append([code])
+        areas[clean(heading)] = slots
+    return areas
+
+
+def add_core_requirements(requirements, not_listed, core_areas, courses):
+    """Turns the degree's unnamed core hours into requirements listing the approved courses.
+
+    "Select two" in U.S. History becomes two slots (HIST 1301 or 1331, then HIST 1302 or 1332);
+    "select one" areas become a choose-N-hours group. Areas not in CORE_AREAS stay in not_listed.
+    """
+    added, kept = [], []
+    for item in not_listed:
+        area = item["name"].removeprefix("Core curriculum: ")
+        slots = core_areas.get(CORE_AREAS.get(area, ""))
+        if not slots:
+            kept.append(item)
+            continue
+        section = item["name"]
+        if len(slots) == 1 and len(slots[0]) > 1:
+            added.append({"section": section, "chooseHours": item["hours"], "note": "Select one of the following:",
+                          "options": [[code] for code in slots[0]]})
+        else:
+            for slot in slots:
+                added.append({"section": section, "chooseHours": None, "note": None,
+                              "options": [[code] for code in slot]})
+    # Keep the core curriculum together: put the new areas after the last core requirement.
+    last_core = max((i for i, r in enumerate(requirements) if (r["section"] or "").startswith("Core curriculum")),
+                    default=-1)
+    return requirements[:last_core + 1] + added + requirements[last_core + 1:], kept
+
+
+def add_senior_prerequisites(courses):
+    for course in courses.values():
+        if course["number"].startswith("4"):
+            for code in SENIOR_PREREQUISITES:
+                if [code] not in course["prerequisiteGroups"]:
+                    course["prerequisiteGroups"].append([code])
+            course["prerequisites"] = ((course["prerequisites"] or "") + " " + SENIOR_NOTE).strip()
+
+
 def main(folder, output):
     folder = Path(folder)
     courses = read_courses(folder)
+    add_senior_prerequisites(courses)
+    core_areas = read_core_areas((folder / f"{CORE_PAGE[0]}.html").read_text(encoding="utf-8"))
     degrees, used = [], set()
     for stem, name, path in DEGREES:
         requirements, total, not_listed = read_requirements((folder / f"{stem}.html").read_text(encoding="utf-8"))
+        requirements, not_listed = add_core_requirements(requirements, not_listed, core_areas, courses)
         for requirement in requirements:
             for option in requirement["options"]:
                 used.update(option)
@@ -295,6 +392,7 @@ def main(folder, output):
             "retrieved": datetime.date.today().isoformat(),
             "degreePages": [CATALOG + path for _, _, path in DEGREES],
             "coursePages": [f"{CATALOG}/coursedescriptions/{s}/" for s in SUBJECTS],
+            "corePage": CATALOG + CORE_PAGE[1],
         },
         "college": {"name": "The University of Texas at Arlington", "shortName": "UTA"},
         "degrees": degrees,
