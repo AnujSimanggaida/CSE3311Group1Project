@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /** The SQLite database. Each operation opens its own short-lived connection. */
+// Package-private ('final', no 'public'): only the app's own classes use it, and nothing extends it. It holds the file location and creates connections; the services run the actual queries.
 final class Database {
 
     private final String url;
